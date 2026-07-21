@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<style>
+	
+	section.position1,.position2,.position3,.position4 {
+	  width: 20%;
+	  padding-left: 2%;
+	  padding-right: 2%;
+	  margin-left: 15px;
+	  float: left;
+	}
+	.position1{
+	  background-color: AliceBlue;
+	}
+	.position2{
+	  background-color: FloralWhite;
+	}
+	.position3{
+	  background-color: WhiteSmoke;
+	}
+	.position4{
+	  background-color: Ivory;
+	}
+	
+	section.subsection
+	{
+		background-color: Gainsboro;
+		padding: 10px;
+	}
+	
+</style>
+<body>
+	
+	<h2>Effective Salary Calculator / Comparison Tool</h2>
+
+	<input type="button" onclick='displayExplanation()' value="Explain!"><br><br>
+	
+	<input type="button" onclick='getAllSalaries()' value="Calculate All"><br><br>
+	
+	<section class="position1">
+		<div id='title1'><b>Position 1:</b></div>
+		<div id='result1'>-</div>
+		<hr>
+		<label for='salary1'>Salary</label><br>
+		<input type="number" id='salary1' value="50000"></input><br><br>
+
+		<label for='expectedWorkingHours1'>Expected Working Hours<br> 
+		<input type="number" id='expectedWorkingHours1' value="40"></input><br><br>
+
+		<label for='ptoDays1'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
+		<input type="number" id='ptoDays1' value="10"></input><br><br>
+
+		<label for='401kMatch1'>401K Match %<br> 
+		<input type="number" id='401kMatch1' value="0"></input><br><br>
+
+		<label for='oneWayCommutingTime1'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
+		<input type="number" id='oneWayCommutingTime1' value="30"></input><br><br>
+
+		<label for='weeklyDaysInOffice1'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
+		<input type="number" id='weeklyDaysInOffice1' value="3"></input><br><br>
+
+		<section class="subsection">
+			<label for='includeGasMilage1'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMilage1" onchange="updateMileageOnOrOff(1)"></input><br>
+
+			<label for='commuteInMiles1'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
+			<input type="number" id='commuteInMiles1' value="30" disabled></input><br><br>
+
+			<label for='gasMileage1'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
+			<input type="number" id='gasMileage1' value="33" disabled></input><br><br>
+
+			<label for='priceOfGas1'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
+			<input type="number" id='priceOfGas1' value="3.99" disabled></input><br><br>
+		</section>
+
+		<label for='sumOfFlatCostsOrBenefits1'>Monthly Sum of Flat Benefits/Costs</label><br>
+		<input type="number" id='sumOfFlatCostsOrBenefits1' value="0"></input><br><br>
+  	</section>
+
+	<section class="position2">
+		<div id='title2'><b>Position 2:</b></div>
+		<div id='result2'>-</div>
+		<hr>
+		<label for='salary2'>Salary</label><br>
+		<input type="number" id='salary2' value="50000"></input><br><br>
+
+		<label for='expectedWorkingHours2'>Expected Working Hours<br> 
+		<input type="number" id='expectedWorkingHours2' value="40"></input><br><br>
+
+		<label for='ptoDays2'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
+		<input type="number" id='ptoDays2' value="10"></input><br><br>
+
+		<label for='401kMatch2'>401K Match %<br> 
+		<input type="number" id='401kMatch2' value="0"></input><br><br>
+
+		<label for='oneWayCommutingTime2'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
+		<input type="number" id='oneWayCommutingTime2' value="30"></input><br><br>
+
+		<label for='weeklyDaysInOffice2'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
+		<input type="number" id='weeklyDaysInOffice2' value="3"></input><br><br>
+
+		<section class="subsection">
+			<label for='includeGasMilage2'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMilage2" onchange="updateMileageOnOrOff(2)" checked></input><br>
+
+			<label for='commuteInMiles2'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
+			<input type="number" id='commuteInMiles2' value="30"></input><br><br>
+
+			<label for='gasMileage2'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
+			<input type="number" id='gasMileage2' value="33"></input><br><br>
+
+			<label for='priceOfGas2'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
+			<input type="number" id='priceOfGas2' value="3.99"></input><br><br>
+		</section>
+
+		<label for='sumOfFlatCostsOrBenefits2'>Monthly Sum of Flat Benefits/Costs</label><br>
+		<input type="number" id='sumOfFlatCostsOrBenefits2' value="0"></input><br><br>
+	</section>
+
+	<section class="position3">
+		<div id='title3'><b>Position 3:</b></div>
+		<div id='result3'>-</div>
+		<hr>
+		<label for='salary3'>Salary</label><br>
+		<input type="number" id='salary3' value="50000"></input><br><br>
+
+		<label for='expectedWorkingHours3'>Expected Working Hours<br> 
+		<input type="number" id='expectedWorkingHours3' value="40"></input><br><br>
+
+		<label for='ptoDays3'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
+		<input type="number" id='ptoDays3' value="10"></input><br><br>
+
+		<label for='401kMatch3'>401K Match %<br> 
+		<input type="number" id='401kMatch3' value="0"></input><br><br>
+
+		<label for='oneWayCommutingTime3'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
+		<input type="number" id='oneWayCommutingTime3' value="30"></input><br><br>
+
+		<label for='weeklyDaysInOffice3'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
+		<input type="number" id='weeklyDaysInOffice3' value="1"></input><br><br>
+
+		<section class="subsection">
+			<label for='includeGasMilage3'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMilage3" onchange="updateMileageOnOrOff(3)" checked></input><br>
+
+			<label for='commuteInMiles3'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
+			<input type="number" id='commuteInMiles3' value="30"></input><br><br>
+
+			<label for='gasMileage3'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
+			<input type="number" id='gasMileage3' value="33"></input><br><br>
+
+			<label for='priceOfGas3'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
+			<input type="number" id='priceOfGas3' value="3.99"></input><br><br>
+		</section>
+
+		<label for='sumOfFlatCostsOrBenefits3'>Monthly Sum of Flat Benefits/Costs</label><br>
+		<input type="number" id='sumOfFlatCostsOrBenefits3' value="0"></input><br><br>
+
+	</section>
+
+	<section class="position4">
+		<div id='title4'><b>Position 4:</b></div>
+		<div id='result4'>-</div>
+		<hr>
+		<label for='salary4'>Salary</label><br>
+		<input type="number" id='salary4' value="50000"></input><br><br>
+
+		<label for='expectedWorkingHours4'>Expected Working Hours<br> 
+		<input type="number" id='expectedWorkingHours4' value="40"></input><br><br>
+
+		<label for='ptoDays4'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
+		<input type="number" id='ptoDays4' value="15"></input><br><br>
+
+		<label for='401kMatch4'>401K Match %<br> 
+		<input type="number" id='401kMatch4' value="0"></input><br><br>
+
+		<label for='oneWayCommutingTime4'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
+		<input type="number" id='oneWayCommutingTime4' value="30"></input><br><br>
+
+		<label for='weeklyDaysInOffice4'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
+		<input type="number" id='weeklyDaysInOffice4' value="1"></input><br><br>
+
+		<section class="subsection">
+			<label for='includeGasMilage4'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMilage4" onchange="updateMileageOnOrOff(4)" checked></input><br>
+
+			<label for='commuteInMiles4'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
+			<input type="number" id='commuteInMiles4' value="30"></input><br><br>
+
+			<label for='gasMileage4'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
+			<input type="number" id='gasMileage4' value="34"></input><br><br>
+
+			<label for='priceOfGas4'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
+			<input type="number" id='priceOfGas4' value="3.99"></input><br><br>
+		</section>
+
+		<label for='sumOfFlatCostsOrBenefits4'>Monthly Sum of Flat Benefits/Costs</label><br>
+		<input type="number" id='sumOfFlatCostsOrBenefits4' value="0"></input><br><br>
+</section>
+
+</table>
+</body>
+
+    <script>
+		
+		let positions = [1, 2, 3, 4];
+		
+		function displayExplanation()
+		{
+			let messageOne = "This piece of software allows you to compare positions by calculating the 'effective' salary.  This essentially means to add vacation time or retirement match as extra money and to deduct commuting time as lost money.";
+			let messageTwo = "This program takes the  ";
+			
+			//EffectiveSalary = (NominalSalary * Net Percentage Factors) +/- Flat Costs.
+			//
+			
+			//TOOLTIPS
+			//https://www.w3schools.com/howto/howto_css_tooltip.asp
+			
+			//"This program is written in HTML, vanilla JS, and CSS.  It has no outside requirements or dependencies.  It was created as an excercise to "
+			
+			//Expected Working Hours:
+			//If you will be expected to work more or fewer than the standard 40, you can reflect that here.  The formula is: (40 / X) - 1;
+			
+			//PTO
+			//Add your defined benefit time off here.  The formula is (365 / (365 - X)) - 1;
+			
+			//Commute & Days in Office
+			//This will calculate the time you spend commuting.  The formula is (2400 / (2400 + ( 2 * oneWayCommutingTime * weeklyDaysInOffice))) - 1;
+			
+			
+			
+			alert("This piece of software allows you to compare positions by calculating the 'effective' salary.  This essentially means to add vacation time or retirement match as extra money and to deduct commuting time as lost money.");
+		}
+		
+		function updateMileageOnOrOff(sectionNum) {
+			
+			let id = sectionNum;
+			console.log("id: " + sectionNum);
+	
+			let isChecked = document.getElementById('includeGasMilage'+id).checked;
+			console.log(`includeGasMilage${id} checked:` + isChecked);
+			
+			document.getElementById(`gasMileage${id}`).disabled = !isChecked;
+			document.getElementById(`priceOfGas${id}`).disabled = !isChecked;
+			document.getElementById(`commuteInMiles${id}`).disabled = !isChecked;
+		
+		}
+		
+		function getAllSalaries()
+		{
+			positions.forEach(calculateSalary);
+			
+		}
+		
+        function calculateSalary(sectionNum) {
+			
+			//This is a relatively simple way to keep the salary calculation code the same for each component.
+			//Each piece is name#
+			let id = sectionNum;
+			console.log("id: " + sectionNum);
+
+			let salary = document.getElementById('salary'+id).value;
+			
+			//The proportional factors:
+			//These are ones that affect your compensation as a proportion of the whole.
+			//These typically relate to your time or your salary directly:
+			///PTO, 401k Match %, commute, and hourly expectations.
+			
+			//Expected hours: If your job will require you to work more or fewer hours than 40, that will reduce or increase your de facto pay.
+			let expectedWorkingHours = document.getElementById('expectedWorkingHours'+id).value;
+			let hoursFactor = (40 / expectedWorkingHours) - 1;
+					
+			//PTO factor: PTO are days you get paid without working so it's essentially addtional pay.  Simple.
+			let ptoDays = document.getElementById('ptoDays'+id).value;
+			let ptoFactor = (365 / (365 - ptoDays)) - 1;
+			
+			//Match %: This is free money so consider it to be added to your pay.  Simple.
+			let matchPercent = document.getElementById('401kMatch'+id).value;
+			let matchFactor = (matchPercent / 100);
+			
+			//Commuting costs: Time you spend driving is time lost, so it's effectively a drain on your pay.
+			//The simple part is that the time it takes to commute time and the number of days expected in office.
+			let oneWayCommutingTime = document.getElementById('oneWayCommutingTime'+id).value;
+			let weeklyDaysInOffice = document.getElementById('weeklyDaysInOffice'+id).value;
+			
+			let minutesSpentCommutingWeekly =  2 * oneWayCommutingTime * weeklyDaysInOffice;
+			console.log(`minutesSpentCommutingWeekly ${id}: ` + minutesSpentCommutingWeekly);
+			
+			//The complicated part is to consider that any PTO will probably mean fewer days commuting.
+			//To reflect that, we multiply the commute by the simple proportion of time working actually working.
+			
+			let approximateWeeksCommutingMinusVacation = 52 - (ptoDays / 5);
+			console.log(`approximateWeeksCommutingMinusVacation ${id}: ` + approximateWeeksCommutingMinusVacation);
+			
+			let estimateOfMinutesSpentCommutingWeekly =  (approximateWeeksCommutingMinusVacation / 52) * minutesSpentCommutingWeekly;
+			console.log(`estimateOfMinutesSpentCommutingWeekly ${id}: ` + estimateOfMinutesSpentCommutingWeekly);
+			
+			let commutingFactor = (2400 / (2400 + ( estimateOfMinutesSpentCommutingWeekly))) - 1;
+			console.log(`Commuting Factor ${id}: ` + commutingFactor);
+			
+			
+			//Now we sum of all these proportional factors. to produce our multiplicand.
+			let netFactor = 1 + (ptoFactor + matchFactor + hoursFactor + commutingFactor);
+	
+			
+			//The flat factors:
+			//Some factors directly affect the bottom line without any proportion to time or pay.
+			//This could include parking/commuting passes that are not reimbursed, or the cost of gas if driving.
+			
+			let sumOfFlatCostsOrBenefits = Number(document.getElementById('sumOfFlatCostsOrBenefits'+id).value);
+			
+			let yearlyFlatCosts = sumOfFlatCostsOrBenefits * 12;
+			console.log('Yearly Flat Costs/Benefits: ' + yearlyFlatCosts);
+			
+			let includingCostOfGas = document.getElementById('includeGasMilage'+id).checked;
+			console.log('including Cost of Gas: ' + includingCostOfGas);
+			
+			if(includingCostOfGas === true)
+			{
+				let costOfGas = Number(document.getElementById('priceOfGas'+id).value);
+				console.log('Cost of Gas: ' + costOfGas);
+
+				let milesDriven = Number(document.getElementById('commuteInMiles'+id).value);
+				console.log('Miles Driven: ' + milesDriven);
+				
+				let milesPerGallon = Number(document.getElementById('gasMileage'+id).value);
+				console.log('MPG: ' + milesPerGallon);
+				
+				let gallonsPerTrip = milesDriven / milesPerGallon;
+				console.log('gallonsPerTrip: ' + gallonsPerTrip);
+				
+				let totalGasPerWeek = 2 * weeklyDaysInOffice * gallonsPerTrip * costOfGas;
+				console.log('totalGasPerWeek: ' + totalGasPerWeek);
+				
+				yearlyFlatCosts = yearlyFlatCosts - (totalGasPerWeek * 52);
+				console.log('new yearly flat costs: ' + yearlyFlatCosts);
+			}
+
+			
+			//Now we have the effective salary, sounded to dollar.
+			let effectiveSalary = ((salary * netFactor) + (yearlyFlatCosts)).toFixed(0);
+			
+			let newElement = document.createElement('div');
+			newElement.innerHTML = effectiveSalary;
+			newElement.id = 'result'+id;
+			document.getElementById('result'+id).replaceWith(newElement);
+			
+		}
+		
+    </script>
+</html>
