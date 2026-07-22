@@ -44,16 +44,21 @@ Sometimes if you want a problem solved, you find some website that already does 
 
 Each of these could apply for a standalone website widget or, as is the style in 2026, a general purpose LLM chatbot that obsequiously purports to do the same thing.  In this age of intellectual indolence, I think we are forgetting the value of a specialized tool.  Chefs have several types of knives made for different tasks, but LLM vendors want us to use their chainsaw for everything.
 
-Taken together, these issues with the software world may or may not apply to a any given problem, but many of them apply to many problems.  I want to use this perspective as a lens to consider future work.
+Taken together, these issues with the software world may or may not apply to a any given problem, but many of them apply to many problems.  I want to use this perspective as a lens to consider future work.  
+
+Source control and unit testing are two of the main ways we can preserve our knowledge and labor into the future. What I'm talking about is something less impactful but still potentially worth exploring. 
 
 ### Parsimony in Software
-I feel like the best answer is approach problems with _parsimony_.   Use the least amount of effort to solve the actual problem.  Front-load the effort where possible.  Keep is simple and understandable.
+I feel like the best answer is approach problems with _parsimony_.
+
+* Use the least amount of effort to solve the actual problem.
+* Front-load the effort where possible.
+* Keep is simple and understandable.
+* Make the solution as independent and atomic to make it more permanent.
 
 If we're trying to avoid the dependencies and issues above, what type of framework can we use to make sure anyone can use it?  What do we know that will work almost anywhere?
 
-My thought was to work entirely within HTML, vanilla JavaScript and maybe a little CSS.  We won't be importing any outside JavaScript libraries.
-
-Using these technologies, I see the following advantages and disadvantages:
+My thought was to work entirely within HTML, vanilla JavaScript and a little CSS.  Using these technologies, I see the following advantages and disadvantages:
 
 #### Advantages
 * Any dependencies will already be present on any modern operating system and it should run in basically all modern web browsers.  (It would not even require the actual internet, just the browser.)
@@ -71,9 +76,15 @@ I think the benefits outweigh the downsides.
 
 My goal here is not to say all problems should be solved this way.  Instead, I am wondering how many problems _could_ be solved within this mental framework.  Rather than offloading my thinking to an existing machine, how can I work smarter instead of making someone else do the hard work?
 
-### Tools Used
+### How To Use These Tools
 
-I used NotepadQQ and Librewolf to make this.  I have not tested on other browsers, but they should probably work fine.  To brush up on this frontend tech, I mostly used w3schools.com and posts on stackoverflow.com found via DuckDuckGo.
+Using these should be simple.  Just download the HTML file and open it in the browser of your choice.  GitHub does not appear to offer the ability to open an HTML file in your browser by default.
+
+The tools themselves should be fairly self-explanatory, considering the relatively simple scope of problems they are likely to tackle.
+
+### Technology Used
+
+I used NotepadQQ and Librewolf to make this.  I have not tested on other browsers, but they should probably work fine.  To brush up on frontend tech, I mostly used w3schools.com and posts on stackoverflow.com found via DuckDuckGo.  I also sometimes use JetBrains Rider for a few niceties of a proper IDE and git diffs.
 
 No generative AI was used when creating this.  (Since people have decided to cram generative AI into everything, it's hard to say for _certain_ there is none present here, but I'm as confident as I can be.)  The point of this project was never really to simply 'make the thing' though that's a nice side benefit.  The point was to take the opportunity to think about the making.
 
