@@ -32,8 +32,10 @@
 <body>
 	
 	<h2>Effective Salary Calculator / Comparison Tool</h2>
-
-	<input type="button" onclick='displayExplanation()' value="Explain!"><br><br>
+	
+	<div id='explanation'>This allows you to compare work arrangements by calculating an 'effective' salary.  You add vacation time or retirement match as extra money and deduct commuting time or longer hours as lost money.  The basic formula is: </div>
+		<div id='formula'><b>(salary * proportional factors) + yearly flat costs = effective salary</b> </div><br>
+	
 	
 	<input type="button" onclick='getAllSalaries()' value="Calculate All"><br><br>
 	
@@ -204,11 +206,6 @@
     <script>
 		
 		let positions = [1, 2, 3, 4];
-		
-		function displayExplanation()
-		{
-			alert("This piece of software allows you to compare positions by calculating the 'effective' salary.  This essentially means to add vacation time or retirement match as extra money and to deduct commuting time as lost money.");
-		}
 		
 		function updateMileageOnOrOff(sectionNum) {
 			
