@@ -62,8 +62,8 @@
 		<input type="number" id='weeklyDaysInOffice1' value="3"></input><br><br>
 
 		<section class="subsection">
-			<label for='includeGasMilage1'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMilage1" onchange="updateMileageOnOrOff(1)"></input><br>
+			<label for='includeGasMileage1'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMileage1" onchange="updateMileageOnOrOff(1)"></input><br>
 
 			<label for='commuteInMiles1'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
 			<input type="number" id='commuteInMiles1' value="30" disabled></input><br><br>
@@ -102,8 +102,8 @@
 		<input type="number" id='weeklyDaysInOffice2' value="3"></input><br><br>
 
 		<section class="subsection">
-			<label for='includeGasMilage2'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMilage2" onchange="updateMileageOnOrOff(2)" checked></input><br>
+			<label for='includeGasMileage2'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMileage2" onchange="updateMileageOnOrOff(2)" checked></input><br>
 
 			<label for='commuteInMiles2'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
 			<input type="number" id='commuteInMiles2' value="30"></input><br><br>
@@ -142,8 +142,8 @@
 		<input type="number" id='weeklyDaysInOffice3' value="1"></input><br><br>
 
 		<section class="subsection">
-			<label for='includeGasMilage3'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMilage3" onchange="updateMileageOnOrOff(3)" checked></input><br>
+			<label for='includeGasMileage3'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMileage3" onchange="updateMileageOnOrOff(3)" checked></input><br>
 
 			<label for='commuteInMiles3'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
 			<input type="number" id='commuteInMiles3' value="30"></input><br><br>
@@ -183,8 +183,8 @@
 		<input type="number" id='weeklyDaysInOffice4' value="1"></input><br><br>
 
 		<section class="subsection">
-			<label for='includeGasMilage4'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMilage4" onchange="updateMileageOnOrOff(4)" checked></input><br>
+			<label for='includeGasMileage4'>Include Gas Costs?
+			<input type="checkbox" id="includeGasMileage4" onchange="updateMileageOnOrOff(4)" checked></input><br>
 
 			<label for='commuteInMiles4'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
 			<input type="number" id='commuteInMiles4' value="30"></input><br><br>
@@ -287,7 +287,7 @@
 			let yearlyFlatCosts = sumOfFlatCostsOrBenefits * 12;
 			console.log('Yearly Flat Costs/Benefits: ' + yearlyFlatCosts);
 			
-			let includingCostOfGas = document.getElementById('includeGasMilage'+id).checked;
+			let includingCostOfGas = document.getElementById('includeGasMileage'+id).checked;
 			console.log('including Cost of Gas: ' + includingCostOfGas);
 			
 			if(includingCostOfGas === true)
