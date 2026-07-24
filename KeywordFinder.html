@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<body onload="loadInfo()">
+	<h2>Keyword Finder</h2>
+
+		<div id='explanation'>Modern job searching has changed.  Your resume must somehow navigate through multiple layers of elaborate technological gatekeeping that prevent it from being seen by a human.  Some professionals say that you MUST engage in 'keyword stuffing' your resume by filling it with quoted sections of the posted job description.</div><br>
+	<div> This tool can highlight them for you.<div>
+	<br>
+	<div><b>How does this work?</b></div>
+	<div>Step 1: Take the job description and paste the relevant portion into the Source / Job Description box.</div>
+	<div>Step 2: Put any expected or desired keywords into the Keywords box.</div>
+	<div>Step 3: Click 'Find Keywords'.  The source text will be reproduced and each keyword found within it will be marked.</div>
+	<br>
+	
+	<label for='jobdesc'>Source / Job Description:</label><br>
+	<textarea id='jobdesc' rows=10 cols=80></textarea><br><br>
+	
+	<label for='knownkeywords'>Keywords: <span style='font-style:italic'>(Separate each 'keyword' with a comma, semicolon or new line)</span></label><br> 
+	<textarea id='knownkeywords' rows=10 cols=80></textarea><br>
+	<div><span style='font-style:italic'>(If you have keywords you know will always be relevant, you can add them to the 'defaultKeywords' array in the &lt;script&gt; section.)</span></div>
+	<br>
+	<button onclick='findKeywordsFromSiteContent()'>Find Keywords</button>
+	<br>
+	<div id="output"></div>
+
+</body>
+
+    <script>
+		
+		function findKeywordsFromSiteContent()
+		{
+			let description = document.getElementById('jobdesc').value;
+
+			let keywordInputString = document.getElementById('knownkeywords').value.toLowerCase();
+
+			let newDescription = findKeywordsInDescription(keywordInputString, description)
+			
+			let newElement = document.createElement('div');
+			newElement.innerHTML = newDescription;
+			newElement.id = 'output';
+			document.getElementById('output').replaceWith(newElement);
+
+		}
+		
+        function findKeywordsInDescription(keywordsAsString, descriptionAsString) {
+			
+			let oldDescription = descriptionAsString;
+			let newDescription =  oldDescription;
+
+			let oldToLowercase = oldDescription.toLowerCase();
+			
+			//Break on new line, comma and semicolons.
+			const regex = /([\n,;])+/;
+	
+			let keywordsToLower = keywordsAsString.toLowerCase();
+			
+			let keywords = keywordsToLower.split(regex);
+			
+			//Removing the delimiters themselves from list
+			const indexOfSemicolon = keywords.indexOf(';')
+			if(indexOfSemicolon > -1)
+			{
+				keywords.splice(indexOfSemicolon, 1);
+			}
+			const indexOfComma = keywords.indexOf(',')
+			if(indexOfComma > -1)
+			{
+				keywords.splice(indexOfComma, 1);
+			}
+	
+			let uniqueKeywords = [... new Set(keywords)];
+			
+			//Sorting it so that it can find longer ones and 'nest' smaller ones.
+			uniqueKeywords.sort((a, b) => b.length - a.length);
+			
+			let indexTuples = [];
+			for (let line = 0; line < uniqueKeywords.length; line++)
+			{
+				let asString = uniqueKeywords[line];
+				
+				//This is case-sensitive
+				if(oldToLowercase.includes(asString))
+				{
+					let endFound = false;
+					let result = 0;
+					let stringIndex = 0;
+
+					while(!endFound)
+					{
+						let result = oldToLowercase.indexOf(asString, stringIndex)
+						
+						if(result > 0) {
+							const tuple = {start: result, length: asString.length}
+							indexTuples.push(tuple);
+							stringIndex = result + asString.length;
+						}
+						else 
+						{
+							endFound = true;
+						}
+					}
+				}
+				else
+				{
+					//console.log("Did not enter loop on word " + asString)
+				}
+			}
+			
+			//Doing them in reverse order to not mess up the positions.
+			indexTuples.sort((a, b) => b.start - a.start);
+			
+			indexTuples.forEach((item) => {
+				newDescription = newDescription.slice(0, item.start + item.length) + '</mark>' + newDescription.slice(item.start + item.length);
+				newDescription = newDescription.slice(0, item.start) + '<mark>' + newDescription.slice(item.start);
+			});
+			
+			return newDescription;
+        }
+		
+		function loadInfo()
+		{
+			runTests();
+			getDefaultKeywords();
+		}
+		
+		function getDefaultKeywords() 
+		{
+			document.getElementById('jobdesc').value = defaultJobDescription;
+			
+			if(defaultKeywords.length !== 0)
+			{
+				document.getElementById('knownkeywords').value = defaultKeywords.join('\n');
+			}
+		}
+		
+		var defaultJobDescription = 'The quick brown fox jumped over the lazy dog.';
+		
+		var defaultKeywords = 
+			[
+				"dog;fox",
+				"cat,over",
+				"tiger"
+			];
+
+
+		//These are just tests.  If you're using this code for yourself, you can delete what is between these lines.
+		// v v v v
+		function runTests()
+		{
+			TestOne_KeywordIsMarkedEvenWithCapitalizationDifference();
+			TestTwo_DuplicateKeywordsMarked();
+			TestThree_CommasAndSemicolonsAcceptedDelimiters();
+		}
+
+		function TestOne_KeywordIsMarkedEvenWithCapitalizationDifference()
+		{
+			let keywords = "Testing,validation";
+			let description = "Unit testing is cool";
+
+			let returnValue = findKeywordsInDescription(keywords, description);
+			let expectedValue = 'Unit <mark>testing</mark> is cool';
+
+			let result = returnValue === expectedValue;
+			logTestResult("Test One", result);
+		}
+
+		function TestTwo_DuplicateKeywordsMarked()
+		{
+			let keywords = "two";
+			let description = "One two three four one two three four";
+
+			let returnValue = findKeywordsInDescription(keywords, description);
+			let expectedValue = "One <mark>two</mark> three four one <mark>two</mark> three four";
+
+			let result = returnValue === expectedValue;
+			logTestResult("Test Two", result);
+		}
+
+		function TestThree_CommasAndSemicolonsAcceptedDelimiters()
+		{
+			let keywords = "skill,quality;value proposition";
+			let description = "There is a value proposition at hand.  A question of quality.";
+
+			let returnValue = findKeywordsInDescription(keywords, description);
+			let expectedValue = "There is a <mark>value proposition</mark> at hand.  A question of <mark>quality</mark>.";
+
+			let result = returnValue === expectedValue;
+			logTestResult("Test Three", result);
+		}
+		
+		function logTestResult(testName, result)
+		{
+			const paddingLength = 14;
+			if(result)
+			{
+				console.log(testName.padEnd(paddingLength, " ") + "Passed!")
+			}
+			else 
+			{
+				console.log(testName.padEnd(paddingLength, " ") + "FAILED!")
+			}
+		}
+		// ^ ^ ^ ^
+		//These are just tests.  If you're using this code for yourself, you can delete what is between these lines.
+		
+    </script>
+</html>
