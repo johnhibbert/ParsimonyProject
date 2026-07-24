@@ -1,6 +1,6 @@
 # Parsimony Project
 
-### About this Project
+## About this Project
 
 For some time, I've been thinking about certain high-level problems in the software world.  Mostly, I'm doing the thinking for the sheer exercise of it. (That's the philosopher in me, I guess.)  The main thing I think about is our increasing reliance on external services.  By 'services' I mean both code libraries and actual fully fledged services, and by 'external' I mean ones that are not controlled by you or your organization.
 
@@ -13,7 +13,7 @@ Now, you could also unfavorably describe using a search engine or documentation 
 
 If we exclude these acceptable exceptions, there are still plenty of small-to-medium sized problems that people need solved.  I feel like we sometimes tend to over-complicate them with these dependencies.  Why?
 
-#### Inherent Language Dependencies
+### Inherent Language Dependencies
 
 When I want to solve a problem for my own curiosity, I typically use C#.  It's my primary and favorite programming language.  The issue is that C# code is not the easiest to share.
 
@@ -23,7 +23,7 @@ When I want to solve a problem for my own curiosity, I typically use C#.  It's m
 
 I'm not picking on C# here: the same is true for many other languages.  For a professional project, these are not too big of a deal because the consumers will have these expectations already.  They are a greater problem if your audience is someone in the general public and/or a non-developer.  I seek simplicity comparable to giving someone a .PDF or a .XLSX/.DOCX file.
 
-#### External Library Dependencies
+### External Library Dependencies
 
 External libraries are a good thing because it allows you to focus on conducting impactful work instead of trying to figure out a common problem.  But these are not without their issues:
 
@@ -34,7 +34,7 @@ External libraries are a good thing because it allows you to focus on conducting
 
 Depending on your project, these will vary in their level of seriousness, but it would be nice to avoid many or most of these.
 
-#### Service Opacity, Privacy and Energy
+### Service Opacity, Privacy and Energy
 
 Sometimes if you want a problem solved, you find some website that already does it for you.  But this approach is not free of questions:
 
@@ -48,7 +48,7 @@ Taken together, these issues with the software world may or may not apply to a a
 
 Source control and unit testing are two of the main ways we can preserve our knowledge and labor into the future. What I'm talking about is something less impactful but still potentially worth exploring. 
 
-### Parsimony in Software
+## Parsimony in Software
 I feel like the best answer is approach problems with _parsimony_.
 
 * Use the least amount of effort to solve the actual problem.
@@ -60,13 +60,13 @@ If we're trying to avoid the dependencies and issues above, what type of framewo
 
 My thought was to work entirely within HTML, vanilla JavaScript and a little CSS.  Using these technologies, I see the following advantages and disadvantages:
 
-#### Advantages
+### Advantages
 * Any dependencies will already be present on any modern operating system and it should run in basically all modern web browsers.  (It would not even require the actual internet, just the browser.)
 * Something written this way can all be packed into a single file. (Modern sites import their .js and .css files but they can just be hard-coded into the \<script\> and \<style\> elements.)
 * The code will be unconcealed, and can be intentionally made readable to create a low barrier to understanding it.  (A person could probably ignore the HTML and CSS, treating it as 'magical fairy dust,' and focus on understanding the bulk of the behavior within the JavaScript.)
 * No undue concerns over security, privacy, or energy use because the scope is narrow and there is no reference to any outside party.
 
-#### Disadvantages
+### Disadvantages
 * There will be some reasonable limitations on what we can do with this tech stack.
 * It will take longer to create these tools than to use an existing one someone else has created.
 * This strategy could favor using many hard-coded values as well as 'more-readable yet less-efficient' code, which might violate some principles of good engineering.
@@ -76,19 +76,19 @@ I think the benefits outweigh the downsides.
 
 My goal here is not to say all problems should be solved this way.  Instead, I am wondering how many problems _could_ be solved within this mental framework.  Rather than offloading my thinking to an existing machine, how can I work smarter instead of making someone else do the hard work?
 
-### How To Use These Tools
+## How To Use These Tools
 
 Using these should be simple.  Just download the HTML file and open it in the browser of your choice.  GitHub does not appear to offer the ability to open an HTML file in your browser by default.
 
 The tools themselves should be fairly self-explanatory, considering the relatively simple scope of problems they are likely to tackle.
 
-### Technology Used
+## Technology Used
 
 I used NotepadQQ and Librewolf to make this.  I have not tested on other browsers, but they should probably work fine.  To brush up on frontend tech, I mostly used w3schools.com and posts on stackoverflow.com found via DuckDuckGo.  I also sometimes use JetBrains Rider for a few niceties of a proper IDE and git diffs.
 
 No generative AI was used when creating this.  (Since people have decided to cram generative AI into everything, it's hard to say for _certain_ there is none present here, but I'm as confident as I can be.)  The point of this project was never really to simply 'make the thing' though that's a nice side benefit.  The point was to take the opportunity to think about the making.
 
-### Questions
+## Questions
 There are some stylistic questions about how to approach this type of coding:
 
 * For repeated HTML elements, is it better to copy-paste code and violate DRY (Don't Repeat Yourself) or do we use vanilla JavaScript to build the HTML elements systematically, which will increase the opacity of the code?
@@ -96,5 +96,5 @@ There are some stylistic questions about how to approach this type of coding:
 
 Others may arise as I play in this framework and review problems.
 
-### License Information
+## License Information
 This project is © John Hibbert and licensed under the terms of the MIT License.
