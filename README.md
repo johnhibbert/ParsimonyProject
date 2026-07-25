@@ -2,7 +2,11 @@
 
 ## About this Project
 
-For some time, I've been thinking about certain high-level problems in the software world.  Mostly, I'm doing the thinking for the sheer exercise of it. (That's the philosopher in me, I guess.)  The main thing I think about is our increasing reliance on external services.  By 'services' I mean both code libraries and actual fully fledged services, and by 'external' I mean ones that are not controlled by you or your organization.
+For some time, I've been thinking about certain high-level problems in the software world.  Mostly, I'm doing the thinking for the sheer mental exercise. (That's the philosopher in me, I guess.)  Please forgive the ramble.
+
+### Software Development is Solving Problems
+
+People think that being a developer involves writing code, but I typically say it's about solving problems: solving technological problems directly, or using technology to solve non-technological problems.  When I think about the problems we need solved, I wonder about our increasing reliance on _external services_.  By 'services' I mean both code libraries and fully-fledged services, and by 'external' I mean any that are not directly created or controlled by you or your organization.  There are some problems with this type of reliance.
 
 To start: Not all uses of external services are bad.  
 
@@ -11,17 +15,17 @@ To start: Not all uses of external services are bad.
 
 Now, you could also unfavorably describe using a search engine or documentation as a form of external dependency. While that's true to a certain extent, it's less of a concern here because the dependency is not preserved within the project itself.  The knowledge and behavior will bake itself into the code and continue independently into the future.
 
-If we exclude these acceptable exceptions, there are still plenty of small-to-medium sized problems that people need solved.  I feel like we sometimes tend to over-complicate them with these dependencies.  Why?
+If we exclude these acceptable exceptions, there are still plenty of small-to-medium sized problems that people need solved.  I feel like we sometimes tend to over-complicate them with additional dependencies.  Why?
 
 ### Inherent Language Dependencies
 
-When I want to solve a problem for my own curiosity, I typically use C#.  It's my primary and favorite programming language.  The issue is that C# code is not the easiest to share.
+When I want to solve a problem for my own curiosity, I typically use C#.  It's my primary and personal favorite programming language.  The issue is that C# code is not the easiest to share in a usable state.  Some typical hurdles include:
 
-* A consumer needs the right .NET frameworks on their computer to manipulate your code.
+* The consumer needs the right .NET frameworks on their computer to manipulate your code (and probably an IDE).
 * The compiled output cannot be reviewed by the end user.
 * The code may or may not run on someone else's machine.
 
-I'm not picking on C# here: the same is true for many other languages.  For a professional project, these are not too big of a deal because the consumers will have these expectations already.  They are a greater problem if your audience is someone in the general public and/or a non-developer.  I seek simplicity comparable to giving someone a .PDF or a .XLSX/.DOCX file.
+I'm not picking on C# here: the same is true for many other languages.  For a professional project, these are not a big deal because normal consumers will be prepared for these expectations.  They are a greater problem if your audience is someone in the general public and/or a non-developer.  For this, I seek simplicity comparable to giving someone a .PDF or a .XLSX/.DOCX file.
 
 ### External Library Dependencies
 
@@ -32,21 +36,26 @@ External libraries are a good thing because it allows you to focus on conducting
 * Some external libraries will have to introduce breaking changes that require your time and intervention.
 * Some libraries and/or services could be found to have security vulnerabilities or be subject to a targeted attack to inject them, putting every consumer could be at risk.  (It's called [Dependency Chain Abuse](https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-03-Dependency-Chain-Abuse) and it would be no fun if it suddenly became your problem.)
 
-Depending on your project, these will vary in their level of seriousness, but it would be nice to avoid many or most of these.
+Depending on your project, these will vary in their level of seriousness, but it would be nice to avoid many or most of these,
 
-### Service Opacity, Privacy and Energy
+### Service Issues: Opacity, Availability, Privacy, Economy
 
-Sometimes if you want a problem solved, you find some website that already does it for you.  But this approach is not free of questions:
+If you want a problem solved, sometimes you can just find some website that already does it for you.  This is often fine enough, but this approach can raise questions questions:
 
-* Is the code doing what you think it's doing?  Is there an arithmetic error?  If you could see it, could you even understand it?  Would you disagree with the methodology?
-* Is there a privacy or security concern in using this external service?  Even if your problem is benign, what is the cost of that kind of trade off?
-* Is this service using an amount of resources that are proportional to the value of the solved problem?  Are you offloading a greater amount of work than it would take to do it yourself?  (This is especially true recently.)
+* Is the code doing what you think it's doing?  Is there an arithmetic error?  Would you disagree with the problem-solving methodology?  Could you even understand it if you could read it?  
+* Is the service available without the internet?  What if the services goes offline while you still have need of it, temporarily or forever?
+* Is there a privacy or security concern in using this external service?  Even if your problem is harmless, what is the cost of that kind of trade off?
+* Is this service using an amount of resources that are proportional to the value of the problem being solved?  Are you offloading a greater amount of work than it would take to do it yourself?  Is the imputed cost of your time and labor to create something greater than the total cost of your solution, even if you are not explicitly bearing the cost yourself?
 
-Each of these could apply for a standalone website widget or, as is the style in 2026, a general purpose LLM chatbot that obsequiously purports to do the same thing.  In this age of intellectual indolence, I think we are forgetting the value of a specialized tool.  Chefs have several types of knives made for different tasks, but LLM vendors want us to use their chainsaw for everything.
+### These Concerns as a Lens
 
-Taken together, these issues with the software world may or may not apply to a any given problem, but many of them apply to many problems.  I want to use this perspective as a lens to consider future work.  
+Some or all of these could apply to a standalone website widget or, as is the style in 2026, a general purpose LLM chatbot that obsequiously purports to do the same things.  In this age of intellectual indolence, I think we are forgetting the value of a specialized tool.  Chefs have several types of knives made for different tasks, but LLM vendors want us to use their chainsaw for everything.
 
-Source control and unit testing are two of the main ways we can preserve our knowledge and labor into the future. What I'm talking about is something less impactful but still potentially worth exploring. 
+The point isn't to criticize any specific solution or choice.  Instead, I want to use this perspective as a lens to consider future work.  
+
+I think it is uncontroversial to say that in things, we want to work efficiently, to do the correct work, and to not have our work wasted or lost.  
+
+In software, we have the advantage of preserving our work and our understanding through time more easily than most physical pursuits.  There are two main ways to do this are source control and unit testing.  What I'm talking about is something less impactful than those two, but still potentially worth exploring. 
 
 ## Parsimony in Software
 I feel like the best answer is approach problems with _parsimony_.
@@ -56,13 +65,16 @@ I feel like the best answer is approach problems with _parsimony_.
 * Keep is simple and understandable.
 * Make the solution as independent and atomic to make it more permanent.
 
-If we're trying to avoid the dependencies and issues above, what type of framework can we use to make sure anyone can use it?  What do we know that will work almost anywhere?
+There are other things we want, like transparency, clarity, portability and durability.  However, if we can keep things parsimonious, those will come more easily. 
 
-My thought was to work entirely within HTML, vanilla JavaScript and a little CSS.  Using these technologies, I see the following advantages and disadvantages:
+### Framework for Parsimony
+If we're trying to avoid the dependencies and issues above, what type of framework can we use to make sure anyone can use it?  What do we have access to that we know will work almost anywhere?
+
+My thought was to work entirely within HTML, vanilla JavaScript and maybe a little CSS.  Using these technologies, I see the following advantages and disadvantages:
 
 ### Advantages
-* Any dependencies will already be present on any modern operating system and it should run in basically all modern web browsers.  (It would not even require the actual internet, just the browser.)
-* Something written this way can all be packed into a single file. (Modern sites import their .js and .css files but they can just be hard-coded into the \<script\> and \<style\> elements.)
+* Any dependencies will already be present on any modern operating system and it should run in basically all modern web browsers.  (It would not even require the actual internet: just the browser.)
+* Something written this way can all be packed into a single file. (Modern sites import their .js and .css files, but they can just be hard-coded into the \<script\> and \<style\> elements.)
 * The code will be unconcealed, and can be intentionally made readable to create a low barrier to understanding it.  (A person could probably ignore the HTML and CSS, treating it as 'magical fairy dust,' and focus on understanding the bulk of the behavior within the JavaScript.)
 * No undue concerns over security, privacy, or energy use because the scope is narrow and there is no reference to any outside party.
 
@@ -70,17 +82,18 @@ My thought was to work entirely within HTML, vanilla JavaScript and a little CSS
 * There will be some reasonable limitations on what we can do with this tech stack.
 * It will take longer to create these tools than to use an existing one someone else has created.
 * This strategy could favor using many hard-coded values as well as 'more-readable yet less-efficient' code, which might violate some principles of good engineering.
+* Spreading editable code to multiple team members would allow for behavioral discrepancies if people make their individual changes.
 * I just don't really like JavaScript very much. :wink:
 
 I think the benefits outweigh the downsides.
 
 My goal here is not to say all problems should be solved this way.  Instead, I am wondering how many problems _could_ be solved within this mental framework.  Rather than offloading my thinking to an existing machine, how can I work smarter instead of making someone else do the hard work?
 
-## How To Use These Tools
+## How to Use
 
-Using these should be simple.  Just download the HTML file and open it in the browser of your choice.  GitHub does not appear to offer the ability to open an HTML file in your browser by default.
+Using these tools should be simple.  Just download the HTML file and open it in the browser of your choice.  GitHub does not appear to offer the ability to open an HTML file in your browser by default.  (In some ways, that would be missing the point.)
 
-The tools themselves should be fairly self-explanatory, considering the relatively simple scope of problems they are likely to tackle.
+The tools themselves should be fairly self-explanatory, considering the relatively straightforward scope of problems they are likely to tackle.  At the moment, I am not prescribing any top-level style or concerns except that each is entirely contained in one singular HTML file.
 
 ## Technology Used
 
