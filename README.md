@@ -75,7 +75,7 @@ My thought was to work entirely within HTML, vanilla JavaScript and maybe a litt
 ### Advantages
 * Any dependencies will already be present on any modern operating system and it should run in basically all modern web browsers.  (It would not even require the actual internet: just the browser.)
 * Something written this way can all be packed into a single file. (Modern sites import their .js and .css files, but they can just be hard-coded into the \<script\> and \<style\> elements.)
-* The code will be unconcealed, and can be intentionally made readable to create a low barrier to understanding it.  (A person could probably ignore the HTML and CSS, treating it as 'magical fairy dust,' and focus on understanding the bulk of the behavior within the JavaScript.)
+* The code will be unconcealed, and can be intentionally made readable to create a low barrier to understanding it.  (A person could probably ignore the HTML and CSS, treating it as 'boilerplate' and focus on understanding the bulk of the behavior within the JavaScript.)
 * No undue concerns over security, privacy, or energy use because the scope is narrow and there is no reference to any outside party.
 
 ### Disadvantages
@@ -91,7 +91,7 @@ My goal here is not to say all problems should be solved this way.  Instead, I a
 
 ## How to Use
 
-Using these tools should be simple.  Just download the HTML file and open it in the browser of your choice.  GitHub does not appear to offer the ability to open an HTML file in your browser by default.  (In some ways, that would be missing the point.)
+Using these tools should be simple.  They are kept in the repo's Tools folder.  From there, all that is needed is to download the HTML file and open it in the browser of your choice.  GitHub does not appear to offer the ability to open an HTML file in your browser by default.  (In some ways, that would be missing the point.)
 
 The tools themselves should be fairly self-explanatory, considering the relatively straightforward scope of problems they are likely to tackle.  At the moment, I am not prescribing any top-level style or concerns except that each is entirely contained in one singular HTML file.
 
@@ -107,7 +107,10 @@ There are some stylistic questions about how to approach this type of coding:
 * For repeated HTML elements, is it better to copy-paste code and violate DRY (Don't Repeat Yourself) or do we use vanilla JavaScript to build the HTML elements systematically, which will increase the opacity of the code?
 * Is it okay to hard-code some elements to embrace YAGNI (You Ain't Gonna Need It)?  Or should we focus on designing more reusable code snippets, even if they're being copied about manually?
 
-Others may arise as I play in this framework and review problems.
+There are other non-code questions to ask as well: 
+* Are we overestimating how many problems are simple enough that they can actually be handled in this way?  It feels like the 'input data' must be comparatively lean and simple for this to all exist in one spot.  Something containing historical data like sports scores or stock prices might be unwieldy to use in this form, but does that matter if it's treated as 'magic dust' as my professor used to say?
+
+Other questions may arise as I play in this framework and review problems.
 
 ## License Information
 This project is © John Hibbert and licensed under the terms of the MIT License.
