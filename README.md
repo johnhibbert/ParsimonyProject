@@ -2,30 +2,30 @@
 
 ## About this Project
 
-For some time, I've been thinking about certain high-level problems in the software world.  Mostly, I'm doing the thinking for the sheer mental exercise. (That's the philosopher in me, I guess.)  Please forgive the ramble.
+For some time, I've been thinking about certain high-level problems in the software world.  Mostly, I'm doing this just for the sheer mental exercise rather than to accomplish anything specific. (That's the philosopher in me, I guess.)  Please forgive the following ramble.
 
 ### Software Development is Solving Problems
 
-People think that being a developer involves writing code, but I typically say it's about solving problems: solving technological problems directly, or using technology to solve non-technological problems.  When I think about the problems we need solved, I wonder about our increasing reliance on _external services_.  By 'services' I mean both code libraries and fully-fledged services, and by 'external' I mean any that are not directly created or controlled by you or your organization.  There are some problems with this type of reliance.
+People think that being a developer involves writing code, but I typically describe it as solving problems: solving technological problems directly, or using technology to solve non-technological problems.  When I think about the problems we need solved, I wonder about our increasing reliance on _external services_.  By 'services' I mean both code libraries and fully-fledged services, and by 'external' I mean any that are not directly created or controlled by you or your organization.  There are varied issues that arise with this type of reliance.
 
-To start: Not all uses of external services are bad.  
+To start: Not all uses of external services are bad.
 
 * Some external dependencies are actually quite sensible.  If your project involves machine learning or cryptography, you probably shouldn't try to write that yourself.
 * Some project scopes inherently extend beyond our control.  If the project's functional requirements involve contacting some external API, then that dependency is unavoidable unless the requirements are wrong.
 
-Now, you could also unfavorably describe using a search engine or documentation as a form of external dependency. While that's true to a certain extent, it's less of a concern here because the dependency is not preserved within the project itself.  The knowledge and behavior will bake itself into the code and continue independently into the future.
+You could also unfavorably describe using a search engine or documentation as a form of external dependency. While that's true to a certain extent, it's less of a concern here because the dependency is not preserved within the project itself.  The knowledge and behavior will bake itself into the code and continue independently into the future.
 
-If we exclude these acceptable exceptions, there are still plenty of small-to-medium sized problems that people need solved.  I feel like we sometimes tend to over-complicate them with additional dependencies.  Why?
+If we exclude these acceptable exceptions, there are still plenty of small-to-medium sized problems that people need solved.  I feel like we sometimes tend to over-complicate them with additional dependencies.  Why?  How?
 
 ### Inherent Language Dependencies
 
-When I want to solve a problem for my own curiosity, I typically use C#.  It's my primary and personal favorite programming language.  The issue is that C# code is not the easiest to share in a usable state.  Some typical hurdles include:
+When I want to solve a problem for my own curiosity, I typically use C#.  It's my primary competency and personal favorite programming language.  The issue is that C# code is not the easiest to share in a usable state.  Some typical hurdles include:
 
 * The consumer needs the right .NET frameworks on their computer to manipulate your code (and probably an IDE).
 * The compiled output cannot be reviewed by the end user.
 * The code may or may not run on someone else's machine.
 
-I'm not picking on C# here: the same is true for many other languages.  For a professional project, these are not a big deal because normal consumers will be prepared for these expectations.  They are a greater problem if your audience is someone in the general public and/or a non-developer.  For this, I seek simplicity comparable to giving someone a .PDF or a .XLSX/.DOCX file.
+I'm not picking on C# here: the same is true for many other languages.  For a professional project, these are not a big deal because normal consumers will be prepared for these expectations.  They are a greater problem if your audience is someone in the general public and/or a non-developer.  What I'm seeking here is simplicity comparable to giving someone a .PDF or a .XLSX/.DOCX file.
 
 ### External Library Dependencies
 
@@ -36,7 +36,7 @@ External libraries are a good thing because it allows you to focus on conducting
 * Some external libraries will have to introduce breaking changes that require your time and intervention.
 * Some libraries and/or services could be found to have security vulnerabilities or be subject to a targeted attack to inject them, putting every consumer could be at risk.  (It's called [Dependency Chain Abuse](https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-03-Dependency-Chain-Abuse) and it would be no fun if it suddenly became your problem.)
 
-Depending on your project, these will vary in their level of seriousness, but it would be nice to avoid many or most of these,
+Depending on your project, these will vary in their level of seriousness, but it would be nice to avoid many or most of these.
 
 ### Service Issues: Opacity, Availability, Privacy, Economy
 
@@ -51,11 +51,9 @@ If you want a problem solved, sometimes you can just find some website that alre
 
 Some or all of these could apply to a standalone website widget or, as is the style in 2026, a general purpose LLM chatbot that obsequiously purports to do the same things.  In this age of intellectual indolence, I think we are forgetting the value of a specialized tool.  Chefs have several types of knives made for different tasks, but LLM vendors want us to use their chainsaw for everything.
 
-The point isn't to criticize any specific solution or choice.  Instead, I want to use this perspective as a lens to consider future work.  
+The point isn't to criticize any specific solution or choice.  Instead, I want to use this perspective as a lens to consider future work.  I think it is uncontroversial to say that for the most part we want to work efficiently, to do the correct work, and to not have our work wasted or lost.  
 
-I think it is uncontroversial to say that in things, we want to work efficiently, to do the correct work, and to not have our work wasted or lost.  
-
-In software, we have the advantage of preserving our work and our understanding through time more easily than most physical pursuits.  There are two main ways to do this are source control and unit testing.  What I'm talking about is something less impactful than those two, but still potentially worth exploring. 
+In software, we have the advantage of preserving our work and our understanding through time much more easily than most physical pursuits.  There are two main ways to do this are source control and unit testing.  What I'm talking about is something less impactful than those two, but still potentially worth exploring. 
 
 ## Parsimony in Software
 I feel like the best answer is approach problems with _parsimony_.
@@ -63,7 +61,7 @@ I feel like the best answer is approach problems with _parsimony_.
 * Use the least amount of effort to solve the actual problem.
 * Front-load the effort where possible.
 * Keep is simple and understandable.
-* Make the solution as independent and atomic to make it more permanent.
+* Make the solution as independent and atomic as possible.
 
 There are other things we want, like transparency, clarity, portability and durability.  However, if we can keep things parsimonious, those will come more easily. 
 
@@ -76,13 +74,13 @@ My thought was to work entirely within HTML, vanilla JavaScript and maybe a litt
 * Any dependencies will already be present on any modern operating system and it should run in basically all modern web browsers.  (It would not even require the actual internet: just the browser.)
 * Something written this way can all be packed into a single file. (Modern sites import their .js and .css files, but they can just be hard-coded into the \<script\> and \<style\> elements.)
 * The code will be unconcealed, and can be intentionally made readable to create a low barrier to understanding it.  (A person could probably ignore the HTML and CSS, treating it as 'boilerplate' and focus on understanding the bulk of the behavior within the JavaScript.)
-* No undue concerns over security, privacy, or energy use because the scope is narrow and there is no reference to any outside party.
+* No undue concerns over security, privacy, or energy use.  (The scope is kept narrow and there are no references to any outside party.)
 
 ### Disadvantages
 * There will be some reasonable limitations on what we can do with this tech stack.
 * It will take longer to create these tools than to use an existing one someone else has created.
 * This strategy could favor using many hard-coded values as well as 'more-readable yet less-efficient' code, which might violate some principles of good engineering.
-* Spreading editable code to multiple team members would allow for behavioral discrepancies if people make their individual changes.
+* Spreading editable code to multiple team members would allow for behavioral discrepancies if people make individual changes.
 * I just don't really like JavaScript very much. :wink:
 
 I think the benefits outweigh the downsides.
@@ -106,11 +104,12 @@ There are some stylistic questions about how to approach this type of coding:
 
 * For repeated HTML elements, is it better to copy-paste code and violate DRY (Don't Repeat Yourself) or do we use vanilla JavaScript to build the HTML elements systematically, which will increase the opacity of the code?
 * Is it okay to hard-code some elements to embrace YAGNI (You Ain't Gonna Need It)?  Or should we focus on designing more reusable code snippets, even if they're being copied about manually?
+* What about things like arrow functions (what we would call Lambda expressions in C#)?  Do those inhibit clarity to a more casual observer?  Is it fine to write longer, less efficient but simpler code?
 
 There are other non-code questions to ask as well: 
-* Are we overestimating how many problems are simple enough that they can actually be handled in this way?  It feels like the 'input data' must be comparatively lean and simple for this to all exist in one spot.  Something containing historical data like sports scores or stock prices might be unwieldy to use in this form, but does that matter if it's treated as 'magic dust' as my professor used to say?
+* Are we overestimating how many problems are simple enough that they can actually be handled in this way?  It feels like the 'input data' must be comparatively lean and simple for this to all exist in one spot.  Something containing historical data like sports scores or stock prices might be unwieldy to use in this form, but that may not matter if it's treated as 'magic dust' as my professor used to say.  It isn't as if the size of the file will be relevant to a consumer unless they dive into it.
 
-Other questions may arise as I play in this framework and review problems.
+Other questions may arise as I play in this framework and review other problems.
 
 ## License Information
 This project is © John Hibbert and licensed under the terms of the MIT License.
