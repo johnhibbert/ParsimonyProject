@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<style>
+	
+	section.position1,.position2,.position3,.position4 {
+	  width: 20%;
+	  padding-left: 2%;
+	  padding-right: 2%;
+	  margin-left: 15px;
+	  float: left;
+	}
+	.position1{
+	  background-color: seashell;
+	}
+	.position2{
+	  background-color: FloralWhite;
+	}
+	.position3{
+	  background-color: WhiteSmoke;
+	}
+	.position4{
+	  background-color: Ivory;
+	}
+	
+	section.subsection
+	{
+		background-color: Gainsboro;
+		padding: 10px;
+	}
+	
+</style>
+<body>
+	
+	<h2>Hypergeometric Distribution Calculator</h2>
+	
+	<div id='explanation'>A hypergeometric distribution is "drawing without replacement."  The classic example is: you have a jar with 6 balls.  3 of the balls are red.  What are the odds of getting at least 1 red ball in 2 draws? </div>
+	<div id='explanation1'>This code does a direct simulation of drawing randomly from a collection.  The idea is to add a proper algebraic version eventually. </div>
+
+
+	<input type="button" onclick='getOdds()' value="Calculate"><br><br>
+	
+	<section class="position1">
+		
+		<!--  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math 
+
+		Note: Many Math functions have a precision that's implementation-dependent.
+
+		This means that different browsers can give a different result. Even the same JavaScript engine on a different OS or architecture can give different results!
+
+		-->
+		
+		<!-- population size, successes, number of draws, desired successes. -->
+		
+		<div id='test'><b>Test 1:</b></div>
+		<div id='result'>-</div>
+		<hr>
+
+		<label for='populationSize'>Population Size<br> 
+		<input type="number" id='populationSize' value="6"></input><br><br>
+
+		<label for='successes'>Successes in Population</label><br> 
+		<input type="number" id='successes' value="3"></input><br><br>
+
+		<label for='numberOfDraws'># of Draws<br> 
+		<input type="number" id='numberOfDraws' value="2"></input><br><br>
+
+		<label for='successesSought'>Successes Sought<br> 
+		<input type="number" id='successesSought' value="1"></input><br><br>
+	
+  	</section>
+
+
+</table>
+</body>
+
+    <script>
+
+		function getOdds() {
+			
+			//https://mathworld.wolfram.com/HypergeometricDistribution.html
+			//This describes it algebraically.
+			
+			let populationSize = document.getElementById('populationSize').value;
+			let successesInPopulation = document.getElementById('successes').value;
+			let numberOfDraws = document.getElementById('numberOfDraws').value;
+			let successesSought = document.getElementById('successesSought').value;
+			
+			let errorMessages = checkNumberValidity(populationSize, successesInPopulation, numberOfDraws, successesSought);
+			
+			if(errorMessages === "")
+			{
+				estimateOddsBySimulation(populationSize, successesInPopulation, numberOfDraws, successesSought); 
+			}
+			else 
+			{
+				writeTestResult(errorMessages);
+			}
+		}
+				
+		//calculateOddsByAlgebra
+		
+		function estimateOddsBySimulation(populationSize, successesInPopulation, numberOfDraws, successesSought) {
+		
+			let numberOfTests = 100;
+
+			//Populate a master population for subsequent tests.
+			const masterPopulation = [];
+				
+			let successesAdded = 0;
+
+			while(masterPopulation.length < populationSize)
+			{
+				if(successesAdded < successesInPopulation)
+				{
+					masterPopulation.push(true);
+					successesAdded++;
+				}
+				else 
+				{
+					masterPopulation.push(false);
+				}
+			}				
+
+			let testsSuccessful = 0;
+			
+			let testIndex = 1;
+			while(testIndex <= numberOfTests)
+			{
+				//This makes a 'shallow copy' of the collection.
+				let testCollection = masterPopulation.slice();
+
+				let successesInTest = 0;
+				
+				let drawCount = 1;
+				while(drawCount <= numberOfDraws)
+				{
+					let drawnIndex = getRndInteger(0, testCollection.length - 1);
+					let drawnItem = testCollection[drawnIndex];
+					
+					testCollection.splice(drawnIndex, 1);
+					
+					if(drawnItem)
+					{
+						successesInTest++;
+					}
+					
+					drawCount++;
+				}
+				
+				if(successesInTest >= successesSought)
+				{
+					testsSuccessful++;
+				}
+				
+				testIndex++;
+				
+			}
+
+			let testingResult = (testsSuccessful * 1.0) / (numberOfTests * 1.0);
+			writeTestResult(testingResult);
+		}
+		
+		function writeTestResult(result)
+		{
+			let newElement = document.createElement('div');
+			newElement.innerHTML = result;
+			newElement.id = 'result';
+			document.getElementById('result').replaceWith(newElement);
+		}
+		
+		
+		//https://www.w3schools.com/JS/js_random.asp
+		function getRndInteger(min, max) {
+		  return Math.floor(Math.random() * (max - min + 1) ) + min;
+		}
+		
+		function checkNumberValidity(populationSize, successesInPopulation, numberOfDraws, successesSought) {
+			
+			let message = "";
+			
+			if(populationSize <= 0 || successesInPopulation <= 0 || populationSize <=0 ||  successesSought <=0 ) {
+				   message += "All numbers must be greater than 0.  ";
+			   }
+			if(populationSize < successesInPopulation || populationSize < numberOfDraws || populationSize < successesSought) {
+				   message += "PopulationSize must be greater than all other numbers.  ";
+			   }
+			if(successesInPopulation < successesSought) {
+				   message += "Successes in population must be greater than the successes sought.  ";
+			   }
+			if(numberOfDraws < successesSought) {
+				   message += "Number of draws must be greater than the successes sought.  ";
+			   }
+			if(numberOfDraws <= 0) {
+				   message += "Number of draws must be greater than 0.  ";
+			   }
+			return message;
+		}
+		
+
+    </script>
+</html>
