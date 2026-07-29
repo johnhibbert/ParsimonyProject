@@ -112,4 +112,7 @@ There are other non-code questions to ask as well:
 Other questions may arise as I play in this framework and review other problems.
 
 ## License Information
-This project is © John Hibbert and licensed under the terms of the MIT License.
+This project's code is © John Hibbert and licensed under the terms of the MIT License.
+
+Some data in this project is from outside sources and used under license, including:
+* Survey data from YouGov, used under the [Creative Commons Attribution-NonCommercial 4.0 International CC BY-NC 4.0 license](https://yougov.com/en-us/about/terms/public-data-license)

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<style>
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+.hidden {
+	color: white;
+}
+</style>
+<body onload="populateDictionaries()">
+	
+	<h2>Selfish Pizza Maker</h2>
+	
+	<div id='explanation'>Did you want to bring a pizza to an event but not want to share it with anyone?  By using survey data, you can be selfish! </div>
+	<div id='explanation2'>(I mean, <i>I guess,</i> you could use the same information to make a generous pizza too, but... then you have to share it.)</div>
+	<div id='hiddenMessage' class="hidden">(This is a joke, please share your pizzas.)</div>
+	
+	<!-- https://stackoverflow.com/questions/13273806/using-the-html-label-tag-with-radio-buttons -->
+	
+	<fieldset>
+	<legend> Pizza Type </legend>
+		<input type="radio" id="selfish" name="pizzaType" value="selfish" checked="checked">
+		<label for="html">Selfish</label><span style='font-style:italic'>  (1 - Dislike % multiplied together)</span><br>
+		<input type="radio" id="generous" name="pizzaType" value="generous">
+		<label for="css">Generous</label><span style='font-style:italic'>  (Like % multiplied together)</span><br>
+	</fieldset>
+		
+		
+	<input type="button" onclick='getPizza()' value="Build Pizza"><br><br>
+	<div id='pizzaValue'>-</div>
+	<br>
+	
+	<label for="topping1">Topping 1:</label> <div id='result1'>-</div>
+	<select name="topping1" id="topping1">
+		<option value="NONE">NONE</option>
+		<option value="Anchovies">Anchovies</option>
+		<option value="Artichokes">Artichokes</option>
+		<option value="Bacon">Bacon</option>
+		<option value="Broccoli">Broccoli</option>
+		<option value="Chicken">Chicken</option>
+		<option value="Eggplant">Eggplant</option>
+		<option value="Extra cheese">Extra cheese</option>
+		<option value="Ham/Canadian bacon">Ham/Canadian bacon</option>
+		<option value="Mushrooms">Mushrooms</option>
+		<option value="Olives">Olives</option>
+		<option value="Onions">Onions</option>
+		<option value="Pepperoni" selected="selected">Pepperoni</option>
+		<option value="Peppers">Peppers</option>
+		<option value="Pineapple">Pineapple</option>
+		<option value="Salami">Salami</option>
+		<option value="Sausage">Sausage</option>
+		<option value="Spinach">Spinach</option>
+	</select>
+	<br/>
+	<br/>
+	<label for="topping2">Topping 2:</label> <div id='result2'>-</div>
+	<select name="topping2" id="topping2">
+		<option value="NONE">NONE</option>
+		<option value="Anchovies" selected="selected">Anchovies</option>
+		<option value="Artichokes">Artichokes</option>
+		<option value="Bacon">Bacon</option>
+		<option value="Broccoli">Broccoli</option>
+		<option value="Chicken">Chicken</option>
+		<option value="Eggplant">Eggplant</option>
+		<option value="Extra cheese">Extra cheese</option>
+		<option value="Ham/Canadian bacon">Ham/Canadian bacon</option>
+		<option value="Mushrooms">Mushrooms</option>
+		<option value="Olives">Olives</option>
+		<option value="Onions">Onions</option>
+		<option value="Pepperoni">Pepperoni</option>
+		<option value="Peppers">Peppers</option>
+		<option value="Pineapple">Pineapple</option>
+		<option value="Salami">Salami</option>
+		<option value="Sausage">Sausage</option>
+		<option value="Spinach">Spinach</option>
+	</select>
+	<br/>
+	<br/>
+	<label for="topping3">Topping 3:</label> <div id='result3'>-</div>
+	<select name="topping3" id="topping3">
+		<option value="NONE" selected="selected">NONE</option>
+		<option value="Anchovies">Anchovies</option>
+		<option value="Artichokes">Artichokes</option>
+		<option value="Bacon">Bacon</option>
+		<option value="Broccoli">Broccoli</option>
+		<option value="Chicken">Chicken</option>
+		<option value="Eggplant">Eggplant</option>
+		<option value="Extra cheese">Extra cheese</option>
+		<option value="Ham/Canadian bacon">Ham/Canadian bacon</option>
+		<option value="Mushrooms">Mushrooms</option>
+		<option value="Olives">Olives</option>
+		<option value="Onions">Onions</option>
+		<option value="Pepperoni">Pepperoni</option>
+		<option value="Peppers">Peppers</option>
+		<option value="Pineapple">Pineapple</option>
+		<option value="Salami">Salami</option>
+		<option value="Sausage">Sausage</option>
+		<option value="Spinach">Spinach</option>
+	</select>
+
+</table>
+
+	<div class="footer">
+		Survey Data from YouGov: <a href='https://yougov.com/en-us/daily-results/20210204-72784-2'>Which of the following pizza toppings do you like?</a> & <a href='https://yougov.com/en-us/daily-results/20210204-72784-3'>Which of the following pizza toppings do you dislike?</a><br/>
+		Used under <b><a href='https://yougov.com/en-us/about/terms/public-data-license'>Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) license.</a></b>
+	</div>
+	
+</body>
+
+
+    <script>
+		
+		let likeDict = {};
+		let dislikeDict = {};
+		
+		function populateDictionaries()
+		{
+			//Source: https://yougov.com/en-us/daily-results/20210204-72784-2
+			likeDict["Anchovies"] = 0.08;
+			likeDict["Artichokes"] = 0.13;
+			likeDict["Bacon"] = 0.42;
+			likeDict["Broccoli"] = 0.12;
+			likeDict["Chicken"] = 0.28;
+			likeDict["Eggplant"] = 0.06;
+			likeDict["Extra cheese"] = 0.52;
+			likeDict["Ham/Canadian bacon"] = 0.35;
+			likeDict["Mushrooms"] = 0.54;
+			likeDict["Olives"] = 0.39;
+			likeDict["Onions"] = 0.48;
+			likeDict["Pepperoni"] = 0.64;
+			likeDict["Peppers"] = 0.42;
+			likeDict["Pineapple"] = 0.26;
+			likeDict["Salami"] = 0.16;
+			likeDict["Sausage"] = 0.56;
+			likeDict["Spinach"] = 0.26;
+			
+			//Source: https://yougov.com/en-us/daily-results/20210204-72784-3
+			dislikeDict["Anchovies"] = 0.61;
+			dislikeDict["Artichokes"] = 0.44;
+			dislikeDict["Bacon"] = 0.15;
+			dislikeDict["Broccoli"] = 0.39;
+			dislikeDict["Chicken"] = 0.19;
+			dislikeDict["Eggplant"] = 0.52;
+			dislikeDict["Extra cheese"] = 0.09;
+			dislikeDict["Ham/Canadian bacon"] = 0.19;
+			dislikeDict["Mushrooms"] = 0.22;
+			dislikeDict["Olives"] = 0.29;
+			dislikeDict["Onions"] = 0.2;
+			dislikeDict["Pepperoni"] = 0.13;
+			dislikeDict["Peppers"] = 0.19;
+			dislikeDict["Pineapple"] = 0.35;
+			dislikeDict["Salami"] = 0.3;
+			dislikeDict["Sausage"] = 0.14;
+			dislikeDict["Spinach"] = 0.28;
+		}
+		
+		let toppings = [1, 2, 3];
+		
+		function getPizza()
+		{
+			if(areThereDuplicates())
+			{
+				writePizzaValue("Duplicate Toppings Not Allowed");
+			}
+			else 
+			{
+				calculateAndWritePizzaValues();
+			}
+		}
+
+		function calculateAndWritePizzaValues()
+		{
+			var isSelfish = !document.getElementById("generous").checked;
+			
+			let chosenDictionary = dislikeDict;
+			
+			if(!isSelfish)
+			{
+				chosenDictionary = likeDict;
+			}
+		
+			let values = [];
+
+			toppings.forEach((topping) => values.push(getFactorForTopping(topping, chosenDictionary, isSelfish)));
+	
+			let product = 1;
+			values.forEach((factor) => product = product * factor);
+			
+			let asPercent = (product * 100).toFixed(2);
+			
+			let reciprocal = Math.floor(1 / product);
+			
+			let message = "";
+			
+			if(isSelfish)
+			{
+				message = `${asPercent}% of people would eat still your selfish pizza.`;
+			}
+			else 
+			{
+			message = `${asPercent}% of people will like every topping on your generous pizza.`;
+			}
+			
+			writePizzaValue(message);
+		}
+		
+		function areThereDuplicates()
+		{
+			
+			let values = [];
+
+			toppings.forEach((topping) => values.push(getToppingById(topping)));
+			
+			//https://stackoverflow.com/questions/7376598/in-javascript-how-do-i-check-if-an-array-has-duplicate-values
+			var valuesSoFar = Object.create(null);
+			for (var i = 0; i < values.length; ++i) {
+				var value = values[i];
+				if (value in valuesSoFar && value != "NONE") {
+					return true;
+				}
+				valuesSoFar[value] = true;
+			}
+			return false;
+		}
+		
+		
+		function getFactorForTopping(id, chosenDictionary, isSelfish)
+		{
+			let toppingName = getToppingById(id);
+			
+			if(toppingName === 'NONE')
+			{
+				return 1;
+			}
+
+			let toppingValue = chosenDictionary[toppingName];
+			
+			if(isSelfish)
+			{
+				toppingValue = 1 - toppingValue;
+			}
+			
+			writeToppingValueById(id, toppingName + ": " + toppingValue);
+			
+			return toppingValue;
+		}
+		
+		
+		function getToppingById(id)
+		{
+			var e = document.getElementById("topping"+id);
+			var value = e.value;
+			var topping = e.options[e.selectedIndex].text;
+			return topping;
+		}
+		
+		function writeToppingValueById(id, newValue)
+		{
+		
+			let newElement = document.createElement('div');
+			newElement.innerHTML = newValue;
+			newElement.id = 'result'+id;
+			document.getElementById('result'+id).replaceWith(newElement);
+		}
+		
+		function writePizzaValue(newValue)
+		{
+		
+			let newElement = document.createElement('div');
+			newElement.innerHTML = newValue;
+			newElement.id = 'pizzaValue';
+			document.getElementById('pizzaValue').replaceWith(newElement);
+		}
+
+    </script>
+</html>
