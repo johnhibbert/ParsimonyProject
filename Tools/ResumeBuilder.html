@@ -2,32 +2,6 @@
 <html>
 <style>
 	
-	section.position1,.position2,.position3,.position4 {
-	  width: 20%;
-	  padding-left: 2%;
-	  padding-right: 2%;
-	  margin-left: 15px;
-	  float: left;
-	}
-	.position1{
-	  background-color: AliceBlue;
-	}
-	.position2{
-	  background-color: FloralWhite;
-	}
-	.position3{
-	  background-color: WhiteSmoke;
-	}
-	.position4{
-	  background-color: Ivory;
-	}
-	
-	section.subsection
-	{
-		background-color: Gainsboro;
-		padding: 10px;
-	}
-	
 </style>
 <body>
 	
@@ -36,197 +10,41 @@
 	<div id='explanation'>This tool will generate some <a href="https://en.wikipedia.org/wiki/TeX">TeX typesetting</a>  that can be used to create a fancy resume based on the template used here. <a href="https://github.com/johnhibbert/Resume">https://github.com/johnhibbert/Resume</a> </div>
 	<div id='explanation2'>Note: You will need an outside program to process that TeX into an actual document. </div>
 
-	<input type="button" onclick='getAllSalaries()' value="Calculate All"><br><br>
+	<input type="button" onclick='getOutput()' value="Get Output"><br><br>
 
 	<label for='Name'>Name:</label>  <input id='Name'></input><br><br>
 	<label for='Phone'>Phone:</label>  <input id='Phone'></input><br><br>
 	<label for='Email'>Email:</label>  <input id='Email'></input><br><br>
 	<label for='Portfolio'>Portfolio:</label>  <input id='Portfolio'></input><br><br>
 	<label for='Social'>Social:</label>  <input id='Social'></input><br><br>
+	<hr/>
+	<label for='Summary'>Summary:</label><br>
+	<textarea id='Summary' rows=10 cols=80></textarea><br>
+	<hr/>
 	
-	<section class="position1">
+	
+	<section>
 		<div id='title1'><b>Position 1:</b></div>
-		<div id='result1'>-</div>
-		<hr>
-		<label for='salary1'>Salary</label><br>
-		<input type="number" id='salary1' value="50000"></input><br><br>
-
-		<label for='expectedWorkingHours1'>Expected Working Hours<br> 
-		<input type="number" id='expectedWorkingHours1' value="40"></input><br><br>
-
-		<label for='ptoDays1'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
-		<input type="number" id='ptoDays1' value="10"></input><br><br>
-
-		<label for='401kMatch1'>401K Match %<br> 
-		<input type="number" id='401kMatch1' value="0"></input><br><br>
-
-		<label for='oneWayCommutingTime1'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
-		<input type="number" id='oneWayCommutingTime1' value="30"></input><br><br>
-
-		<label for='weeklyDaysInOffice1'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
-		<input type="number" id='weeklyDaysInOffice1' value="3"></input><br><br>
-
-		<section class="subsection">
-			<label for='includeGasMileage1'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMileage1" onchange="updateMileageOnOrOff(1)"></input><br>
-
-			<label for='commuteInMiles1'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
-			<input type="number" id='commuteInMiles1' value="30" disabled></input><br><br>
-
-			<label for='gasMileage1'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
-			<input type="number" id='gasMileage1' value="33" disabled></input><br><br>
-
-			<label for='priceOfGas1'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
-			<input type="number" id='priceOfGas1' value="3.99" disabled></input><br><br>
-		</section>
-
-		<label for='sumOfFlatCostsOrBenefits1'>Monthly Sum of Flat Benefits/Costs</label><br>
-		<input type="number" id='sumOfFlatCostsOrBenefits1' value="0"></input><br><br>
-  	</section>
-
-	<section class="position2">
-		<div id='title2'><b>Position 2:</b></div>
-		<div id='result2'>-</div>
-		<hr>
-		<label for='salary2'>Salary</label><br>
-		<input type="number" id='salary2' value="50000"></input><br><br>
-
-		<label for='expectedWorkingHours2'>Expected Working Hours<br> 
-		<input type="number" id='expectedWorkingHours2' value="40"></input><br><br>
-
-		<label for='ptoDays2'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
-		<input type="number" id='ptoDays2' value="10"></input><br><br>
-
-		<label for='401kMatch2'>401K Match %<br> 
-		<input type="number" id='401kMatch2' value="0"></input><br><br>
-
-		<label for='oneWayCommutingTime2'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
-		<input type="number" id='oneWayCommutingTime2' value="30"></input><br><br>
-
-		<label for='weeklyDaysInOffice2'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
-		<input type="number" id='weeklyDaysInOffice2' value="3"></input><br><br>
-
-		<section class="subsection">
-			<label for='includeGasMileage2'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMileage2" onchange="updateMileageOnOrOff(2)" checked></input><br>
-
-			<label for='commuteInMiles2'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
-			<input type="number" id='commuteInMiles2' value="30"></input><br><br>
-
-			<label for='gasMileage2'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
-			<input type="number" id='gasMileage2' value="33"></input><br><br>
-
-			<label for='priceOfGas2'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
-			<input type="number" id='priceOfGas2' value="3.99"></input><br><br>
-		</section>
-
-		<label for='sumOfFlatCostsOrBenefits2'>Monthly Sum of Flat Benefits/Costs</label><br>
-		<input type="number" id='sumOfFlatCostsOrBenefits2' value="0"></input><br><br>
+		<label for='JobTitle1'>Name:</label>  <input id='JobTitle1'></input><br><br>
+		<label for='Dates1'>Phone:</label>  <input id='Dates1'></input><br><br>
+		<label for='CompanyName1'>Email:</label>  <input id='CompanyName1'></input><br><br>
+		<label for='City1'>Portfolio:</label>  <input id='City1'></input><br><br>
+		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
 	</section>
-
-	<section class="position3">
-		<div id='title3'><b>Position 3:</b></div>
-		<div id='result3'>-</div>
-		<hr>
-		<label for='salary3'>Salary</label><br>
-		<input type="number" id='salary3' value="50000"></input><br><br>
-
-		<label for='expectedWorkingHours3'>Expected Working Hours<br> 
-		<input type="number" id='expectedWorkingHours3' value="40"></input><br><br>
-
-		<label for='ptoDays3'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
-		<input type="number" id='ptoDays3' value="10"></input><br><br>
-
-		<label for='401kMatch3'>401K Match %<br> 
-		<input type="number" id='401kMatch3' value="0"></input><br><br>
-
-		<label for='oneWayCommutingTime3'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
-		<input type="number" id='oneWayCommutingTime3' value="30"></input><br><br>
-
-		<label for='weeklyDaysInOffice3'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
-		<input type="number" id='weeklyDaysInOffice3' value="1"></input><br><br>
-
-		<section class="subsection">
-			<label for='includeGasMileage3'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMileage3" onchange="updateMileageOnOrOff(3)" checked></input><br>
-
-			<label for='commuteInMiles3'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
-			<input type="number" id='commuteInMiles3' value="30"></input><br><br>
-
-			<label for='gasMileage3'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
-			<input type="number" id='gasMileage3' value="33"></input><br><br>
-
-			<label for='priceOfGas3'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
-			<input type="number" id='priceOfGas3' value="3.99"></input><br><br>
-		</section>
-
-		<label for='sumOfFlatCostsOrBenefits3'>Monthly Sum of Flat Benefits/Costs</label><br>
-		<input type="number" id='sumOfFlatCostsOrBenefits3' value="0"></input><br><br>
-
-	</section>
-
-	<section class="position4">
-		<div id='title4'><b>Position 4:</b></div>
-		<div id='result4'>-</div>
-		<hr>
-		<label for='salary4'>Salary</label><br>
-		<input type="number" id='salary4' value="50000"></input><br><br>
-
-		<label for='expectedWorkingHours4'>Expected Working Hours<br> 
-		<input type="number" id='expectedWorkingHours4' value="40"></input><br><br>
-
-		<label for='ptoDays4'>PTO <span style='font-style:italic'>(in days)</span></label><br> 
-		<input type="number" id='ptoDays4' value="15"></input><br><br>
-
-		<label for='401kMatch4'>401K Match %<br> 
-		<input type="number" id='401kMatch4' value="0"></input><br><br>
-
-		<label for='oneWayCommutingTime4'>Commute <span style='font-style:italic'>(one way, in minutes)</span></label><br> 
-		<input type="number" id='oneWayCommutingTime4' value="30"></input><br><br>
-
-		<label for='weeklyDaysInOffice4'>Days in Office <span style='font-style:italic'>(per week)</span></label><br>
-		<input type="number" id='weeklyDaysInOffice4' value="1"></input><br><br>
-
-		<section class="subsection">
-			<label for='includeGasMileage4'>Include Gas Costs?
-			<input type="checkbox" id="includeGasMileage4" onchange="updateMileageOnOrOff(4)" checked></input><br>
-
-			<label for='commuteInMiles4'>Miles <span style='font-style:italic'>(one way)</span></label><br> 
-			<input type="number" id='commuteInMiles4' value="30"></input><br><br>
-
-			<label for='gasMileage4'>Gas Mileage<span style='font-style:italic'>(miles/gal)</span><br> 
-			<input type="number" id='gasMileage4' value="34"></input><br><br>
-
-			<label for='priceOfGas4'>Price of Gas<span style='font-style:italic'>($/gal)</span><br> 
-			<input type="number" id='priceOfGas4' value="3.99"></input><br><br>
-		</section>
-
-		<label for='sumOfFlatCostsOrBenefits4'>Monthly Sum of Flat Benefits/Costs</label><br>
-		<input type="number" id='sumOfFlatCostsOrBenefits4' value="0"></input><br><br>
-</section>
-
+	<hr/>
+	
 </table>
 </body>
 
     <script>
 		
+		
+		
+		
 		let positions = [1, 2, 3, 4];
 		
-		function updateMileageOnOrOff(sectionNum) {
-			
-			let id = sectionNum;
-			console.log("id: " + sectionNum);
-	
-			let isChecked = document.getElementById('includeGasMilage'+id).checked;
-			console.log(`includeGasMilage${id} checked:` + isChecked);
-			
-			document.getElementById(`gasMileage${id}`).disabled = !isChecked;
-			document.getElementById(`priceOfGas${id}`).disabled = !isChecked;
-			document.getElementById(`commuteInMiles${id}`).disabled = !isChecked;
-		
-		}
-		
-		function getAllSalaries()
+		function getOutput()
 		{
 			positions.forEach(calculateSalary);
 			
@@ -326,6 +144,6 @@
 			document.getElementById('result'+id).replaceWith(newElement);
 			
 		}
-		
+			
     </script>
 </html>
