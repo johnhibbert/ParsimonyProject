@@ -3,14 +3,14 @@
 <style>
 	
 </style>
-<body>
+<body onload="loadInfo()">
 	
 	<h2>Resume Builder</h2>
 	
 	<div id='explanation'>This tool will generate some <a href="https://en.wikipedia.org/wiki/TeX">TeX typesetting</a>  that can be used to create a fancy resume based on the template used here. <a href="https://github.com/johnhibbert/Resume">https://github.com/johnhibbert/Resume</a> </div>
-	<div id='explanation2'>Note: You will need an outside program to process that TeX into an actual document. </div>
+	<div id='explanation2'><i>Note:</i> You will need an outside program to process that TeX into an actual document. </div>
 
-	<input type="button" onclick='getOutput()' value="Get Output"><br><br>
+	<input type="button" onclick='getTexOutput()' value="Get Tex Output"><br><br>
 
 	<label for='Name'>Name:</label>  <input id='Name'></input><br><br>
 	<label for='Phone'>Phone:</label>  <input id='Phone'></input><br><br>
@@ -21,36 +21,124 @@
 	<label for='Summary'>Summary:</label><br>
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
 	<hr/>
-	
-	
 	<section>
 		<div id='title1'><b>Position 1:</b></div>
-		<label for='JobTitle1'>Name:</label>  <input id='JobTitle1'></input><br><br>
-		<label for='Dates1'>Phone:</label>  <input id='Dates1'></input><br><br>
-		<label for='CompanyName1'>Email:</label>  <input id='CompanyName1'></input><br><br>
-		<label for='City1'>Portfolio:</label>  <input id='City1'></input><br><br>
+		<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'></input><br><br>
+		<label for='Dates1'>Dates:</label>  <input id='Dates1'></input><br><br>
+		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'></input><br><br>
+		<label for='City1'>City:</label>  <input id='City1'></input><br><br>
 		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
 	</section>
 	<hr/>
-	
-</table>
 </body>
 
     <script>
+
+
+
+
+
+
+		//let positions = [1, 2, 3, 4];
+		let positions = [1];
 		
+		function getTexOutput() {
+			let output = "";
+
+			output += tex_Begin('document');
+
+			output += tex_Begin('center');
+			
+			//Doesn't seem like it cares about whitespace.
+			let name = document.getElementById('Name').value;
+			output += writeJobSeekerName(name);
+			
+			output += tex_SetMisc('small');
+			
+			let phone = document.getElementById('Phone').value;
+			output += writePhoneNumber(phone);
+			
+			output+= tex_VerticalBar();
+			
+			let email = document.getElementById('Email').value;
+			output += writeEmailLink(email);
+			
+			output+= tex_VerticalBar();
+
+			let social = document.getElementById('Social').value;
+			output += writeSocialLink(social);
+			
+			output += tex_End('center');
+			
+			
+			
+			
+			
+			output += tex_End('document');
+
+
+			
+			console.log(output);
+			
+			
+			//generateHeaders();
+
+			//positions.forEach(generatePosition);
 		
-		
-		
-		let positions = [1, 2, 3, 4];
-		
-		function getOutput()
-		{
-			positions.forEach(calculateSalary);
+		}
+
+		function generateHeaders() {
+
+			//Why aren't we using string interpolation / template literals?
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+			//The Tex syntax uses the {} which is also used by this in JS.
+			
+			//Wait see Tagged templates and escape sequences
+			//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates_and_escape_sequences
+			// It also says Tex/Latex too.
+			
+			//Cooked/Raw?  READ THIS
+			
+			//FINISH THIS
+			let name = document.getElementById('Name').value;
+			let phone = document.getElementById('Phone').value;
+			let email = document.getElementById('Email').value;
+			let portfolio = document.getElementById('Portfolio').value;
+			let social = document.getElementById('Social').value;
+			
+			let headingCommentString = "%----------HEADING----------";
+			
+			//let nameString = '\\textbf{\\Huge \\scshape EXAMPLE PERSON-} \\\\ \\vspace{1pt}';
+			
+			let fff = tex_Begin('document');
+			console.log(fff);
+			let ggg = tex_End('document');
+			console.log(ggg);
+			
+			let headingString = "\\begin{center}\n";
+			
+			
+			
+			headingString += "\\textbf{\\Huge \\scshape ";
+			headingString += name;
+			headingString += "} \\\\ \\vspace{1pt}";
+			headingString += "\\small 401-808-1476"
+			headingString += "$|$";
+			headingString += "\\href{mailto:john.andrew.hibbert@gmail.com}{\\underline{john.andrew.hibbert@gmail.com}}"
+			headingString += "\\small 401-808-1476"
+			headingString += "$|$";
+			
+			headingString +="\\end{center}";
+
+					console.log(headingString);
 			
 		}
 		
-        function calculateSalary(sectionNum) {
+		
+        function generatePosition(sectionNum) {
+			
+			//FIX ME
 			
 			//This is a relatively simple way to keep the salary calculation code the same for each component.
 			//Each piece is name#
@@ -59,91 +147,103 @@
 
 			let salary = document.getElementById('salary'+id).value;
 			
-			//The proportional factors:
-			//These are ones that affect your compensation as a proportion of the whole.
-			//These typically relate to your time or your salary directly:
-			///PTO, 401k Match %, commute, and hourly expectations.
-			
-			//Expected hours: If your job will require you to work more or fewer hours than 40, that will reduce or increase your de facto pay.
-			let expectedWorkingHours = document.getElementById('expectedWorkingHours'+id).value;
-			let hoursFactor = (40 / expectedWorkingHours) - 1;
-					
-			//PTO factor: PTO are days you get paid without working so it's essentially addtional pay.  Simple.
-			let ptoDays = document.getElementById('ptoDays'+id).value;
-			let ptoFactor = (365 / (365 - ptoDays)) - 1;
-			
-			//Match %: This is free money so consider it to be added to your pay.  Simple.
-			let matchPercent = document.getElementById('401kMatch'+id).value;
-			let matchFactor = (matchPercent / 100);
-			
-			//Commuting costs: Time you spend driving is time lost, so it's effectively a drain on your pay.
-			//The simple part is that the time it takes to commute time and the number of days expected in office.
-			let oneWayCommutingTime = document.getElementById('oneWayCommutingTime'+id).value;
-			let weeklyDaysInOffice = document.getElementById('weeklyDaysInOffice'+id).value;
-			
-			let minutesSpentCommutingWeekly =  2 * oneWayCommutingTime * weeklyDaysInOffice;
-			console.log(`minutesSpentCommutingWeekly ${id}: ` + minutesSpentCommutingWeekly);
-			
-			//The complicated part is to consider that any PTO will probably mean fewer days commuting.
-			//To reflect that, we multiply the commute by the simple proportion of time working actually working.
-			
-			let approximateWeeksCommutingMinusVacation = 52 - (ptoDays / 5);
-			console.log(`approximateWeeksCommutingMinusVacation ${id}: ` + approximateWeeksCommutingMinusVacation);
-			
-			let estimateOfMinutesSpentCommutingWeekly =  (approximateWeeksCommutingMinusVacation / 52) * minutesSpentCommutingWeekly;
-			console.log(`estimateOfMinutesSpentCommutingWeekly ${id}: ` + estimateOfMinutesSpentCommutingWeekly);
-			
-			let commutingFactor = (2400 / (2400 + ( estimateOfMinutesSpentCommutingWeekly))) - 1;
-			console.log(`Commuting Factor ${id}: ` + commutingFactor);
-			
-			
-			//Now we sum of all these proportional factors. to produce our multiplicand.
-			let netFactor = 1 + (ptoFactor + matchFactor + hoursFactor + commutingFactor);
-	
-			
-			//The flat factors:
-			//Some factors directly affect the bottom line without any proportion to time or pay.
-			//This could include parking/commuting passes that are not reimbursed, or the cost of gas if driving.
-			
-			let sumOfFlatCostsOrBenefits = Number(document.getElementById('sumOfFlatCostsOrBenefits'+id).value);
-			
-			let yearlyFlatCosts = sumOfFlatCostsOrBenefits * 12;
-			console.log('Yearly Flat Costs/Benefits: ' + yearlyFlatCosts);
-			
-			let includingCostOfGas = document.getElementById('includeGasMileage'+id).checked;
-			console.log('including Cost of Gas: ' + includingCostOfGas);
-			
-			if(includingCostOfGas === true)
-			{
-				let costOfGas = Number(document.getElementById('priceOfGas'+id).value);
-				console.log('Cost of Gas: ' + costOfGas);
-
-				let milesDriven = Number(document.getElementById('commuteInMiles'+id).value);
-				console.log('Miles Driven: ' + milesDriven);
-				
-				let milesPerGallon = Number(document.getElementById('gasMileage'+id).value);
-				console.log('MPG: ' + milesPerGallon);
-				
-				let gallonsPerTrip = milesDriven / milesPerGallon;
-				console.log('gallonsPerTrip: ' + gallonsPerTrip);
-				
-				let totalGasPerWeek = 2 * weeklyDaysInOffice * gallonsPerTrip * costOfGas;
-				console.log('totalGasPerWeek: ' + totalGasPerWeek);
-				
-				yearlyFlatCosts = yearlyFlatCosts - (totalGasPerWeek * 52);
-				console.log('new yearly flat costs: ' + yearlyFlatCosts);
-			}
-
-			
-			//Now we have the effective salary, sounded to dollar.
-			let effectiveSalary = ((salary * netFactor) + (yearlyFlatCosts)).toFixed(0);
-			
-			let newElement = document.createElement('div');
-			newElement.innerHTML = effectiveSalary;
-			newElement.id = 'result'+id;
-			document.getElementById('result'+id).replaceWith(newElement);
-			
 		}
+
+
+		<!-- SECTION METHODS -->
+		function writeJobSeekerName(name)
+		{
+			return tex_Line(`\\textbf{\\Huge \\scshape ` + name +`} \\\\ \\vspace{1pt}`);
+		}
+		
+		function writePhoneNumber(number)
+		{
+			return `` + number;
+		}
+
+		function writeEmailLink(address)
+		{
+			let link = "mailto:" + address;
+			let text = address;
 			
-    </script>
+			return writeHyperlink(link, text)
+		}
+
+		function writeSocialLink(address)
+		{
+			let link = address;
+			let text = address.toLowerCase().replace("https://www.","");
+
+			return writeHyperlink(link, text)
+		}
+
+		function writeHyperlink(link, text)
+		{
+			let value = "";
+			value += tex_SetMisc('href');
+			value += `{` + link + `}{`;
+			value += tex_SetMisc('underline');
+			value += `{` + text + `}}`;
+			
+			return value;
+		}
+		
+		
+		<!-- TEX METHODS -->
+		function tex_Begin(type)
+		{
+			let value = `\\begin{` + type +  `}`;
+			return tex_Line(value)
+		}
+
+		function tex_End(type)
+		{
+			let value = `\\end{` + type +  `}`;
+			return tex_Line(value)
+		}
+		
+		function tex_Line(input)
+		{
+			return input + "\n";
+		}
+		
+		function tex_VerticalBar()
+		{
+			return " $|$ ";
+		}
+		
+		function tex_SetMisc(misc)
+		{
+			return `\\` + misc;	
+		}
+		
+		
+		<!-- STARTUP METHODS -->
+		function loadInfo()
+		{
+			getDefaultKeywords();
+		}
+
+		function getDefaultKeywords()
+		{
+			document.getElementById('Name').value = defaultName;
+			document.getElementById('Phone').value = defaultPhoneNumber;
+			document.getElementById('Email').value = defaultEmail;
+			document.getElementById('Portfolio').value = defaultPortfolio;
+			document.getElementById('Social').value = defaultSocial;
+
+			document.getElementById('Summary').value = defaultSummary;
+
+		}
+
+		//If you want to save yourself time, you can fill these in locally.
+		let defaultName = 'David Example';
+		let defaultPhoneNumber = '123-456-7890';
+		let defaultEmail = 'example@example.com';
+		let defaultPortfolio = 'GitHub';
+		let defaultSocial = 'LinkedIn';
+
+		let defaultSummary = "6 years being a default summary";
+
+	</script>
 </html>
