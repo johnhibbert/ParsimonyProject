@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+</style>
+<body>
+	
+	<h2>Resume Builder</h2>
+	
+	<div id='explanation'>This tool will generate some <a href="https://en.wikipedia.org/wiki/TeX">TeX typesetting</a> that can be used to create a fancy resume based on the template used here. <a href="https://github.com/johnhibbert/Resume">https://github.com/johnhibbert/Resume</a> </div>
+	<div id='explanation2'><i>Note:</i> You will need an outside program to process that TeX into an actual document. </div>
+	<br/>
+
+	<hr/>
+	<label for='Name'>Name:</label>  <input id='Name'></input>
+	<hr/>
+
+	<label for='Address'>Address:</label>  <input id='Address' size="50"/><br><br>
+	<label for='Phone'>Phone:</label>  <input id='Phone' size="50"/><br><br>
+	<label for='Email'>Email:</label>  <input id='Email' size="50"/><br><br>
+	<label for='Portfolio'>Portfolio:</label>  <input id='Portfolio' size="50"/><br><br>
+	<label for='Social'>Social:</label>  <input id='Social' size="50"/><br><br>
+	<hr/>
+
+	<label for='includeSummary'>Include Summary?</label>
+	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff('Summary')" checked/><br>
+	<label for='Summary'>Summary:</label><br>
+	<textarea id='Summary' rows=10 cols=80></textarea><br>
+		
+	<hr/>
+		
+	<section>
+		<div><b>Position 1:</b></div>
+		<label for='includePosition1'>Include?</label>
+		<input type="checkbox" id="includePosition1" onchange="includePositionOnOrOff('1')" checked/><br>
+		<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'/>&emsp;
+		<label for='Dates1'>Dates:</label>  <input id='Dates1'/><br><br>
+		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'/>&emsp;
+		<label for='Location1'>Location:</label>  <input id='Location1'/><br><br>
+		<!-- Descriptions don't work yet, add them later.
+		<label for='Description1'>Description: </label><br>
+		<textarea id='Description1' rows=10 cols=80></textarea><br>
+		-->
+		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
+	</section>
+	<br>
+	<section>
+		<div id='Position2'><b>Position 2:</b></div>
+		<label for='includePosition2'>Include?</label>
+		<input type="checkbox" id="includePosition2" onchange="includePositionOnOrOff('2')" checked/><br>
+		<label for='JobTitle2'>Job Title:</label>  <input id='JobTitle2'/>&emsp;
+		<label for='Dates2'>Dates:</label>  <input id='Dates2'/><br><br>
+		<label for='CompanyName2'>Company Name:</label>  <input id='CompanyName2'/>&emsp;
+		<label for='Location2'>Location:</label>  <input id='Location2'/><br><br>
+		<label for='Bullets2'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets2' rows=10 cols=80></textarea><br>
+	</section>
+	<br>
+	<section>
+		<div id='Position3'><b>Position 3:</b></div>
+		<label for='includePosition3'>Include?</label>
+		<input type="checkbox" id="includePosition3" onchange="includePositionOnOrOff('3')" checked/><br>
+		<label for='JobTitle3'>Job Title:</label>  <input id='JobTitle3'/>&emsp;
+		<label for='Dates3'>Dates:</label>  <input id='Dates3'/><br><br>
+		<label for='CompanyName3'>Company Name:</label>  <input id='CompanyName3'/>&emsp;
+		<label for='Location3'>Location:</label>  <input id='Location3'/><br><br>
+		<label for='Bullets3'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets3' rows=10 cols=80></textarea><br>
+	</section>
+	<br>
+	<section>
+		<div id='Position4'><b>Position 4:</b></div>
+		<label for='includePosition4'>Include?</label>
+		<input type="checkbox" id="includePosition4" onchange="includePositionOnOrOff('4')" checked/><br>
+		<label for='JobTitle4'>Job Title:</label>  <input id='JobTitle4'/>&emsp;
+		<label for='Dates4'>Dates:</label>  <input id='Dates4'/><br><br>
+		<label for='CompanyName4'>Company Name:</label>  <input id='CompanyName4'/>&emsp;
+		<label for='Location4'>Location:</label>  <input id='Location4'/><br><br>
+		<label for='Bullets4'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets4' rows=10 cols=80></textarea><br>
+	</section>
+	<hr/>
+
+	<section>
+		<div id='Education'><b>Education:</b></div>
+		<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'/>&emsp;
+		<label for='InstitutionLocation'>Location:</label>  <input id='InstitutionLocation'/><br><br>
+		<label for='AccoladeType1'>Degree Awarded:</label>  <input id='AccoladeType1'/>&emsp;
+		<label for='AccoladeDates1'>Dates:</label>  <input id='AccoladeDates1'/><br><br>
+		<!--  THIS DOESN'T WORK YET 
+		<label for='Accolade2'>Degree Awarded:</label>  <input id='Accolade2'/>&emsp;
+		<label for='AccoladeDates2'>Dates:</label>  <input id='AccoladeDates2'/><br><br>
+		-->
+	</section>
+	
+	<hr/>
+	<input type="button" onclick='getTexOutput()' value="Get Tex Output"/><br>
+	<label for='output'>Output:</label><br>
+	<textarea id='output' rows=10 cols=80></textarea><br>
+
+</body>
+
+    <script type="text/javascript">
+
+		window.onload = loadInfo;
+
+		//Why aren't we using string interpolation / template literals?
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+		//The Tex syntax uses the {} which is also used by this in JS.
+
+		//Wait see Tagged templates and escape sequences
+		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates_and_escape_sequences
+		// It also says Tex/Latex too.
+
+		//Cooked/Raw?  READ THIS
+
+		//Hmm this is working for now.
+		
+		//Always having to return the value is still probably better than a global scope var.
+		
+
+
+		<!-- CONTROL METHODS -->
+		
+		//We must escape the backslash first.
+		escapedCharacters = ['\\', '#', '%', '$', '{', '}'];
+		
+		function readInputComponentAndEscapeReservedCharacters(elementId)
+		{
+			let output = document.getElementById(elementId).value;
+			
+			//console.log(output);
+			
+			for (const character of escapedCharacters)
+			{
+				output = output.replace(character, `\\${character}`);
+			}
+			
+			//console.log(output);
+			
+			return output;
+		}
+		//MAKE THIS THE DEFAULT WAY TO CONSUME STUFF
+		
+		
+		function includeSummaryOnOrOff()
+		{
+			let isChecked = document.getElementById('includeSummary').checked;
+			//console.log(`includeSummary checked:` + isChecked);
+			document.getElementById(`Summary`).disabled = !isChecked;
+			
+			if(isChecked)
+			{
+				document.getElementById(`Summary`).style.background = "white";
+			}
+			else 
+			{
+				document.getElementById(`Summary`).style.background = "grey";
+			}
+		}
+
+		function includePositionOnOrOff(id)
+		{
+			let switchId = `includePosition${id}`;
+			let isChecked = document.getElementById(switchId).checked;
+			//console.log(`${switchId} checked:` + isChecked);
+			
+			document.getElementById(`JobTitle${id}`).disabled = !isChecked;
+			document.getElementById(`Dates${id}`).disabled = !isChecked;
+			document.getElementById(`CompanyName${id}`).disabled = !isChecked;
+			document.getElementById(`Location${id}`).disabled = !isChecked;
+			
+			document.getElementById(`Bullets${id}`).disabled = !isChecked;
+			
+			if(isChecked)
+			{
+				document.getElementById(`Bullets${id}`).style.background = "white";
+			}
+			else
+			{
+				document.getElementById(`Bullets${id}`).style.background = "grey";
+			}
+		}
+		
+
+		let positions = [1, 2, 3, 4];
+		
+		function getTexOutput() {
+			let output = tex_Boilerplate();
+			
+			output += writeCommentLine("----------");
+			output += writeCommentLine("RESUME STARTS HERE");
+			output += writeCommentLine("----------");
+
+			output += tex_Begin('document');
+
+			output += generateHeader();
+
+			let includeSummary = document.getElementById('includeSummary').checked;
+			if(includeSummary)
+			{
+				output += generateSummary();
+			}
+			
+			output += generateExperience();
+			output += generateEducation();
+			
+			output += tex_End('document');
+
+			writeOutputToElement(output);
+		}
+
+		function writeOutputToElement(output)
+		{
+			let newElement = document.createElement('textarea');
+			newElement.value= output;
+			newElement.id = 'output';
+			newElement.rows = 10;
+			newElement.cols = 80;
+			document.getElementById('output').replaceWith(newElement);
+		}
+		
+		<!-- GENERATE METHODS -->
+		function generateHeader()
+		{
+			let output = writeCommentLine("HEADER");
+			
+			output += tex_Begin('center');
+
+			let name = readInputComponentAndEscapeReservedCharacters('Name');
+			
+			//let name = document.getElementById('Name').value;
+			output += writeJobSeekerName(name);
+
+			output += tex_SetMisc('small');
+
+			let address = readInputComponentAndEscapeReservedCharacters("Address");
+			let phone = readInputComponentAndEscapeReservedCharacters('Phone');
+			let email = readInputComponentAndEscapeReservedCharacters('Email');
+			let portfolio = readInputComponentAndEscapeReservedCharacters('Portfolio');
+			let social = readInputComponentAndEscapeReservedCharacters('Social');
+
+			if (address) {
+				output += " " + address;
+				output += tex_VerticalBar();
+			}
+			
+			if (phone) {
+				output += writePhoneNumber(phone);
+				output += tex_VerticalBar();
+			}
+			
+			if (email) {
+			output += writeEmailLink(email);
+			output += tex_VerticalBar();
+			}
+			
+			if (portfolio) {
+			output += writeSocialLink(portfolio);
+			output += tex_VerticalBar();
+			}
+			
+			if (social) {
+			output += writeSocialLink(social);
+			output += tex_End('center');
+			}
+			
+			return output;
+		}
+		
+		function generateSummary()
+		{
+			let output = writeCommentLine("SUMMARY");
+			output += writeSectionHeading("Summary");
+
+			let summary = readInputComponentAndEscapeReservedCharacters('Summary');
+			output += tex_WriteFullLineAtSize(summary, 'small');
+			return output;
+		}
+
+		function generateExperience()
+		{
+			let output = writeCommentLine("EXPERIENCE");
+			output += writeSectionHeading("Experience");
+			
+			output += tex_SetMisc('resumeSubHeadingListStart');
+			
+			for (const position of positions) {
+
+				let includePosition = document.getElementById(`includePosition${position}`).checked;
+				if (includePosition) {
+
+					output += generateSinglePosition(position);
+				}
+			}
+
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += tex_Line("");
+			return output;
+			
+		}
+		
+		function generateSinglePosition(positionNum)
+		{
+			let id = positionNum;
+			//console.log("id: " + positionNum);
+
+			let jobTitle = readInputComponentAndEscapeReservedCharacters('JobTitle'+id);
+			let dates = readInputComponentAndEscapeReservedCharacters('Dates'+id);
+			let companyName = readInputComponentAndEscapeReservedCharacters('CompanyName'+id);
+			let location = readInputComponentAndEscapeReservedCharacters('Location'+id);
+			
+			let output = writeFourPartSubheading(jobTitle, dates, companyName, location);
+			
+			//DESCRIPTIONS ARE NOT YET FIGURED OUT
+			//THE ORIGINAL DIDN'T HAVE THEM
+			//let description = document.getElementById('Description'+id).value;
+			//output += tex_WriteFullLineAtSize(description, 'small');
+
+			output += tex_SetMisc('resumeItemListStart');
+			let bullets = readInputComponentAndEscapeReservedCharacters('Bullets'+id);
+			const bulletsAsArray = bullets.split(/[\r\n]+/);
+
+			for (const bullet of bulletsAsArray) {
+				output += tex_SetMisc("resumeItem");
+				output += tex_BracketedInput(bullet)
+				output += tex_Line("");
+			}
+
+			output += tex_SetMisc('resumeItemListEnd');
+			output += tex_Line("");
+			return output;
+		}
+		
+		function generateEducation()
+		{
+			let output = writeCommentLine("EDUCATION");
+			output += writeSectionHeading("Education");
+
+			output += tex_SetMisc('resumeSubHeadingListStart');
+
+			let institutionName = readInputComponentAndEscapeReservedCharacters('InstitutionName');
+			let institutionLocation = readInputComponentAndEscapeReservedCharacters('InstitutionLocation');
+			let accoladeType1 = readInputComponentAndEscapeReservedCharacters('AccoladeType1');
+			let accoladeDates1 = readInputComponentAndEscapeReservedCharacters('AccoladeDates1');
+			
+			output += writeFourPartSubheading(institutionName, institutionLocation, accoladeType1, accoladeDates1);
+
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+			
+			return output;
+		}
+		
+		<!-- WRITE METHODS -->
+		function writeJobSeekerName(name)
+		{
+			return tex_WriteFullLineAtSize(name, 'Huge');
+		}
+		
+		function writePhoneNumber(number)
+		{
+			return `` + number;
+		}
+
+		function writeEmailLink(address)
+		{
+			let link = "mailto:" + address;
+			let text = address;
+			
+			return writeHyperlink(link, text)
+		}
+
+		function writeSocialLink(address)
+		{
+			let link = address;
+			let text = address.toLowerCase().replace("https://","").replace("www.","");
+
+			return writeHyperlink(link, text)
+		}
+
+		function writeHyperlink(link, text)
+		{
+			let value = "";
+			value += tex_SetMisc('href');
+			value += `{` + link + `}{`;
+			value += tex_SetMisc('underline');
+			value += `{` + text + `}}`;
+			
+			return value;
+		}
+		
+		function writeSectionHeading(sectionName)
+		{
+			return tex_SetMisc(`section{`+ sectionName + `}`);
+		}
+		
+		function writeCommentLine(comment)
+		{
+			return tex_Line("%----------" + comment + "----------");
+		}
+		
+		function writeFourPartSubheading(topLeft, topRight, bottomLeft, bottomRight)
+		{
+			let output = "";
+			output += tex_SetMisc('resumeSubheading');
+			output += tex_BracketedInput(topLeft);
+			output += tex_BracketedInput(topRight);
+			output += tex_Line("");
+			output += tex_BracketedInput(bottomLeft);
+			output += tex_BracketedInput(bottomRight);
+			output += tex_Line("");
+			return output;
+		}
+		
+		function writePairedBracketedLine(first, second)
+		{
+			let output = "";
+			output += tex_BracketedInput(first);
+			output += tex_BracketedInput(second);
+			output += tex_Line("");
+			return output;
+		}
+		
+		<!-- TEX METHODS -->
+		function tex_Begin(type)
+		{
+			let value = `\\begin{` + type +  `}`;
+			return tex_Line(value)
+		}
+
+		function tex_End(type)
+		{
+			let value = `\\end{` + type +  `}`;
+			return tex_Line(value)
+		}
+
+		function tex_WriteFullLineAtSize(input, size)
+		{
+			return tex_Line(`\\textbf{\\`+ size + ` \\scshape ` + input +`} \\\\ \\vspace{1pt}`);
+		}
+		
+		function tex_Line(input)
+		{
+			return input + "\n";
+		}
+		
+		function tex_VerticalBar()
+		{
+			return " $|$ ";
+		}
+		
+		function tex_SetMisc(misc)
+		{
+			return `\\` + misc;	
+		}
+		
+		function tex_BracketedInput(input)
+		{
+			return '{' + input +  '}';
+		}
+		
+		function tex_Boilerplate() 
+		{
+			//This is the top-level boilerplate code used by the template.
+			return `
+%-------------------------
+% Resume in LaTeX
+% 
+% This resume was made with the ResumeBuilder written by John Hibbert:
+% https://github.com/johnhibbert/ParsimonyProject
+%
+% The template this resume uses was originally based upon these two resumes:
+%    https://github.com/jakegut/resume  
+%    https://github.com/sb2nov/resume
+%
+% License : MIT
+%------------------------
+
+\\documentclass[letterpaper,11pt]{article}
+
+\\usepackage{latexsym}
+\\usepackage[empty]{fullpage}
+\\usepackage{titlesec}
+\\usepackage{marvosym}
+\\usepackage[usenames,dvipsnames]{color}
+\\usepackage{verbatim}
+\\usepackage{enumitem}
+\\usepackage[hidelinks]{hyperref}
+\\usepackage{fancyhdr}
+\\usepackage[english]{babel}
+\\usepackage{tabularx}
+\\input{glyphtounicode}
+
+\\pagestyle{fancy}
+\\fancyhf{} % clear all header and footer fields
+\\fancyfoot{}
+\\renewcommand{\\headrulewidth}{0pt}
+\\renewcommand{\\footrulewidth}{0pt}
+
+% Adjust margins
+\\addtolength{\\oddsidemargin}{-0.5in}
+\\addtolength{\\evensidemargin}{-0.5in}
+\\addtolength{\\textwidth}{1in}
+\\addtolength{\\topmargin}{-.5in}
+\\addtolength{\\textheight}{1.0in}
+
+\\urlstyle{same}
+
+\\raggedbottom
+\\raggedright
+\\setlength{\\tabcolsep}{0in}
+
+% Sections formatting
+\\titleformat{\\section}{
+  \\vspace{-4pt}\\scshape\\raggedright\\large
+}{}{0em}{}[\\color{black}\\titlerule \\vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\\newcommand{\\resumeItem}[1]{
+  \\item\\small{
+    {#1 \\vspace{-2pt}}
+  }
+}
+
+\\newcommand{\\resumeSubheading}[4]{
+  \\vspace{-2pt}\\item
+    \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
+      \\textbf{#1} & #2 \\\\
+      \\textit{\\small#3} & \\textit{\\small #4} \\\\
+    \\end{tabular*}\\vspace{-7pt}
+}
+
+\\newcommand{\\resumeSubSubheading}[2]{
+    \\item
+    \\begin{tabular*}{0.97\\textwidth}{l@{\\extracolsep{\\fill}}r}
+      \\textit{\\small#1} & \\textit{\\small #2} \\\\
+    \\end{tabular*}\\vspace{-7pt}
+}
+
+\\newcommand{\\resumeProjectHeading}[2]{
+    \\item
+    \\begin{tabular*}{0.97\\textwidth}{l@{\\extracolsep{\\fill}}r}
+      \\small#1 & #2 \\\\
+    \\end{tabular*}\\vspace{-7pt}
+}
+
+\\newcommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{-4pt}}
+
+\\renewcommand\\labelitemii{$\\vcenter{\\hbox{\\tiny$\\bullet$}}$}
+
+\\newcommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}]}
+\\newcommand{\\resumeSubHeadingListEnd}{\\end{itemize}}
+\\newcommand{\\resumeItemListStart}{\\begin{itemize}}
+\\newcommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-5pt}}
+`;
+		}
+		
+		<!-- STARTUP METHODS -->
+		function loadInfo()
+		{
+			getDefaultKeywords();
+		}
+
+		function getDefaultKeywords()
+		{
+			document.getElementById('Name').value = defaultName;
+
+			document.getElementById('Address').value = defaultAddress;
+			document.getElementById('Phone').value = defaultPhoneNumber;
+			document.getElementById('Email').value = defaultEmail;
+			document.getElementById('Portfolio').value = defaultPortfolio;
+			document.getElementById('Social').value = defaultSocial;
+
+			document.getElementById('Summary').value = defaultSummary;
+
+			document.getElementById('JobTitle1').value = defaultJobTitle1;
+			document.getElementById('Dates1').value = defaultJobDates1;
+			document.getElementById('CompanyName1').value = defaultCompanyName1;
+			document.getElementById('Location1').value = defaultLocation1;
+			document.getElementById('Bullets1').value = defaultBullets1.join("\n");
+
+			document.getElementById('JobTitle2').value = defaultJobTitle2;
+			document.getElementById('Dates2').value = defaultJobDates2;
+			document.getElementById('CompanyName2').value = defaultCompanyName2;
+			document.getElementById('Location2').value = defaultLocation2;
+			document.getElementById('Bullets2').value = defaultBullets2.join("\n");
+
+			document.getElementById('JobTitle3').value = defaultJobTitle3;
+			document.getElementById('Dates3').value = defaultJobDates3;
+			document.getElementById('CompanyName3').value = defaultCompanyName3;
+			document.getElementById('Location3').value = defaultLocation3;
+			document.getElementById('Bullets3').value = defaultBullets3.join("\n");
+
+			document.getElementById('JobTitle4').value = defaultJobTitle4;
+			document.getElementById('Dates4').value = defaultJobDates4;
+			document.getElementById('CompanyName4').value = defaultCompanyName4;
+			document.getElementById('Location4').value = defaultLocation4;
+			document.getElementById('Bullets4').value = defaultBullets4.join("\n");
+			
+			document.getElementById('InstitutionName').value = defaultInstitutionName;
+			document.getElementById('InstitutionLocation').value =defaultInstitutionLocation;
+			document.getElementById('AccoladeType1').value = defaultAccoladeType1;
+			document.getElementById('AccoladeDates1').value = defaultAccoladeDate1;
+			
+		}
+		
+		//If you want to save yourself time, you can fill these in locally.
+		let defaultName = 'David Example';
+
+		let defaultAddress = '123 ABC Street, Colorado Springs, CO, 12345';
+		let defaultPhoneNumber = '123-456-7890';
+		let defaultEmail = 'example@example.com';
+		let defaultPortfolio = 'GitHub';
+		let defaultSocial = 'LinkedIn';
+		
+		let defaultSummary = "6 years being a default summary";
+		
+		
+		let defaultJobTitle1 = "Job Manager";
+		let defaultJobDates1 = "1666 - 2003";
+		let defaultCompanyName1 = "The Job Factory";
+		let defaultLocation1 = "Akron, OH";
+		let defaultBullets1 = 
+			[
+				'this is a bullet',
+				'this is also a bullet',
+				'another'
+			];
+
+		let defaultJobTitle2 = "Working Person";
+		let defaultJobDates2 = "250 - 299";
+		let defaultCompanyName2 = "Somewhere Else";
+		let defaultLocation2 = "Fort Collins, CO";
+		let defaultBullets2 =
+			[
+				'Something',
+				'yet another bullet point here'
+			];
+
+		let defaultJobTitle3 = "";
+		let defaultJobDates3 = "";
+		let defaultCompanyName3 = "";
+		let defaultLocation3 = "";
+		let defaultBullets3 = [];
+
+		let defaultJobTitle4 = "";
+		let defaultJobDates4 = "";
+		let defaultCompanyName4 = "";
+		let defaultLocation4 = "";
+		let defaultBullets4 = [];
+		
+		let defaultInstitutionName = "School of Hard Knox";
+		let defaultInstitutionLocation = "Fort Knox, KY";
+		let defaultAccoladeType1 = "Bachelor of Arts in Computer Science";
+		let defaultAccoladeDate1 = "1492";
+
+	</script>
+</html>
