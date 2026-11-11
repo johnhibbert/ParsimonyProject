@@ -95,57 +95,26 @@
 			output += tex_Begin('document');
 
 			output += generateHeader();
-
 			output += generateSummary();
-			
 			output += generateExperience();
-			
 			output += generateEducation();
 			
-			/*
-			output += writeSectionHeading("Technical Skills");
-			output += tex_Begin("itemize");
-			//Add formatting here.
-			output += tex_SetMisc("small{");
-			output += tex_SetMisc("item{");
-			output += tex_SetMisc("textbf{}}}");
-			
-			
-			output += tex_End("itemize")
-			*/
-
-
-			//output += generateAllPositions();
-			
-			
 			output += tex_End('document');
-			
-			
-			
-			console.log(output);
-			
-			
-			//generateHeaders();
 
-			//positions.forEach(generatePosition);
+			writeOutputToElement(output);
+		}
 
-			
-			
-			
-			
+		function writeOutputToElement(output)
+		{
 			let newElement = document.createElement('textarea');
 			newElement.value= output;
-			
 			newElement.id = 'output';
 			newElement.rows = 10;
 			newElement.cols = 80;
-			
 			document.getElementById('output').replaceWith(newElement);
-			
 		}
-
-		<!-- GENERATE METHODS -->
 		
+		<!-- GENERATE METHODS -->
 		function generateHeader()
 		{
 			let output = writeCommentLine("HEADER");
@@ -185,7 +154,6 @@
 			return output;
 		}
 		
-		
 		function generateSummary()
 		{
 			let output = writeCommentLine("SUMMARY");
@@ -196,24 +164,12 @@
 			return output;
 		}
 
-
 		function generateExperience()
 		{
 			let output = writeCommentLine("EXPERIENCE");
 			output += writeSectionHeading("Experience");
 			
 			output += tex_SetMisc('resumeSubHeadingListStart');
-
-
-			//let index = 0;
-			
-			/*
-			while(index < positions.length)
-			{
-				output += generatePosition(positions[index]);
-				index++;
-			}
-			*/
 			
 			for (const position of positions) {
 				output += generateSinglePosition(position);
@@ -223,12 +179,10 @@
 			
 			return output;
 			
-			
 		}
 		
 		function generateSinglePosition(positionNum)
 		{
-
 			let id = positionNum;
 			console.log("id: " + positionNum);
 
@@ -236,17 +190,6 @@
 			let dates = document.getElementById('Dates'+id).value;
 			let companyName = document.getElementById('CompanyName'+id).value;
 			let location = document.getElementById('Location'+id).value;
-
-			/*
-			let output = "";
-			output += tex_SetMisc('resumeSubheading');
-			output += tex_BracketedInput(dates);
-			output += tex_BracketedInput(jobTitle);
-			output += "\n";
-			output += tex_BracketedInput(companyName);
-			output += tex_BracketedInput(location);
-			output += "\n";
-			*/
 			
 			let output = writeFourPartSubheading(jobTitle, dates, companyName, location);
 			
@@ -255,52 +198,17 @@
 			//let description = document.getElementById('Description'+id).value;
 			//output += tex_WriteFullLineAtSize(description, 'small');
 
-
-
 			output += tex_SetMisc('resumeItemListStart');
-
-
 			let bullets = document.getElementById('Bullets'+id).value;
-
 			const bulletsAsArray = bullets.split(/[\r\n]+/);
-			
-			console.log(bulletsAsArray);
 
 			for (const bullet of bulletsAsArray) {
-				// ...use `element`...
-				//output += bullet;
-
-				//tex_SetMisc
 				output += tex_SetMisc("resumeItem");
 				output += tex_BracketedInput(bullet)
-				output += "\n";
-				
+				output += tex_Line("");
 			}
 
 			output += tex_SetMisc('resumeItemListEnd');
-			
-			//foreac
-			
-			//output +=
-			
-			//output += tex_SetMisc('resumeItemListStart');
-			//output += tex_SetMisc('resumeItem');
-
-
-		//\resumeSubHeadingListEnd
-			
-			/*
-					<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'></input><br><br>
-		<label for='Dates1'>Dates:</label>  <input id='Dates1'></input><br><br>
-		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'></input><br><br>
-		<label for='City1'>City:</label>  <input id='City1'></input><br><br>
-		<label for='Summary1'>Summary: </label><br>
-		<textarea id='Summary1' rows=10 cols=80></textarea><br>
-		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
-		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
-			
-			 */
-
 			return output;
 		}
 		
@@ -310,16 +218,6 @@
 			output += writeSectionHeading("Education");
 
 			output += tex_SetMisc('resumeSubHeadingListStart');
-			
-			//let summary = document.getElementById('Education').value;
-			//output += tex_WriteFullLineAtSize(summary, 'small');
-
-			/*
-			<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'></input>&emsp;
-			<label for='InstitutionLocation'>Location:</label>  <input id='InstitutionLocation'></input><br><br>
-			<label for='DegreeAwarded'>Company Name:</label>  <input id='DegreeAwarded'></input>&emsp;
-			<label for='EducationDates'>Dates:</label>  <input id='EducationDates'></input><br><br>
-			*/
 
 			let institutionName = document.getElementById('InstitutionName').value;
 			let institutionLocation = document.getElementById('InstitutionLocation').value;
@@ -333,73 +231,7 @@
 			return output;
 		}
 		
-		
-		/*
-		function generateHeaders() {
-
-			//Why aren't we using string interpolation / template literals?
-			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-			//The Tex syntax uses the {} which is also used by this in JS.
-			
-			//Wait see Tagged templates and escape sequences
-			//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates_and_escape_sequences
-			// It also says Tex/Latex too.
-			
-			//Cooked/Raw?  READ THIS
-			
-			//Hmm this is working for now.
-			
-			//FINISH THIS
-			let name = document.getElementById('Name').value;
-			let phone = document.getElementById('Phone').value;
-			let email = document.getElementById('Email').value;
-			let portfolio = document.getElementById('Portfolio').value;
-			let social = document.getElementById('Social').value;
-			
-			let headingCommentString = "%----------HEADING----------";
-			
-			//let nameString = '\\textbf{\\Huge \\scshape EXAMPLE PERSON-} \\\\ \\vspace{1pt}';
-			
-			let fff = tex_Begin('document');
-			console.log(fff);
-			let ggg = tex_End('document');
-			console.log(ggg);
-			
-			let headingString = "\\begin{center}\n";
-			
-			
-			
-			headingString += "\\textbf{\\Huge \\scshape ";
-			headingString += name;
-			headingString += "} \\\\ \\vspace{1pt}";
-			headingString += "\\small 401-808-1476"
-			headingString += "$|$";
-			headingString += "\\href{mailto:john.andrew.hibbert@gmail.com}{\\underline{john.andrew.hibbert@gmail.com}}"
-			headingString += "\\small 401-808-1476"
-			headingString += "$|$";
-			
-			headingString +="\\end{center}";
-
-					console.log(headingString);
-			
-		}
-		
-		
-        function generatePosition(sectionNum) {
-			
-			//FIX ME
-			
-			//This is a relatively simple way to keep the salary calculation code the same for each component.
-			//Each piece is name#
-			let id = sectionNum;
-			console.log("id: " + sectionNum);
-
-			let salary = document.getElementById('salary'+id).value;
-			
-		}
-*/
-
-		<!-- SECTION METHODS -->
+		<!-- WRITE METHODS -->
 		function writeJobSeekerName(name)
 		{
 			return tex_WriteFullLineAtSize(name, 'Huge');
@@ -444,8 +276,6 @@
 		
 		function writeCommentLine(comment)
 		{
-			//let headingCommentString = "%----------HEADING----------";
-			
 			return tex_Line("%----------" + comment + "----------");
 		}
 		
@@ -455,10 +285,10 @@
 			output += tex_SetMisc('resumeSubheading');
 			output += tex_BracketedInput(topLeft);
 			output += tex_BracketedInput(topRight);
-			output += "\n";
+			output += tex_Line("");
 			output += tex_BracketedInput(bottomLeft);
 			output += tex_BracketedInput(bottomRight);
-			output += "\n";
+			output += tex_Line("");
 			return output;
 		}
 		
