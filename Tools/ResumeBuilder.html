@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <style>
-	
+
 </style>
-<body onload="loadInfo()">
+<body>
 	
 	<h2>Resume Builder</h2>
 	
@@ -12,27 +12,31 @@
 	<br/>
 
 	<hr/>
+	<label for='Name'>Name:</label>  <input id='Name'></input>
+	<hr/>
 
-	<label for='Name'>Name:</label>  <input id='Name'></input><br><br>
-	<label for='Phone'>Phone:</label>  <input id='Phone'></input><br><br>
-	<label for='Email'>Email:</label>  <input id='Email'></input><br><br>
-	<label for='Portfolio'>Portfolio:</label>  <input id='Portfolio'></input><br><br>
-	<label for='Social'>Social:</label>  <input id='Social'></input><br><br>
+	<label for='Address'>Address:</label>  <input id='Address' size="50"/><br><br>
+	<label for='Phone'>Phone:</label>  <input id='Phone' size="50"/><br><br>
+	<label for='Email'>Email:</label>  <input id='Email' size="50"/><br><br>
+	<label for='Portfolio'>Portfolio:</label>  <input id='Portfolio' size="50"/><br><br>
+	<label for='Social'>Social:</label>  <input id='Social' size="50"/><br><br>
 	<hr/>
 
 	<label for='includeSummary'>Include Summary?</label>
-	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff()" checked></input><br>
+	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff('Summary')" checked/><br>
 	<label for='Summary'>Summary:</label><br>
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
 		
 	<hr/>
 		
 	<section>
-		<div id='Position1'><b>Position 1:</b></div>
-		<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'></input>&emsp;
-		<label for='Dates1'>Dates:</label>  <input id='Dates1'></input><br><br>
-		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'></input>&emsp;
-		<label for='Location1'>Location:</label>  <input id='Location1'></input><br><br>
+		<div><b>Position 1:</b></div>
+		<label for='includePosition1'>Include?</label>
+		<input type="checkbox" id="includePosition1" onchange="includePositionOnOrOff('1')" checked/><br>
+		<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'/>&emsp;
+		<label for='Dates1'>Dates:</label>  <input id='Dates1'/><br><br>
+		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'/>&emsp;
+		<label for='Location1'>Location:</label>  <input id='Location1'/><br><br>
 		<!-- Descriptions don't work yet, add them later.
 		<label for='Description1'>Description: </label><br>
 		<textarea id='Description1' rows=10 cols=80></textarea><br>
@@ -40,34 +44,62 @@
 		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
 	</section>
+	<br>
 	<section>
 		<div id='Position2'><b>Position 2:</b></div>
-		<label for='JobTitle2'>Job Title:</label>  <input id='JobTitle2'></input>&emsp;
-		<label for='Dates2'>Dates:</label>  <input id='Dates2'></input><br><br>
-		<label for='CompanyName2'>Company Name:</label>  <input id='CompanyName2'></input>&emsp;
-		<label for='Location2'>Location:</label>  <input id='Location2'></input><br><br>
+		<label for='includePosition2'>Include?</label>
+		<input type="checkbox" id="includePosition2" onchange="includePositionOnOrOff('2')" checked/><br>
+		<label for='JobTitle2'>Job Title:</label>  <input id='JobTitle2'/>&emsp;
+		<label for='Dates2'>Dates:</label>  <input id='Dates2'/><br><br>
+		<label for='CompanyName2'>Company Name:</label>  <input id='CompanyName2'/>&emsp;
+		<label for='Location2'>Location:</label>  <input id='Location2'/><br><br>
 		<label for='Bullets2'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets2' rows=10 cols=80></textarea><br>
+	</section>
+	<br>
+	<section>
+		<div id='Position3'><b>Position 3:</b></div>
+		<label for='includePosition3'>Include?</label>
+		<input type="checkbox" id="includePosition3" onchange="includePositionOnOrOff('3')" checked/><br>
+		<label for='JobTitle3'>Job Title:</label>  <input id='JobTitle3'/>&emsp;
+		<label for='Dates3'>Dates:</label>  <input id='Dates3'/><br><br>
+		<label for='CompanyName3'>Company Name:</label>  <input id='CompanyName3'/>&emsp;
+		<label for='Location3'>Location:</label>  <input id='Location3'/><br><br>
+		<label for='Bullets3'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets3' rows=10 cols=80></textarea><br>
+	</section>
+	<br>
+	<section>
+		<div id='Position4'><b>Position 4:</b></div>
+		<label for='includePosition4'>Include?</label>
+		<input type="checkbox" id="includePosition4" onchange="includePositionOnOrOff('4')" checked/><br>
+		<label for='JobTitle4'>Job Title:</label>  <input id='JobTitle4'/>&emsp;
+		<label for='Dates4'>Dates:</label>  <input id='Dates4'/><br><br>
+		<label for='CompanyName4'>Company Name:</label>  <input id='CompanyName4'/>&emsp;
+		<label for='Location4'>Location:</label>  <input id='Location4'/><br><br>
+		<label for='Bullets4'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets4' rows=10 cols=80></textarea><br>
 	</section>
 	<hr/>
 
 	<section>
 		<div id='Education'><b>Education:</b></div>
-		<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'></input>&emsp;
-		<label for='InstitutionLocation'>Location:</label>  <input id='InstitutionLocation'></input><br><br>
-		<label for='DegreeAwarded'>Company Name:</label>  <input id='DegreeAwarded'></input>&emsp;
-		<label for='EducationDates'>Dates:</label>  <input id='EducationDates'></input><br><br>
+		<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'/>&emsp;
+		<label for='InstitutionLocation'>Location:</label>  <input id='InstitutionLocation'/><br><br>
+		<label for='DegreeAwarded'>Degree Awarded:</label>  <input id='DegreeAwarded'/>&emsp;
+		<label for='EducationDates'>Dates:</label>  <input id='EducationDates'/><br><br>
 	</section>
 	
 	<hr/>
-	<input type="button" onclick='getTexOutput()' value="Get Tex Output"><br>
+	<input type="button" onclick='getTexOutput()' value="Get Tex Output"/><br>
 	<label for='output'>Output:</label><br>
 	<textarea id='output' rows=10 cols=80></textarea><br>
 
 </body>
 
-    <script>
+    <script type="text/javascript">
 
+		window.onload = loadInfo;
 
 		//Why aren't we using string interpolation / template literals?
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
@@ -86,16 +118,47 @@
 
 
 		<!-- CONTROL METHODS -->
-
 		function includeSummaryOnOrOff()
 		{
 			let isChecked = document.getElementById('includeSummary').checked;
 			console.log(`includeSummary checked:` + isChecked);
 			document.getElementById(`Summary`).disabled = !isChecked;
+			
+			if(isChecked)
+			{
+				document.getElementById(`Summary`).style.background = "white";
+			}
+			else 
+			{
+				document.getElementById(`Summary`).style.background = "grey";
+			}
 		}
 
-		//let positions = [1, 2, 3, 4];
-		let positions = [1, 2];
+		function includePositionOnOrOff(id)
+		{
+			let switchId = `includePosition${id}`;
+			let isChecked = document.getElementById(switchId).checked;
+			console.log(`${switchId} checked:` + isChecked);
+			
+			document.getElementById(`JobTitle${id}`).disabled = !isChecked;
+			document.getElementById(`Dates${id}`).disabled = !isChecked;
+			document.getElementById(`CompanyName${id}`).disabled = !isChecked;
+			document.getElementById(`Location${id}`).disabled = !isChecked;
+			
+			document.getElementById(`Bullets${id}`).disabled = !isChecked;
+			
+			if(isChecked)
+			{
+				document.getElementById(`Bullets${id}`).style.background = "white";
+			}
+			else
+			{
+				document.getElementById(`Bullets${id}`).style.background = "grey";
+			}
+		}
+		
+
+		let positions = [1, 2, 3, 4];
 		
 		function getTexOutput() {
 			let output = writeCommentLine("----------");
@@ -187,7 +250,12 @@
 			output += tex_SetMisc('resumeSubHeadingListStart');
 			
 			for (const position of positions) {
-				output += generateSinglePosition(position);
+
+				let includePosition = document.getElementById(`includePosition${position}`).checked;
+				if (includePosition) {
+
+					output += generateSinglePosition(position);
+				}
 			}
 
 			output += tex_SetMisc('resumeSubHeadingListEnd');
@@ -361,6 +429,8 @@
 		function getDefaultKeywords()
 		{
 			document.getElementById('Name').value = defaultName;
+
+			document.getElementById('Address').value = defaultAddress;
 			document.getElementById('Phone').value = defaultPhoneNumber;
 			document.getElementById('Email').value = defaultEmail;
 			document.getElementById('Portfolio').value = defaultPortfolio;
@@ -372,22 +442,44 @@
 			document.getElementById('Dates1').value = defaultJobDates1;
 			document.getElementById('CompanyName1').value = defaultCompanyName1;
 			document.getElementById('Location1').value = defaultLocation1;
-			
 			document.getElementById('Bullets1').value = defaultBullets1.join("\n");
+
+			document.getElementById('JobTitle2').value = defaultJobTitle2;
+			document.getElementById('Dates2').value = defaultJobDates2;
+			document.getElementById('CompanyName2').value = defaultCompanyName2;
+			document.getElementById('Location2').value = defaultLocation2;
+			document.getElementById('Bullets2').value = defaultBullets2.join("\n");
+
+			document.getElementById('JobTitle3').value = defaultJobTitle3;
+			document.getElementById('Dates3').value = defaultJobDates3;
+			document.getElementById('CompanyName3').value = defaultCompanyName3;
+			document.getElementById('Location3').value = defaultLocation3;
+			document.getElementById('Bullets3').value = defaultBullets3.join("\n");
+
+			document.getElementById('JobTitle4').value = defaultJobTitle4;
+			document.getElementById('Dates4').value = defaultJobDates4;
+			document.getElementById('CompanyName4').value = defaultCompanyName4;
+			document.getElementById('Location4').value = defaultLocation4;
+			document.getElementById('Bullets4').value = defaultBullets4.join("\n");
 			
 			document.getElementById('InstitutionName').value = defaultInstitutionName;
 			document.getElementById('InstitutionLocation').value =defaultInstitutionLocation;
 			document.getElementById('DegreeAwarded').value = defaultDegreeAwarded;
 			document.getElementById('EducationDates').value = defaultEducationDates;
+			
 		}
+		
 		//If you want to save yourself time, you can fill these in locally.
 		let defaultName = 'David Example';
+
+		let defaultAddress = '123 ABC Street, Colorado Springs, CO, 12345';
 		let defaultPhoneNumber = '123-456-7890';
 		let defaultEmail = 'example@example.com';
 		let defaultPortfolio = 'GitHub';
 		let defaultSocial = 'LinkedIn';
-
+		
 		let defaultSummary = "6 years being a default summary";
+		
 		
 		let defaultJobTitle1 = "Job Manager";
 		let defaultJobDates1 = "1666 - 2003";
@@ -399,6 +491,28 @@
 				'this is also a bullet',
 				'another'
 			];
+
+		let defaultJobTitle2 = "Working Person";
+		let defaultJobDates2 = "250 - 299";
+		let defaultCompanyName2 = "Somewhere Else";
+		let defaultLocation2 = "Fort Collins, CO";
+		let defaultBullets2 =
+			[
+				'Something',
+				'yet another bullet point here'
+			];
+
+		let defaultJobTitle3 = "";
+		let defaultJobDates3 = "";
+		let defaultCompanyName3 = "";
+		let defaultLocation3 = "";
+		let defaultBullets3 = [];
+
+		let defaultJobTitle4 = "";
+		let defaultJobDates4 = "";
+		let defaultCompanyName4 = "";
+		let defaultLocation4 = "";
+		let defaultBullets4 = [];
 		
 		let defaultInstitutionName = "School of Hard Knox";
 		let defaultInstitutionLocation = "Fort Knox, KY";
