@@ -12,6 +12,10 @@
 
 	<input type="button" onclick='getTexOutput()' value="Get Tex Output"><br><br>
 
+	<label for='output'>Output:</label><br>
+	<textarea id='output' rows=10 cols=80></textarea><br>
+	
+	
 	<label for='Name'>Name:</label>  <input id='Name'></input><br><br>
 	<label for='Phone'>Phone:</label>  <input id='Phone'></input><br><br>
 	<label for='Email'>Email:</label>  <input id='Email'></input><br><br>
@@ -75,7 +79,17 @@
 			//generateHeaders();
 
 			//positions.forEach(generatePosition);
-		
+
+			let newElement = document.createElement('textarea');
+			newElement.value= output;
+			
+			newElement.id = 'output';
+			//rows=10 cols=80
+			newElement.rows = 10;
+			newElement.cols = 80;
+			
+			document.getElementById('output').replaceWith(newElement);
+			
 		}
 
 		<!-- GENERATE METHODS -->
