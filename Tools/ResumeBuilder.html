@@ -20,7 +20,7 @@
 	<label for='Social'>Social:</label>  <input id='Social'></input><br><br>
 	<hr/>
 
-	<label for='includeSummary'>Include Summary?
+	<label for='includeSummary'>Include Summary?</label>
 	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff()" checked></input><br>
 	<label for='Summary'>Summary:</label><br>
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
@@ -372,8 +372,18 @@
 
 			document.getElementById('Summary').value = defaultSummary;
 
+			document.getElementById('JobTitle1').value = defaultJobTitle1;
+			document.getElementById('Dates1').value = defaultJobDates1;
+			document.getElementById('CompanyName1').value = defaultCompanyName1;
+			document.getElementById('Location1').value = defaultLocation1;
+			
+			document.getElementById('Bullets1').value = defaultBullets1.join("\n");
+			
+			document.getElementById('InstitutionName').value = defaultInstitutionName;
+			document.getElementById('InstitutionLocation').value =defaultInstitutionLocation;
+			document.getElementById('DegreeAwarded').value = defaultDegreeAwarded;
+			document.getElementById('EducationDates').value = defaultEducationDates;
 		}
-
 		//If you want to save yourself time, you can fill these in locally.
 		let defaultName = 'David Example';
 		let defaultPhoneNumber = '123-456-7890';
@@ -382,6 +392,22 @@
 		let defaultSocial = 'LinkedIn';
 
 		let defaultSummary = "6 years being a default summary";
+		
+		let defaultJobTitle1 = "Job Manager";
+		let defaultJobDates1 = "1666 - 2003";
+		let defaultCompanyName1 = "The Job Factory";
+		let defaultLocation1 = "Akron, OH";
+		let defaultBullets1 = 
+			[
+				'this is a bullet',
+				'this is also a bullet',
+				'another'
+			];
+		
+		let defaultInstitutionName = "School of Hard Knox";
+		let defaultInstitutionLocation = "Fort Knox, KY";
+		let defaultDegreeAwarded = "Bachelor of Arts in Computer Science";
+		let defaultEducationDates = "1492";
 
 	</script>
 </html>
