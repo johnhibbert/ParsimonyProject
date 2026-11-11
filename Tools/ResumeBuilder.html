@@ -7,15 +7,12 @@
 	
 	<h2>Resume Builder</h2>
 	
-	<div id='explanation'>This tool will generate some <a href="https://en.wikipedia.org/wiki/TeX">TeX typesetting</a>  that can be used to create a fancy resume based on the template used here. <a href="https://github.com/johnhibbert/Resume">https://github.com/johnhibbert/Resume</a> </div>
+	<div id='explanation'>This tool will generate some <a href="https://en.wikipedia.org/wiki/TeX">TeX typesetting</a> that can be used to create a fancy resume based on the template used here. <a href="https://github.com/johnhibbert/Resume">https://github.com/johnhibbert/Resume</a> </div>
 	<div id='explanation2'><i>Note:</i> You will need an outside program to process that TeX into an actual document. </div>
+	<br/>
 
-	<input type="button" onclick='getTexOutput()' value="Get Tex Output"><br><br>
+	<hr/>
 
-	<label for='output'>Output:</label><br>
-	<textarea id='output' rows=10 cols=80></textarea><br>
-	
-	
 	<label for='Name'>Name:</label>  <input id='Name'></input><br><br>
 	<label for='Phone'>Phone:</label>  <input id='Phone'></input><br><br>
 	<label for='Email'>Email:</label>  <input id='Email'></input><br><br>
@@ -26,35 +23,84 @@
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
 	<hr/>
 	<section>
-		<div id='title1'><b>Position 1:</b></div>
-		<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'></input><br><br>
+		<div id='Position1'><b>Position 1:</b></div>
+		<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'></input>&emsp;
 		<label for='Dates1'>Dates:</label>  <input id='Dates1'></input><br><br>
-		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'></input><br><br>
-		<label for='City1'>City:</label>  <input id='City1'></input><br><br>
+		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'></input>&emsp;
+		<label for='Location1'>Location:</label>  <input id='Location1'></input><br><br>
+		<!-- Descriptions don't work yet
+		<label for='Description1'>Description: </label><br>
+		<textarea id='Description1' rows=10 cols=80></textarea><br>
+		-->
 		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
 	</section>
+	<section>
+		<div id='Position2'><b>Position 2:</b></div>
+		<label for='JobTitle2'>Job Title:</label>  <input id='JobTitle2'></input>&emsp;
+		<label for='Dates2'>Dates:</label>  <input id='Dates2'></input><br><br>
+		<label for='CompanyName2'>Company Name:</label>  <input id='CompanyName2'></input>&emsp;
+		<label for='Location2'>Location:</label>  <input id='Location2'></input><br><br>
+		<!-- Descriptions don't work yet
+		<label for='Description2'>Description: </label><br>
+		<textarea id='Description2' rows=10 cols=80></textarea><br>
+		-->
+		<label for='Bullets2'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets2' rows=10 cols=80></textarea><br>
+	</section>
 	<hr/>
+
+	<section>
+		<div id='Education'><b>Education:</b></div>
+		<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'></input>&emsp;
+		<label for='InstitutionLocation'>Location:</label>  <input id='InstitutionLocation'></input><br><br>
+		<label for='DegreeAwarded'>Company Name:</label>  <input id='DegreeAwarded'></input>&emsp;
+		<label for='EducationDates'>Dates:</label>  <input id='EducationDates'></input><br><br>
+	</section>
+	
+	<hr/>
+	<input type="button" onclick='getTexOutput()' value="Get Tex Output"><br>
+	<label for='output'>Output:</label><br>
+	<textarea id='output' rows=10 cols=80></textarea><br>
+
 </body>
 
     <script>
 
 
+		//Why aren't we using string interpolation / template literals?
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+		//The Tex syntax uses the {} which is also used by this in JS.
 
+		//Wait see Tagged templates and escape sequences
+		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates_and_escape_sequences
+		// It also says Tex/Latex too.
+
+		//Cooked/Raw?  READ THIS
+
+		//Hmm this is working for now.
+		
+		//Always having to return the value is still probably better than a global scope var.
+		
 
 
 
 		//let positions = [1, 2, 3, 4];
-		let positions = [1];
+		let positions = [1, 2];
 		
 		function getTexOutput() {
-			let output = "";
+			let output = writeCommentLine("----------");
+			output += writeCommentLine("RESUME STARTS HERE");
 
 			output += tex_Begin('document');
 
 			output += generateHeader();
 
 			output += generateSummary();
+			
+			output += generateExperience();
+			
+			output += generateEducation();
 			
 			/*
 			output += writeSectionHeading("Technical Skills");
@@ -67,6 +113,9 @@
 			
 			output += tex_End("itemize")
 			*/
+
+
+			//output += generateAllPositions();
 			
 			
 			output += tex_End('document');
@@ -80,11 +129,14 @@
 
 			//positions.forEach(generatePosition);
 
+			
+			
+			
+			
 			let newElement = document.createElement('textarea');
 			newElement.value= output;
 			
 			newElement.id = 'output';
-			//rows=10 cols=80
 			newElement.rows = 10;
 			newElement.cols = 80;
 			
@@ -96,7 +148,7 @@
 		
 		function generateHeader()
 		{
-			let output = "";
+			let output = writeCommentLine("HEADER");
 			
 			output += tex_Begin('center');
 
@@ -106,24 +158,29 @@
 			output += tex_SetMisc('small');
 
 			let phone = document.getElementById('Phone').value;
-			output += writePhoneNumber(phone);
-
-			output+= tex_VerticalBar();
-
 			let email = document.getElementById('Email').value;
-			output += writeEmailLink(email);
-
-			output+= tex_VerticalBar();
-
 			let portfolio = document.getElementById('Portfolio').value;
-			output += writeSocialLink(portfolio);
-
-			output+= tex_VerticalBar();
-			
 			let social = document.getElementById('Social').value;
+			
+			if (phone) {
+				output += writePhoneNumber(phone);
+				output += tex_VerticalBar();
+			}
+			
+			if (email) {
+			output += writeEmailLink(email);
+			output += tex_VerticalBar();
+			}
+			
+			if (portfolio) {
+			output += writeSocialLink(portfolio);
+			output += tex_VerticalBar();
+			}
+			
+			if (social) {
 			output += writeSocialLink(social);
-
 			output += tex_End('center');
+			}
 			
 			return output;
 		}
@@ -131,7 +188,7 @@
 		
 		function generateSummary()
 		{
-			let output = "";
+			let output = writeCommentLine("SUMMARY");
 			output += writeSectionHeading("Summary");
 
 			let summary = document.getElementById('Summary').value;
@@ -139,6 +196,143 @@
 			return output;
 		}
 
+
+		function generateExperience()
+		{
+			let output = writeCommentLine("EXPERIENCE");
+			output += writeSectionHeading("Experience");
+			
+			output += tex_SetMisc('resumeSubHeadingListStart');
+
+
+			//let index = 0;
+			
+			/*
+			while(index < positions.length)
+			{
+				output += generatePosition(positions[index]);
+				index++;
+			}
+			*/
+			
+			for (const position of positions) {
+				output += generateSinglePosition(position);
+			}
+
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+			
+			return output;
+			
+			
+		}
+		
+		function generateSinglePosition(positionNum)
+		{
+
+			let id = positionNum;
+			console.log("id: " + positionNum);
+
+			let jobTitle = document.getElementById('JobTitle'+id).value;
+			let dates = document.getElementById('Dates'+id).value;
+			let companyName = document.getElementById('CompanyName'+id).value;
+			let location = document.getElementById('Location'+id).value;
+
+			/*
+			let output = "";
+			output += tex_SetMisc('resumeSubheading');
+			output += tex_BracketedInput(dates);
+			output += tex_BracketedInput(jobTitle);
+			output += "\n";
+			output += tex_BracketedInput(companyName);
+			output += tex_BracketedInput(location);
+			output += "\n";
+			*/
+			
+			let output = writeFourPartSubheading(jobTitle, dates, companyName, location);
+			
+			//DESCRIPTIONS ARE NOT YET FIGURED OUT
+			//THE ORIGINAL DIDN'T HAVE THEM
+			//let description = document.getElementById('Description'+id).value;
+			//output += tex_WriteFullLineAtSize(description, 'small');
+
+
+
+			output += tex_SetMisc('resumeItemListStart');
+
+
+			let bullets = document.getElementById('Bullets'+id).value;
+
+			const bulletsAsArray = bullets.split(/[\r\n]+/);
+			
+			console.log(bulletsAsArray);
+
+			for (const bullet of bulletsAsArray) {
+				// ...use `element`...
+				//output += bullet;
+
+				//tex_SetMisc
+				output += tex_SetMisc("resumeItem");
+				output += tex_BracketedInput(bullet)
+				output += "\n";
+				
+			}
+
+			output += tex_SetMisc('resumeItemListEnd');
+			
+			//foreac
+			
+			//output +=
+			
+			//output += tex_SetMisc('resumeItemListStart');
+			//output += tex_SetMisc('resumeItem');
+
+
+		//\resumeSubHeadingListEnd
+			
+			/*
+					<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'></input><br><br>
+		<label for='Dates1'>Dates:</label>  <input id='Dates1'></input><br><br>
+		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'></input><br><br>
+		<label for='City1'>City:</label>  <input id='City1'></input><br><br>
+		<label for='Summary1'>Summary: </label><br>
+		<textarea id='Summary1' rows=10 cols=80></textarea><br>
+		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
+		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
+			
+			 */
+
+			return output;
+		}
+		
+		function generateEducation()
+		{
+			let output = writeCommentLine("EDUCATION");
+			output += writeSectionHeading("Education");
+
+			output += tex_SetMisc('resumeSubHeadingListStart');
+			
+			//let summary = document.getElementById('Education').value;
+			//output += tex_WriteFullLineAtSize(summary, 'small');
+
+			/*
+			<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'></input>&emsp;
+			<label for='InstitutionLocation'>Location:</label>  <input id='InstitutionLocation'></input><br><br>
+			<label for='DegreeAwarded'>Company Name:</label>  <input id='DegreeAwarded'></input>&emsp;
+			<label for='EducationDates'>Dates:</label>  <input id='EducationDates'></input><br><br>
+			*/
+
+			let institutionName = document.getElementById('InstitutionName').value;
+			let institutionLocation = document.getElementById('InstitutionLocation').value;
+			let degreeAwarded = document.getElementById('DegreeAwarded').value;
+			let educationDates = document.getElementById('EducationDates').value;
+			
+			output += writeFourPartSubheading(institutionName, institutionLocation, degreeAwarded, educationDates);
+
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+			
+			return output;
+		}
+		
 		
 		/*
 		function generateHeaders() {
@@ -209,7 +403,6 @@
 		function writeJobSeekerName(name)
 		{
 			return tex_WriteFullLineAtSize(name, 'Huge');
-			//return tex_Line(`\\textbf{\\Huge \\scshape ` + name +`} \\\\ \\vspace{1pt}`);
 		}
 		
 		function writePhoneNumber(number)
@@ -249,6 +442,26 @@
 			return tex_SetMisc(`section{`+ sectionName + `}`);
 		}
 		
+		function writeCommentLine(comment)
+		{
+			//let headingCommentString = "%----------HEADING----------";
+			
+			return tex_Line("%----------" + comment + "----------");
+		}
+		
+		function writeFourPartSubheading(topLeft, topRight, bottomLeft, bottomRight)
+		{
+			let output = "";
+			output += tex_SetMisc('resumeSubheading');
+			output += tex_BracketedInput(topLeft);
+			output += tex_BracketedInput(topRight);
+			output += "\n";
+			output += tex_BracketedInput(bottomLeft);
+			output += tex_BracketedInput(bottomRight);
+			output += "\n";
+			return output;
+		}
+		
 		<!-- TEX METHODS -->
 		function tex_Begin(type)
 		{
@@ -282,6 +495,17 @@
 			return `\\` + misc;	
 		}
 		
+		function tex_BracketedInput(input)
+		{
+			return '{' + input +  '}';
+		}
+		
+		function tex_Boilerplate() 
+		{
+
+		//Add the top-level boilerplate here eventually.
+			
+		}
 		
 		<!-- STARTUP METHODS -->
 		function loadInfo()
