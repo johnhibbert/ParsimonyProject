@@ -130,14 +130,14 @@
 		{
 			let output = document.getElementById(elementId).value;
 			
-			console.log(output);
+			//console.log(output);
 			
 			for (const character of escapedCharacters)
 			{
 				output = output.replace(character, `\\${character}`);
 			}
 			
-			console.log(output);
+			//console.log(output);
 			
 			return output;
 		}
@@ -147,7 +147,7 @@
 		function includeSummaryOnOrOff()
 		{
 			let isChecked = document.getElementById('includeSummary').checked;
-			console.log(`includeSummary checked:` + isChecked);
+			//console.log(`includeSummary checked:` + isChecked);
 			document.getElementById(`Summary`).disabled = !isChecked;
 			
 			if(isChecked)
@@ -164,7 +164,7 @@
 		{
 			let switchId = `includePosition${id}`;
 			let isChecked = document.getElementById(switchId).checked;
-			console.log(`${switchId} checked:` + isChecked);
+			//console.log(`${switchId} checked:` + isChecked);
 			
 			document.getElementById(`JobTitle${id}`).disabled = !isChecked;
 			document.getElementById(`Dates${id}`).disabled = !isChecked;
@@ -235,11 +235,11 @@
 
 			output += tex_SetMisc('small');
 
-			let address = document.getElementById("Address").value;
-			let phone = document.getElementById('Phone').value;
-			let email = document.getElementById('Email').value;
-			let portfolio = document.getElementById('Portfolio').value;
-			let social = document.getElementById('Social').value;
+			let address = readInputComponentAndEscapeReservedCharacters("Address");
+			let phone = readInputComponentAndEscapeReservedCharacters('Phone');
+			let email = readInputComponentAndEscapeReservedCharacters('Email');
+			let portfolio = readInputComponentAndEscapeReservedCharacters('Portfolio');
+			let social = readInputComponentAndEscapeReservedCharacters('Social');
 
 			if (address) {
 				output += address;
@@ -274,7 +274,7 @@
 			let output = writeCommentLine("SUMMARY");
 			output += writeSectionHeading("Summary");
 
-			let summary = document.getElementById('Summary').value;
+			let summary = readInputComponentAndEscapeReservedCharacters('Summary');
 			output += tex_WriteFullLineAtSize(summary, 'small');
 			return output;
 		}
@@ -304,12 +304,12 @@
 		function generateSinglePosition(positionNum)
 		{
 			let id = positionNum;
-			console.log("id: " + positionNum);
+			//console.log("id: " + positionNum);
 
-			let jobTitle = document.getElementById('JobTitle'+id).value;
-			let dates = document.getElementById('Dates'+id).value;
-			let companyName = document.getElementById('CompanyName'+id).value;
-			let location = document.getElementById('Location'+id).value;
+			let jobTitle = readInputComponentAndEscapeReservedCharacters('JobTitle'+id);
+			let dates = readInputComponentAndEscapeReservedCharacters('Dates'+id);
+			let companyName = readInputComponentAndEscapeReservedCharacters('CompanyName'+id);
+			let location = readInputComponentAndEscapeReservedCharacters('Location'+id);
 			
 			let output = writeFourPartSubheading(jobTitle, dates, companyName, location);
 			
@@ -319,7 +319,7 @@
 			//output += tex_WriteFullLineAtSize(description, 'small');
 
 			output += tex_SetMisc('resumeItemListStart');
-			let bullets = document.getElementById('Bullets'+id).value;
+			let bullets = readInputComponentAndEscapeReservedCharacters('Bullets'+id);
 			const bulletsAsArray = bullets.split(/[\r\n]+/);
 
 			for (const bullet of bulletsAsArray) {
@@ -340,10 +340,10 @@
 
 			output += tex_SetMisc('resumeSubHeadingListStart');
 
-			let institutionName = document.getElementById('InstitutionName').value;
-			let institutionLocation = document.getElementById('InstitutionLocation').value;
-			let accoladeType1 = document.getElementById('AccoladeType1').value;
-			let accoladeDates1 = document.getElementById('AccoladeDates1').value;
+			let institutionName = readInputComponentAndEscapeReservedCharacters('InstitutionName');
+			let institutionLocation = readInputComponentAndEscapeReservedCharacters('InstitutionLocation');
+			let accoladeType1 = readInputComponentAndEscapeReservedCharacters('AccoladeType1');
+			let accoladeDates1 = readInputComponentAndEscapeReservedCharacters('AccoladeDates1');
 			
 			output += writeFourPartSubheading(institutionName, institutionLocation, accoladeType1, accoladeDates1);
 
