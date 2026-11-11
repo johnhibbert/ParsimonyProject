@@ -19,9 +19,14 @@
 	<label for='Portfolio'>Portfolio:</label>  <input id='Portfolio'></input><br><br>
 	<label for='Social'>Social:</label>  <input id='Social'></input><br><br>
 	<hr/>
+
+	<label for='includeSummary'>Include Summary?
+	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff()" checked></input><br>
 	<label for='Summary'>Summary:</label><br>
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
+		
 	<hr/>
+		
 	<section>
 		<div id='Position1'><b>Position 1:</b></div>
 		<label for='JobTitle1'>Job Title:</label>  <input id='JobTitle1'></input>&emsp;
@@ -84,6 +89,14 @@
 		
 
 
+		<!-- CONTROL METHODS -->
+
+		function includeSummaryOnOrOff()
+		{
+			let isChecked = document.getElementById('includeSummary').checked;
+			console.log(`includeSummary checked:` + isChecked);
+			document.getElementById(`Summary`).disabled = !isChecked;
+		}
 
 		//let positions = [1, 2, 3, 4];
 		let positions = [1, 2];
@@ -95,7 +108,13 @@
 			output += tex_Begin('document');
 
 			output += generateHeader();
-			output += generateSummary();
+
+			let includeSummary = document.getElementById('includeSummary').checked;
+			if(includeSummary)
+			{
+				output += generateSummary();
+			}
+			
 			output += generateExperience();
 			output += generateEducation();
 			
