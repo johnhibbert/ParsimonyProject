@@ -122,6 +122,28 @@
 
 
 		<!-- CONTROL METHODS -->
+		
+		//We must escape the backslash first.
+		escapedCharacters = ['\\', '#', '%', '$', '{', '}'];
+		
+		function readInputComponentAndEscapeReservedCharacters(elementId)
+		{
+			let output = document.getElementById(elementId).value;
+			
+			console.log(output);
+			
+			for (const character of escapedCharacters)
+			{
+				output = output.replace(character, `\\${character}`);
+			}
+			
+			console.log(output);
+			
+			return output;
+		}
+		//MAKE THIS THE DEFAULT WAY TO CONSUME STUFF
+		
+		
 		function includeSummaryOnOrOff()
 		{
 			let isChecked = document.getElementById('includeSummary').checked;
@@ -206,7 +228,9 @@
 			
 			output += tex_Begin('center');
 
-			let name = document.getElementById('Name').value;
+			let name = readInputComponentAndEscapeReservedCharacters('Name');
+			
+			//let name = document.getElementById('Name').value;
 			output += writeJobSeekerName(name);
 
 			output += tex_SetMisc('small');
@@ -272,7 +296,7 @@
 			}
 
 			output += tex_SetMisc('resumeSubHeadingListEnd');
-			
+			output += tex_Line("");
 			return output;
 			
 		}
@@ -305,6 +329,7 @@
 			}
 
 			output += tex_SetMisc('resumeItemListEnd');
+			output += tex_Line("");
 			return output;
 		}
 		
