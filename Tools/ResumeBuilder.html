@@ -48,36 +48,26 @@
 
 			output += tex_Begin('document');
 
-			output += tex_Begin('center');
-			
-			//Doesn't seem like it cares about whitespace.
-			let name = document.getElementById('Name').value;
-			output += writeJobSeekerName(name);
-			
-			output += tex_SetMisc('small');
-			
-			let phone = document.getElementById('Phone').value;
-			output += writePhoneNumber(phone);
-			
-			output+= tex_VerticalBar();
-			
-			let email = document.getElementById('Email').value;
-			output += writeEmailLink(email);
-			
-			output+= tex_VerticalBar();
+			output += generateHeader();
 
-			let social = document.getElementById('Social').value;
-			output += writeSocialLink(social);
+			output += generateSummary();
 			
-			output += tex_End('center');
+			/*
+			output += writeSectionHeading("Technical Skills");
+			output += tex_Begin("itemize");
+			//Add formatting here.
+			output += tex_SetMisc("small{");
+			output += tex_SetMisc("item{");
+			output += tex_SetMisc("textbf{}}}");
 			
 			
-			
+			output += tex_End("itemize")
+			*/
 			
 			
 			output += tex_End('document');
-
-
+			
+			
 			
 			console.log(output);
 			
@@ -88,6 +78,55 @@
 		
 		}
 
+		<!-- GENERATE METHODS -->
+		
+		function generateHeader()
+		{
+			let output = "";
+			
+			output += tex_Begin('center');
+
+			let name = document.getElementById('Name').value;
+			output += writeJobSeekerName(name);
+
+			output += tex_SetMisc('small');
+
+			let phone = document.getElementById('Phone').value;
+			output += writePhoneNumber(phone);
+
+			output+= tex_VerticalBar();
+
+			let email = document.getElementById('Email').value;
+			output += writeEmailLink(email);
+
+			output+= tex_VerticalBar();
+
+			let portfolio = document.getElementById('Portfolio').value;
+			output += writeSocialLink(portfolio);
+
+			output+= tex_VerticalBar();
+			
+			let social = document.getElementById('Social').value;
+			output += writeSocialLink(social);
+
+			output += tex_End('center');
+			
+			return output;
+		}
+		
+		
+		function generateSummary()
+		{
+			let output = "";
+			output += writeSectionHeading("Summary");
+
+			let summary = document.getElementById('Summary').value;
+			output += tex_WriteFullLineAtSize(summary, 'small');
+			return output;
+		}
+
+		
+		/*
 		function generateHeaders() {
 
 			//Why aren't we using string interpolation / template literals?
@@ -99,6 +138,8 @@
 			// It also says Tex/Latex too.
 			
 			//Cooked/Raw?  READ THIS
+			
+			//Hmm this is working for now.
 			
 			//FINISH THIS
 			let name = document.getElementById('Name').value;
@@ -148,12 +189,13 @@
 			let salary = document.getElementById('salary'+id).value;
 			
 		}
-
+*/
 
 		<!-- SECTION METHODS -->
 		function writeJobSeekerName(name)
 		{
-			return tex_Line(`\\textbf{\\Huge \\scshape ` + name +`} \\\\ \\vspace{1pt}`);
+			return tex_WriteFullLineAtSize(name, 'Huge');
+			//return tex_Line(`\\textbf{\\Huge \\scshape ` + name +`} \\\\ \\vspace{1pt}`);
 		}
 		
 		function writePhoneNumber(number)
@@ -172,7 +214,7 @@
 		function writeSocialLink(address)
 		{
 			let link = address;
-			let text = address.toLowerCase().replace("https://www.","");
+			let text = address.toLowerCase().replace("https://","").replace("www.","");
 
 			return writeHyperlink(link, text)
 		}
@@ -188,6 +230,10 @@
 			return value;
 		}
 		
+		function writeSectionHeading(sectionName)
+		{
+			return tex_SetMisc(`section{`+ sectionName + `}`);
+		}
 		
 		<!-- TEX METHODS -->
 		function tex_Begin(type)
@@ -200,6 +246,11 @@
 		{
 			let value = `\\end{` + type +  `}`;
 			return tex_Line(value)
+		}
+
+		function tex_WriteFullLineAtSize(input, size)
+		{
+			return tex_Line(`\\textbf{\\`+ size + ` \\scshape ` + input +`} \\\\ \\vspace{1pt}`);
 		}
 		
 		function tex_Line(input)
