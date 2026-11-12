@@ -385,23 +385,10 @@
 			output += tex_SetMisc('resumeSubHeadingListStart');
 			
 			let projects = readInputComponentAndEscapeReservedCharacters('Projects');
-			const projectsAsArray = projects.split(/[\r\n]+/);
-
-			for (const projectLine of projectsAsArray)
-			{
-				const projectArray = projectLine.split("::");
-				//Remove trailing spaces
-				let projectName = projectArray[0].replace(/\s+$/, '') + ':';
-				let projectDescription = projectArray[1];
-				
-				output += tex_SetMisc("titledResumeItem");
-				output += tex_BracketedInput(projectName)
-				output += tex_Line("");
-				output += tex_BracketedInput(projectDescription)
-				output += tex_Line("");
-			}
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += writeTitledSection(projects);
 			
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+
 			return output;
 		}
 				
