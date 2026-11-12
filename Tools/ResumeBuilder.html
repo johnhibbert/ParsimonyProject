@@ -48,10 +48,7 @@
 		<label for='Dates1'>Dates:</label>  <input id='Dates1'/><br><br>
 		<label for='CompanyName1'>Company Name:</label>  <input id='CompanyName1'/>&emsp;
 		<label for='Location1'>Location:</label>  <input id='Location1'/><br><br>
-		<!-- Descriptions don't work yet, add them later.
-		<label for='Description1'>Description: </label><br>
-		<textarea id='Description1' rows=10 cols=80></textarea><br>
-		-->
+		<label for='Description1'>Position Description <span style='font-style:italic'>(optional)</span>: </label><br> <input id='Description1' size="150"/><br><br>
 		<label for='Bullets1'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets1' rows=10 cols=80></textarea><br>
 	</section>
@@ -64,6 +61,7 @@
 		<label for='Dates2'>Dates:</label>  <input id='Dates2'/><br><br>
 		<label for='CompanyName2'>Company Name:</label>  <input id='CompanyName2'/>&emsp;
 		<label for='Location2'>Location:</label>  <input id='Location2'/><br><br>
+		<label for='Description2'>Position Description: <span style='font-style:italic'>(optional)</span>: </label><br> <input id='Description2' size="150"/><br><br>
 		<label for='Bullets2'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets2' rows=10 cols=80></textarea><br>
 	</section>
@@ -76,6 +74,7 @@
 		<label for='Dates3'>Dates:</label>  <input id='Dates3'/><br><br>
 		<label for='CompanyName3'>Company Name:</label>  <input id='CompanyName3'/>&emsp;
 		<label for='Location3'>Location:</label>  <input id='Location3'/><br><br>
+		<label for='Description3'>Position Description: <span style='font-style:italic'>(optional)</span>: </label><br> <input id='Description3' size="150"/><br><br>
 		<label for='Bullets3'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets3' rows=10 cols=80></textarea><br>
 	</section>
@@ -88,6 +87,7 @@
 		<label for='Dates4'>Dates:</label>  <input id='Dates4'/><br><br>
 		<label for='CompanyName4'>Company Name:</label>  <input id='CompanyName4'/>&emsp;
 		<label for='Location4'>Location:</label>  <input id='Location4'/><br><br>
+		<label for='Description4'>Position Description: <span style='font-style:italic'>(optional)</span>: </label><br> <input id='Description4' size="150"/><br><br>
 		<label for='Bullets4'>Bullets: <span style='font-style:italic'>(One per line)</span></label><br>
 		<textarea id='Bullets4' rows=10 cols=80></textarea><br>
 	</section>
@@ -357,7 +357,6 @@
 		function generateSinglePosition(positionNum)
 		{
 			let id = positionNum;
-			//console.log("id: " + positionNum);
 
 			let jobTitle = readInputComponentAndEscapeReservedCharacters('JobTitle'+id);
 			let dates = readInputComponentAndEscapeReservedCharacters('Dates'+id);
@@ -366,10 +365,13 @@
 			
 			let output = writeFourPartSubheading(jobTitle, dates, companyName, location);
 			
-			//DESCRIPTIONS ARE NOT YET FIGURED OUT
-			//THE ORIGINAL DIDN'T HAVE THEM
-			//let description = document.getElementById('Description'+id).value;
-			//output += tex_WriteFullLineAtSize(description, 'small');
+			let description = readInputComponentAndEscapeReservedCharacters('Description'+id);
+			if(description !== "")
+			{
+				output += tex_SetMisc('positionDescription');
+				output += " ";
+				output += description;
+			}
 
 			output += tex_SetMisc('resumeItemListStart');
 			let bullets = readInputComponentAndEscapeReservedCharacters('Bullets'+id);
@@ -623,6 +625,12 @@
   }
 }
 
+\\newcommand{\\positionDescription}[0]{
+  \\item\\small{
+    {\\vspace{6pt}}
+  }
+}
+
 \\newcommand{\\resumeSubheading}[4]{
   \\vspace{-2pt}\\item
     \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
@@ -680,24 +688,28 @@
 			document.getElementById('Dates1').value = defaultJobDates1;
 			document.getElementById('CompanyName1').value = defaultCompanyName1;
 			document.getElementById('Location1').value = defaultLocation1;
+			document.getElementById('Description1').value = defaultDescription1;
 			document.getElementById('Bullets1').value = defaultBullets1.join("\n");
 
 			document.getElementById('JobTitle2').value = defaultJobTitle2;
 			document.getElementById('Dates2').value = defaultJobDates2;
 			document.getElementById('CompanyName2').value = defaultCompanyName2;
 			document.getElementById('Location2').value = defaultLocation2;
+			document.getElementById('Description2').value = defaultDescription2;
 			document.getElementById('Bullets2').value = defaultBullets2.join("\n");
 
 			document.getElementById('JobTitle3').value = defaultJobTitle3;
 			document.getElementById('Dates3').value = defaultJobDates3;
 			document.getElementById('CompanyName3').value = defaultCompanyName3;
 			document.getElementById('Location3').value = defaultLocation3;
+			document.getElementById('Description3').value = defaultDescription3;
 			document.getElementById('Bullets3').value = defaultBullets3.join("\n");
 
 			document.getElementById('JobTitle4').value = defaultJobTitle4;
 			document.getElementById('Dates4').value = defaultJobDates4;
 			document.getElementById('CompanyName4').value = defaultCompanyName4;
 			document.getElementById('Location4').value = defaultLocation4;
+			document.getElementById('Description4').value = defaultDescription4;
 			document.getElementById('Bullets4').value = defaultBullets4.join("\n");
 			
 			document.getElementById('Projects').value = defaultProjects.join("\n");
@@ -732,6 +744,7 @@
 		let defaultJobDates1 = "1997 - 2003";
 		let defaultCompanyName1 = "Acme Corporation";
 		let defaultLocation1 = "Dubuque, IA";
+		let defaultDescription1 = "Directed operations to maintain customer loyalty at top company, widely diversified across all industries, including anvil manufacturing, birdseed production and rocket-enhanced sporting gear such as rocket skates and rocket bicycles.";
 		let defaultBullets1 =
 			[
 				"Created a new and elaborate phone tree system to prevent customers from using refund system, decreasing operating expenses by $20 million annually",
@@ -744,6 +757,7 @@
 		let defaultJobDates2 = "1989 - 1995";
 		let defaultCompanyName2 = "Aperture Science";
 		let defaultLocation2 = "Sault Ste. Marie, MI";
+		let defaultDescription2 = "Coordinated scientific testing for unorthodox scientific organization leading the field of portal related technologies. Recruited test subjects from large pool of potential candidates.";
 		let defaultBullets2 =
 			[
 				"Orchestrated office remodelling campaign to allow rapid deployment of new test chambers, increasing testable options to over three hundred ",
@@ -755,6 +769,7 @@
 		let defaultJobDates3 = "1979 - 1989";
 		let defaultCompanyName3 = "Dunder Mifflin";
 		let defaultLocation3 = "Scranton, PA";
+		let defaultDescription3 = "Managed various projects for well-established paper goods company.  Looked directly into the camera on occasion.";
 		let defaultBullets3 =
 			[
 				"Achieved many achievements while accomplishing many accomplishments",
@@ -766,6 +781,7 @@
 		let defaultJobDates4 = "1977 - 1979";
 		let defaultCompanyName4 = "Big Kahuna Burger";
 		let defaultLocation4 = "Altadena, CA";
+		let defaultDescription4 = "Corralled customers and served high-quality meat products in a high-stress environment.";
 		let defaultBullets4 =
 			[
 				"Invented the Pineapple Punch Lunch, voted Most Popular Sandwich by the San Gabriel Gazette",
