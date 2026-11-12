@@ -32,6 +32,8 @@
 	<label for='Skills'><b>Skills:</b></label>
 	<label for='includeSkills'>Include?</label>
 	<input type="checkbox" id="includeSkills" onchange="includeTextAreaOnOrOff('Skills')" checked/><br>
+	<label for='OptionalSkillLabel'>Skills Label:<span style='font-style:italic'> (optional)</span></label> <input id='OptionalSkillLabel'/><br><br>
+	
 	<i>(One per line. Separate Skill Category and List with two colons '::' )</i><br>
 	<i>(Skill Category :: Skill List)</i><br>
 	<textarea id='Skills' rows=10 cols=80></textarea><br>
@@ -313,8 +315,14 @@
 
 		function generateSkills() 
 		{
+			let skillDescriptor = readInputComponentAndEscapeReservedCharacters("OptionalSkillLabel").trim();
+			if(skillDescriptor !== "")
+			{
+				skillDescriptor += " ";
+			}
+			
 			let output = writeCommentLine("SKILLS");
-			output += writeSectionHeading("Skills");
+			output += writeSectionHeading(skillDescriptor + "Skills");
 			output += tex_SetMisc('resumeSubHeadingListStart');
 
 			let skills = readInputComponentAndEscapeReservedCharacters('Skills');
