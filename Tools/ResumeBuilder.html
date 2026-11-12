@@ -11,10 +11,9 @@
 	<div id='explanation2'><i>Note:</i> You will need an outside program to process that TeX into an actual document. </div>
 	<br/>
 
+	<!-- HEADER -->
 	<hr/>
-	<label for='Name'>Name:</label>  <input id='Name'></input>
-	<hr/>
-
+	<label for='Name'>Name:</label>  <input id='Name'><br><br>
 	<label for='Address'>Address:</label>  <input id='Address' size="50"/><br><br>
 	<label for='Phone'>Phone:</label>  <input id='Phone' size="50"/><br><br>
 	<label for='Email'>Email:</label>  <input id='Email' size="50"/><br><br>
@@ -22,13 +21,14 @@
 	<label for='Social'>Social:</label>  <input id='Social' size="50"/><br><br>
 	<hr/>
 
+	<!-- SUMMARY -->
 	<label for='includeSummary'>Include Summary?</label>
 	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff('Summary')" checked/><br>
 	<label for='Summary'>Summary:</label><br>
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
-		
 	<hr/>
-		
+	
+	<!-- EXPERIENCE -->	
 	<section>
 		<div><b>Position 1:</b></div>
 		<label for='includePosition1'>Include?</label>
@@ -82,6 +82,16 @@
 	</section>
 	<hr/>
 
+	<!-- PROJECTS -->
+	<label for='Projects'><b>Projects:</b></label>
+	<label for='includeProjects'>Include?</label>
+	<input type="checkbox" id="includeProjects" onchange="includeTextAreaOnOrOff('Projects')" checked/><br>
+	<i>(One per line. Separate Project Name and Description with two colons '::' )</i><br>
+	<i>(Project Name :: Project Description)</i><br>
+	<textarea id='Projects' rows=10 cols=80></textarea><br>
+	<hr/>
+
+	<!-- EDUCATION -->
 	<section>
 		<div id='Education'><b>Education:</b></div>
 		<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'/>&emsp;
@@ -93,8 +103,9 @@
 		<label for='AccoladeDates2'>Dates:</label>  <input id='AccoladeDates2'/><br><br>
 		-->
 	</section>
-	
 	<hr/>
+
+	<!-- OUTPUT -->
 	<input type="button" onclick='getTexOutput()' value="Get Tex Output"/><br>
 	<label for='output'>Output:</label><br>
 	<textarea id='output' rows=10 cols=80></textarea><br>
@@ -142,7 +153,23 @@
 			return output;
 		}
 		//MAKE THIS THE DEFAULT WAY TO CONSUME STUFF
-		
+
+
+		function includeTextAreaOnOrOff(name)
+		{
+			let isChecked = document.getElementById(`include${name}`).checked;
+			//console.log(`includeSummary checked:` + isChecked);
+			document.getElementById(name).disabled = !isChecked;
+
+			if(isChecked)
+			{
+				document.getElementById(name).style.background = "white";
+			}
+			else
+			{
+				document.getElementById(name).style.background = "grey";
+			}
+		}
 		
 		function includeSummaryOnOrOff()
 		{
@@ -204,6 +231,12 @@
 			}
 			
 			output += generateExperience();
+
+			let includeProjects = document.getElementById('includeProjects').checked;
+			if(includeProjects) {
+				output += generateProjects();
+			}
+			
 			output += generateEducation();
 			
 			output += tex_End('document');
@@ -330,6 +363,33 @@
 
 			output += tex_SetMisc('resumeItemListEnd');
 			output += tex_Line("");
+			return output;
+		}
+		
+		function generateProjects()
+		{
+			let output = writeCommentLine("PROJECTS");
+			output += writeSectionHeading("Projects");
+			output += tex_SetMisc('resumeSubHeadingListStart');
+			
+			let projects = readInputComponentAndEscapeReservedCharacters('Projects');
+			const projectsAsArray = projects.split(/[\r\n]+/);
+
+			for (const projectLine of projectsAsArray)
+			{
+				const projectArray = projectLine.split("::");
+				//Remove trailing spaces
+				let projectName = projectArray[0].replace(/\s+$/, '') + ':';
+				let projectDescription = projectArray[1];
+				
+				output += tex_SetMisc("titledResumeItem");
+				output += tex_BracketedInput(projectName)
+				output += tex_Line("");
+				output += tex_BracketedInput(projectDescription)
+				output += tex_Line("");
+			}
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+			
 			return output;
 		}
 		
@@ -527,6 +587,12 @@
   }
 }
 
+\\newcommand{\\titledResumeItem}[1]{
+  \\item\\small{
+    \\textbf{#1 \\vspace{-2pt}} \\hspace{-20pt}
+  }
+}
+
 \\newcommand{\\resumeSubheading}[4]{
   \\vspace{-2pt}\\item
     \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
@@ -618,8 +684,7 @@
 		let defaultPortfolio = 'GitHub';
 		let defaultSocial = 'LinkedIn';
 		
-		let defaultSummary = "6 years being a default summary";
-		
+		let defaultSummary = "6 years being a default summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 		
 		let defaultJobTitle1 = "Job Manager";
 		let defaultJobDates1 = "1666 - 2003";
@@ -642,17 +707,25 @@
 				'yet another bullet point here'
 			];
 
-		let defaultJobTitle3 = "";
-		let defaultJobDates3 = "";
-		let defaultCompanyName3 = "";
-		let defaultLocation3 = "";
-		let defaultBullets3 = [];
+		let defaultJobTitle3 = "Next Level Human";
+		let defaultJobDates3 = "100 - 150";
+		let defaultCompanyName3 = "Company";
+		let defaultLocation3 = "Remote, UT";
+		let defaultBullets3 = 
+			[
+			'Example',
+			'Something Else'
+			];
 
-		let defaultJobTitle4 = "";
-		let defaultJobDates4 = "";
-		let defaultCompanyName4 = "";
-		let defaultLocation4 = "";
-		let defaultBullets4 = [];
+		let defaultJobTitle4 = "Entry Level Human";
+		let defaultJobDates4 = "3 - 7";
+		let defaultCompanyName4 = "Corporation";
+		let defaultLocation4 = "London, UK";
+		let defaultBullets4 =
+			[
+				'Achoo',
+				'stuff'
+			];
 		
 		let defaultInstitutionName = "School of Hard Knox";
 		let defaultInstitutionLocation = "Fort Knox, KY";
