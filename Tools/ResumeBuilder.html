@@ -11,10 +11,9 @@
 	<div id='explanation2'><i>Note:</i> You will need an outside program to process that TeX into an actual document. </div>
 	<br/>
 
+	<!-- HEADER -->
 	<hr/>
-	<label for='Name'>Name:</label>  <input id='Name'></input>
-	<hr/>
-
+	<label for='Name'>Name:</label>  <input id='Name'><br><br>
 	<label for='Address'>Address:</label>  <input id='Address' size="50"/><br><br>
 	<label for='Phone'>Phone:</label>  <input id='Phone' size="50"/><br><br>
 	<label for='Email'>Email:</label>  <input id='Email' size="50"/><br><br>
@@ -22,13 +21,14 @@
 	<label for='Social'>Social:</label>  <input id='Social' size="50"/><br><br>
 	<hr/>
 
+	<!-- SUMMARY -->
 	<label for='includeSummary'>Include Summary?</label>
 	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff('Summary')" checked/><br>
 	<label for='Summary'>Summary:</label><br>
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
-		
 	<hr/>
-		
+	
+	<!-- EXPERIENCE -->	
 	<section>
 		<div><b>Position 1:</b></div>
 		<label for='includePosition1'>Include?</label>
@@ -82,6 +82,16 @@
 	</section>
 	<hr/>
 
+	<!-- PROJECTS -->
+	<label for='Projects'><b>Projects:</b></label>
+	<label for='includeProjects'>Include?</label>
+	<input type="checkbox" id="includeProjects" onchange="includeTextAreaOnOrOff('Projects')" checked/><br>
+	<i>(One per line. Separate Project Name and Description with two colons '::' )</i><br>
+	<i>(Project Name :: Project Description)</i><br>
+	<textarea id='Projects' rows=10 cols=80></textarea><br>
+	<hr/>
+
+	<!-- EDUCATION -->
 	<section>
 		<div id='Education'><b>Education:</b></div>
 		<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'/>&emsp;
@@ -93,8 +103,9 @@
 		<label for='AccoladeDates2'>Dates:</label>  <input id='AccoladeDates2'/><br><br>
 		-->
 	</section>
-	
 	<hr/>
+
+	<!-- OUTPUT -->
 	<input type="button" onclick='getTexOutput()' value="Get Tex Output"/><br>
 	<label for='output'>Output:</label><br>
 	<textarea id='output' rows=10 cols=80></textarea><br>
@@ -142,7 +153,23 @@
 			return output;
 		}
 		//MAKE THIS THE DEFAULT WAY TO CONSUME STUFF
-		
+
+
+		function includeTextAreaOnOrOff(name)
+		{
+			let isChecked = document.getElementById(`include${name}`).checked;
+			//console.log(`includeSummary checked:` + isChecked);
+			document.getElementById(name).disabled = !isChecked;
+
+			if(isChecked)
+			{
+				document.getElementById(name).style.background = "white";
+			}
+			else
+			{
+				document.getElementById(name).style.background = "grey";
+			}
+		}
 		
 		function includeSummaryOnOrOff()
 		{
@@ -204,6 +231,9 @@
 			}
 			
 			output += generateExperience();
+
+			output += generateProjects();
+			
 			output += generateEducation();
 			
 			output += tex_End('document');
@@ -330,6 +360,32 @@
 
 			output += tex_SetMisc('resumeItemListEnd');
 			output += tex_Line("");
+			return output;
+		}
+		
+		function generateProjects()
+		{
+			let output = writeCommentLine("PROJECTS");
+			output += writeSectionHeading("Projects");
+			output += tex_SetMisc('resumeSubHeadingListStart');
+			
+			let projects = readInputComponentAndEscapeReservedCharacters('Projects');
+			const projectsAsArray = projects.split(/[\r\n]+/);
+
+			for (const projectLine of projectsAsArray)
+			{
+				const projectArray = projectLine.split("::");
+				let projectName = projectArray[0];
+				let projectDescription = projectArray[1];
+				
+				output += tex_SetMisc("titledResumeItem");
+				output += tex_BracketedInput(projectName)
+				output += tex_Line("");
+				output += tex_BracketedInput(projectDescription)
+				output += tex_Line("");
+			}
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+			
 			return output;
 		}
 		
@@ -524,6 +580,12 @@
 \\newcommand{\\resumeItem}[1]{
   \\item\\small{
     {#1 \\vspace{-2pt}}
+  }
+}
+
+\\newcommand{\\titledResumeItem}[1]{
+  \\item\\small{
+    \\textbf{#1 \\vspace{-2pt}}
   }
 }
 
