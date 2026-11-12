@@ -232,7 +232,10 @@
 			
 			output += generateExperience();
 
-			output += generateProjects();
+			let includeProjects = document.getElementById('includeProjects').checked;
+			if(includeProjects) {
+				output += generateProjects();
+			}
 			
 			output += generateEducation();
 			
