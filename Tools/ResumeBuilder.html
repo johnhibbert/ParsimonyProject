@@ -624,7 +624,7 @@
 
 \\newcommand{\\titledResumeItem}[1]{
   \\item\\small{
-    \\textbf{#1 \\vspace{-2pt}} \\hspace{-20pt}
+    \\textbf{#1 \\vspace{-6pt}} \\hspace{-20pt}
   }
 }
 
@@ -679,6 +679,8 @@
 
 			document.getElementById('Summary').value = defaultSummary;
 
+			document.getElementById('Skills').value = defaultSkills.join("\n");
+			
 			document.getElementById('JobTitle1').value = defaultJobTitle1;
 			document.getElementById('Dates1').value = defaultJobDates1;
 			document.getElementById('CompanyName1').value = defaultCompanyName1;
@@ -722,6 +724,12 @@
 		let defaultSocial = 'LinkedIn';
 		
 		let defaultSummary = "6 years being a default summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+		let defaultSkills =
+			[
+				'Field:: Skill, Skill, Skill',
+				'Aspect:: Item, Another Thing, Something Else'
+			];
 		
 		let defaultJobTitle1 = "Job Manager";
 		let defaultJobDates1 = "1666 - 2003";
