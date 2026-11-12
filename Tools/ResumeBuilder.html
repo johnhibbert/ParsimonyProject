@@ -23,9 +23,18 @@
 
 	<!-- SUMMARY -->
 	<label for='includeSummary'>Include Summary?</label>
-	<input type="checkbox" id="includeSummary" onchange="includeSummaryOnOrOff('Summary')" checked/><br>
+	<input type="checkbox" id="includeSummary" onchange="includeTextAreaOnOrOff('Summary')" checked/><br>
 	<label for='Summary'>Summary:</label><br>
 	<textarea id='Summary' rows=10 cols=80></textarea><br>
+	<hr/>
+
+	<!-- SKILLS -->
+	<label for='Skills'><b>Skills:</b></label>
+	<label for='includeSkills'>Include?</label>
+	<input type="checkbox" id="includeSkills" onchange="includeTextAreaOnOrOff('Skills')" checked/><br>
+	<i>(One per line. Separate Skill Category and List with two colons '::' )</i><br>
+	<i>(Skill Category :: Skill List)</i><br>
+	<textarea id='Skills' rows=10 cols=80></textarea><br>
 	<hr/>
 	
 	<!-- EXPERIENCE -->	
@@ -170,22 +179,6 @@
 				document.getElementById(name).style.background = "grey";
 			}
 		}
-		
-		function includeSummaryOnOrOff()
-		{
-			let isChecked = document.getElementById('includeSummary').checked;
-			//console.log(`includeSummary checked:` + isChecked);
-			document.getElementById(`Summary`).disabled = !isChecked;
-			
-			if(isChecked)
-			{
-				document.getElementById(`Summary`).style.background = "white";
-			}
-			else 
-			{
-				document.getElementById(`Summary`).style.background = "grey";
-			}
-		}
 
 		function includePositionOnOrOff(id)
 		{
@@ -228,6 +221,12 @@
 			if(includeSummary)
 			{
 				output += generateSummary();
+			}
+
+			let includeSkills = document.getElementById('includeSkills').checked;
+			if(includeSkills)
+			{
+				output += generateSkills();
 			}
 			
 			output += generateExperience();
@@ -312,6 +311,19 @@
 			return output;
 		}
 
+		function generateSkills() 
+		{
+			let output = writeCommentLine("SKILLS");
+			output += writeSectionHeading("Skills");
+			output += tex_SetMisc('resumeSubHeadingListStart');
+
+			let skills = readInputComponentAndEscapeReservedCharacters('Skills');
+			output += writeTitledSection(skills);
+			
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+			return output;
+		}
+		
 		function generateExperience()
 		{
 			let output = writeCommentLine("EXPERIENCE");
@@ -373,26 +385,13 @@
 			output += tex_SetMisc('resumeSubHeadingListStart');
 			
 			let projects = readInputComponentAndEscapeReservedCharacters('Projects');
-			const projectsAsArray = projects.split(/[\r\n]+/);
-
-			for (const projectLine of projectsAsArray)
-			{
-				const projectArray = projectLine.split("::");
-				//Remove trailing spaces
-				let projectName = projectArray[0].replace(/\s+$/, '') + ':';
-				let projectDescription = projectArray[1];
-				
-				output += tex_SetMisc("titledResumeItem");
-				output += tex_BracketedInput(projectName)
-				output += tex_Line("");
-				output += tex_BracketedInput(projectDescription)
-				output += tex_Line("");
-			}
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += writeTitledSection(projects);
 			
+			output += tex_SetMisc('resumeSubHeadingListEnd');
+
 			return output;
 		}
-		
+				
 		function generateEducation()
 		{
 			let output = writeCommentLine("EDUCATION");
@@ -479,6 +478,29 @@
 			output += tex_BracketedInput(first);
 			output += tex_BracketedInput(second);
 			output += tex_Line("");
+			return output;
+		}
+		
+		function writeTitledSection(string)
+		{
+			let output = "";
+			
+			const itemsAsArray = string.split(/[\r\n]+/);
+
+			for (const line of itemsAsArray)
+			{
+				const lineArray = line.split("::");
+				//Remove trailing spaces
+				let name = lineArray[0].replace(/\s+$/, '') + ':';
+				let content = lineArray[1];
+
+				output += tex_SetMisc("titledResumeItem");
+				output += tex_BracketedInput(name)
+				output += tex_Line("");
+				output += tex_BracketedInput(content)
+				output += tex_Line("");
+			}
+			
 			return output;
 		}
 		
@@ -589,7 +611,7 @@
 
 \\newcommand{\\titledResumeItem}[1]{
   \\item\\small{
-    \\textbf{#1 \\vspace{-2pt}} \\hspace{-20pt}
+    \\textbf{#1 \\vspace{-6pt}} \\hspace{-20pt}
   }
 }
 
@@ -644,6 +666,8 @@
 
 			document.getElementById('Summary').value = defaultSummary;
 
+			document.getElementById('Skills').value = defaultSkills.join("\n");
+			
 			document.getElementById('JobTitle1').value = defaultJobTitle1;
 			document.getElementById('Dates1').value = defaultJobDates1;
 			document.getElementById('CompanyName1').value = defaultCompanyName1;
@@ -687,6 +711,12 @@
 		let defaultSocial = 'LinkedIn';
 		
 		let defaultSummary = "6 years being a default summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+		let defaultSkills =
+			[
+				'Field:: Skill, Skill, Skill',
+				'Aspect:: Item, Another Thing, Something Else'
+			];
 		
 		let defaultJobTitle1 = "Job Manager";
 		let defaultJobDates1 = "1666 - 2003";
