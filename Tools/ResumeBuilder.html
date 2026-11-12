@@ -107,12 +107,11 @@
 		<div id='Education'><b>Education:</b></div>
 		<label for='InstitutionName'>Institution Name:</label>  <input id='InstitutionName'/>&emsp;
 		<label for='InstitutionLocation'>Location:</label>  <input id='InstitutionLocation'/><br><br>
-		<label for='AccoladeType1'>Degree Awarded:</label>  <input id='AccoladeType1'/>&emsp;
+		<label for='AccoladeType1'>Most Recent Degree:</label>  <input id='AccoladeType1'/>&emsp;
 		<label for='AccoladeDates1'>Dates:</label>  <input id='AccoladeDates1'/><br><br>
-		<!--  THIS DOESN'T WORK YET 
-		<label for='Accolade2'>Degree Awarded:</label>  <input id='Accolade2'/>&emsp;
+		<label for='AccoladeType2'>Other Degree:</label>  <input id='AccoladeType2'/>&emsp;
 		<label for='AccoladeDates2'>Dates:</label>  <input id='AccoladeDates2'/><br><br>
-		-->
+		
 	</section>
 	<hr/>
 
@@ -404,19 +403,38 @@
 				
 		function generateEducation()
 		{
-			let output = writeCommentLine("EDUCATION");
-			output += writeSectionHeading("Education");
+			let output = "";
 
-			output += tex_SetMisc('resumeSubHeadingListStart');
-
-			let institutionName = readInputComponentAndEscapeReservedCharacters('InstitutionName');
-			let institutionLocation = readInputComponentAndEscapeReservedCharacters('InstitutionLocation');
-			let accoladeType1 = readInputComponentAndEscapeReservedCharacters('AccoladeType1');
-			let accoladeDates1 = readInputComponentAndEscapeReservedCharacters('AccoladeDates1');
+			let institutionName = readInputComponentAndEscapeReservedCharacters('InstitutionName').trim();
+			let institutionLocation = readInputComponentAndEscapeReservedCharacters('InstitutionLocation').trim();
 			
-			output += writeFourPartSubheading(institutionName, institutionLocation, accoladeType1, accoladeDates1);
+			if(institutionName !== "")
+			{
+				let accoladeType1 = readInputComponentAndEscapeReservedCharacters('AccoladeType1').trim();
+				let accoladeDates1 = readInputComponentAndEscapeReservedCharacters('AccoladeDates1').trim();
 
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+				if (accoladeType1 !== "") {
+
+					output += writeCommentLine("EDUCATION");
+					output += writeSectionHeading("Education");
+
+					output += tex_SetMisc('resumeSubHeadingListStart');
+
+
+					output += writeFourPartSubheading(institutionName, institutionLocation, accoladeType1, accoladeDates1);
+
+					let accoladeType2 = readInputComponentAndEscapeReservedCharacters('AccoladeType2').trim();
+					let accoladeDates2 = readInputComponentAndEscapeReservedCharacters('AccoladeDates2').trim();
+
+					if (accoladeType2 !== "") {
+						output += tex_SetMisc('resumeSubSubheading');
+						output += tex_BracketedInput(accoladeType2);
+						output += tex_BracketedInput(accoladeDates2);
+					}
+
+					output += tex_SetMisc('resumeSubHeadingListEnd');
+				}
+			}
 			
 			return output;
 		}
@@ -718,6 +736,8 @@
 			document.getElementById('InstitutionLocation').value =defaultInstitutionLocation;
 			document.getElementById('AccoladeType1').value = defaultAccoladeType1;
 			document.getElementById('AccoladeDates1').value = defaultAccoladeDate1;
+			document.getElementById('AccoladeType2').value = defaultAccoladeType2;
+			document.getElementById('AccoladeDates2').value = defaultAccoladeDate2;
 			
 		}
 
@@ -796,8 +816,10 @@
 
 		let defaultInstitutionName = "School of Hard Knox";
 		let defaultInstitutionLocation = "Fort Knox, KY";
-		let defaultAccoladeType1 = "Bachelor of Arts in Education";
+		let defaultAccoladeType1 = "Masters in Business Administration";
 		let defaultAccoladeDate1 = "1974";
+		let defaultAccoladeType2 = "Bachelor of Arts in Education";
+		let defaultAccoladeDate2 = "1972";
 
 	</script>
 </html>
