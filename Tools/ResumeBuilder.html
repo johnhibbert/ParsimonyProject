@@ -375,7 +375,8 @@
 			for (const projectLine of projectsAsArray)
 			{
 				const projectArray = projectLine.split("::");
-				let projectName = projectArray[0];
+				//Remove trailing spaces
+				let projectName = projectArray[0].replace(/\s+$/, '') + ':';
 				let projectDescription = projectArray[1];
 				
 				output += tex_SetMisc("titledResumeItem");
@@ -585,7 +586,7 @@
 
 \\newcommand{\\titledResumeItem}[1]{
   \\item\\small{
-    \\textbf{#1 \\vspace{-2pt}}
+    \\textbf{#1 \\vspace{-2pt}} \\hspace{-20pt}
   }
 }
 
@@ -680,8 +681,7 @@
 		let defaultPortfolio = 'GitHub';
 		let defaultSocial = 'LinkedIn';
 		
-		let defaultSummary = "6 years being a default summary";
-		
+		let defaultSummary = "6 years being a default summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 		
 		let defaultJobTitle1 = "Job Manager";
 		let defaultJobDates1 = "1666 - 2003";
@@ -704,17 +704,25 @@
 				'yet another bullet point here'
 			];
 
-		let defaultJobTitle3 = "";
-		let defaultJobDates3 = "";
-		let defaultCompanyName3 = "";
-		let defaultLocation3 = "";
-		let defaultBullets3 = [];
+		let defaultJobTitle3 = "Next Level Human";
+		let defaultJobDates3 = "100 - 150";
+		let defaultCompanyName3 = "Company";
+		let defaultLocation3 = "Remote, UT";
+		let defaultBullets3 = 
+			[
+			'Example',
+			'Something Else'
+			];
 
-		let defaultJobTitle4 = "";
-		let defaultJobDates4 = "";
-		let defaultCompanyName4 = "";
-		let defaultLocation4 = "";
-		let defaultBullets4 = [];
+		let defaultJobTitle4 = "Entry Level Human";
+		let defaultJobDates4 = "3 - 7";
+		let defaultCompanyName4 = "Corporation";
+		let defaultLocation4 = "London, UK";
+		let defaultBullets4 =
+			[
+				'Achoo',
+				'stuff'
+			];
 		
 		let defaultInstitutionName = "School of Hard Knox";
 		let defaultInstitutionLocation = "Fort Knox, KY";
