@@ -22,8 +22,8 @@ If we exclude these acceptable exceptions, there are still plenty of small-to-me
 When I want to solve a problem for my own curiosity, I typically use C#.  It's my primary competency and personal favorite programming language.  The issue is that C# code is not the easiest to share in a usable state.  Some typical hurdles include:
 
 * The consumer needs the right .NET frameworks on their computer to manipulate your code (and probably an IDE).
-* The compiled output cannot be reviewed by the end user.
-* The code may or may not run on someone else's machine.
+* The compiled output cannot be directly reviewed by the end user.
+* The code may or may not run on someone else's machine if they use a different operating system.
 
 I'm not picking on C# here: the same is true for many other languages.  For a professional project, these are not a big deal because normal consumers will be prepared for these expectations.  They are a greater problem if your audience is someone in the general public and/or a non-developer.  What I'm seeking here is simplicity comparable to giving someone a .PDF or a .XLSX/.DOCX file.
 
@@ -95,9 +95,9 @@ The tools themselves should be fairly self-explanatory, considering the relative
 
 ## Technology Used
 
-I used NotepadQQ and Librewolf to make this.  I have not tested on other browsers, but they should probably work fine.  To brush up on frontend tech, I mostly used w3schools.com and posts on stackoverflow.com found via DuckDuckGo.  I also sometimes use JetBrains Rider for a few niceties of a proper IDE and git diffs.
+To start, I used NotepadQQ to make this.  I tested it in Librewolf.  No other browsers yet though they should probably work fine.  To brush up on frontend tech, I mostly used w3schools.com and posts on stackoverflow.com found via DuckDuckGo.  Later on, I started using VSCodium for a few niceties of a proper IDE and git diffs.  VSCodium replaced the proprietary JetBrains Rider, which I'd used in the past for C# projects.
 
-No generative AI was used when creating this.  (Since people have decided to cram generative AI into everything, it's hard to say for _certain_ there is none present here, but I'm as confident as I can be.)  The point of this project was never really to simply 'make the thing' though that's a nice side benefit.  The point was to take the opportunity to think about the making.
+No so-called 'generative AI' was used when creating this.  (Since people have decided to cram that technology into everything, it's hard to say for _certain_ but I'm as confident as I can be.)  That would defeat the point of the exercise.  The point of this project was never really to simply 'make the thing' though that's a nice side benefit.  The point was to take the opportunity to think about the making and to learn by doing.
 
 ## Questions
 There are some stylistic questions about how to approach this type of coding:
@@ -107,7 +107,12 @@ There are some stylistic questions about how to approach this type of coding:
 * What about things like arrow functions (what we would call Lambda expressions in C#)?  Do those inhibit clarity to a more casual observer?  Is it fine to write longer, less efficient but simpler code?
 
 There are other non-code questions to ask as well: 
-* Are we overestimating how many problems are simple enough that they can actually be handled in this way?  It feels like the 'input data' must be comparatively lean and simple for this to all exist in one spot.  Something containing historical data like sports scores or stock prices might be unwieldy to use in this form, but that may not matter if it's treated as 'magic dust' as my professor used to say.  It isn't as if the size of the file will be relevant to a consumer unless they dive into it.
+#### Are we overestimating how many problems are simple enough that they can actually be handled in this way?
+  It feels like the 'input data' must be comparatively lean and simple for this to all exist in one spot.  Something containing historical data like sports scores or stock prices might be unwieldy to use in this form, but that may not matter if it's treated as 'magic dust' as my professor used to say.  It isn't as if the size of the file will be relevant to a consumer unless they dive into it.
+#### Should we beautify these files?
+  Right now, these things mostly look like something a highschooler could have written in 1999.  That's sort of the point.  This is meant to be small scale and approachable.  Making it looking nice would make the project appealing, but too much CSS would add more code and might affect readability.  It's more 'missile' but not more 'payload.'
+#### Should these files also serve as a demonstration of proper frontend engineering?
+  Perhaps they should, but I am much less of a proper frontend guy than I am a backend guy.
 
 Other questions may arise as I play in this framework and review other problems.
 
