@@ -348,7 +348,7 @@
 
 			output += tex_EndCustomType('resumeSubHeadingList');
 
-			output += tex_Line("");
+			output += tex_EndLine();
 			return output;
 			
 		}
@@ -380,12 +380,12 @@
 			for (const bullet of bulletsAsArray) {
 				output += tex_SetMisc("resumeItem");
 				output += tex_BracketedInput(bullet)
-				output += tex_Line("");
+				output += tex_EndLine();
 			}
 
 			output += tex_EndCustomType('resumeItemList');
 
-			output += tex_Line("");
+			output += tex_EndLine();
 			return output;
 		}
 		
@@ -495,10 +495,10 @@
 			output += tex_SetMisc('resumeSubheading');
 			output += tex_BracketedInput(topLeft);
 			output += tex_BracketedInput(topRight);
-			output += tex_Line("");
+			output += tex_EndLine();
 			output += tex_BracketedInput(bottomLeft);
 			output += tex_BracketedInput(bottomRight);
-			output += tex_Line("");
+			output += tex_EndLine();
 			return output;
 		}
 		
@@ -507,7 +507,7 @@
 			let output = "";
 			output += tex_BracketedInput(first);
 			output += tex_BracketedInput(second);
-			output += tex_Line("");
+			output += tex_EndLine();
 			return output;
 		}
 		
@@ -526,18 +526,18 @@
 
 				output += tex_SetMisc("titledResumeItem");
 				output += tex_BracketedInput(name)
-				output += tex_Line("");
+				output += tex_EndLine();
 				output += tex_BracketedInput(content)
-				output += tex_Line("");
-			}
+				output += tex_EndLine();
+				}
 			
 			return output;
 		}
 		
-		
 		<!-- TEX METHODS -->
 
 		let indentLevel = 0;
+		const indentSize = 2;
 
 		function increaseIndent()
 		{
@@ -555,14 +555,14 @@
 		{
 			increaseIndent();
 			let value = `\\begin${tex_BracketedInput(type)}`
-			return tex_Line(value)
+			return tex_IndentedLine(value)
 		}
 
 		function tex_EndBracketedType(type)
 		{
 			decreaseIndent();
 			let value = `\\end${tex_BracketedInput(type)}`
-			return tex_Line(value)
+			return tex_IndentedLine(value)
 		}
 
 		function tex_StartCustomType(type)
@@ -580,7 +580,7 @@
 		function tex_PostpendOnCustomType(string, suffix)
 		{
 			let value = `\\` + string + suffix;
-			return tex_Line(value)
+			return tex_IndentedLine(value)
 		}
 
 		function tex_WriteFullLineAtSize(input, size)
@@ -588,11 +588,29 @@
 			return tex_Line(`\\textbf{\\`+ size + ` \\scshape ` + input +`} \\\\ \\vspace{1pt}`);
 		}
 		
+		function tex_IndentedValue(input)
+		{
+			let indentation = ' '.repeat(indentLevel * indentSize);
+			let value = `${indentation}${input}`;
+
+			return value;
+		}
+
+		function tex_IndentedLine(input)
+		{
+			return tex_Line(tex_IndentedValue(input));
+		}
+
 		function tex_Line(input)
 		{
-			return input + "\n";
+			return input + tex_EndLine();
 		}
 		
+		function tex_EndLine()
+		{
+			return "\n";
+		}
+
 		function tex_VerticalBar()
 		{
 			return " $|$ ";
