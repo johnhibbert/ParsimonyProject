@@ -481,7 +481,7 @@
 		
 		function writeSectionHeading(sectionName)
 		{
-			return tex_SetMisc(`section{`+ sectionName + `}`);
+			return tex_Line(tex_SetMisc(`section{`+ sectionName + `}`));
 		}
 		
 		function writeCommentLine(comment)
@@ -553,15 +553,15 @@
 
 		function tex_BeginBracketedType(type)
 		{
+			let value = tex_IndentedLine(`\\begin${tex_BracketedInput(type)}`);
 			increaseIndent();
-			let value = `\\begin${tex_BracketedInput(type)}`
-			return tex_IndentedLine(value)
+			return value;
 		}
 
 		function tex_EndBracketedType(type)
 		{
+			let value = tex_IndentedLine(`\\end${tex_BracketedInput(type)}`);
 			decreaseIndent();
-			let value = `\\end${tex_BracketedInput(type)}`
 			return tex_IndentedLine(value)
 		}
 
