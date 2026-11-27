@@ -162,13 +162,10 @@
 			
 			return output;
 		}
-		//MAKE THIS THE DEFAULT WAY TO CONSUME STUFF
-
 
 		function includeTextAreaOnOrOff(name)
 		{
 			let isChecked = document.getElementById(`include${name}`).checked;
-			//console.log(`includeSummary checked:` + isChecked);
 			document.getElementById(name).disabled = !isChecked;
 
 			if(isChecked)
@@ -214,7 +211,7 @@
 			output += writeCommentLine("RESUME STARTS HERE");
 			output += writeCommentLine("----------");
 
-			output += tex_Begin('document');
+			output += tex_BeginBracketedType('document');
 
 			output += generateHeader();
 
@@ -239,7 +236,7 @@
 			
 			output += generateEducation();
 			
-			output += tex_End('document');
+			output += tex_EndBracketedType('document');
 
 			writeOutputToElement(output);
 		}
@@ -259,11 +256,10 @@
 		{
 			let output = writeCommentLine("HEADER");
 			
-			output += tex_Begin('center');
+			output += tex_BeginBracketedType('center');
 
 			let name = readInputComponentAndEscapeReservedCharacters('Name');
 			
-			//let name = document.getElementById('Name').value;
 			output += writeJobSeekerName(name);
 
 			output += tex_SetMisc('small');
@@ -285,19 +281,20 @@
 			}
 			
 			if (email) {
-			output += writeEmailLink(email);
-			output += tex_VerticalBar();
+				output += writeEmailLink(email);
+				output += tex_VerticalBar();
 			}
 			
 			if (portfolio) {
-			output += writeSocialLink(portfolio);
-			output += tex_VerticalBar();
+				output += writeSocialLink(portfolio);
+				output += tex_VerticalBar();
 			}
 			
 			if (social) {
-			output += writeSocialLink(social);
-			output += tex_End('center');
+				output += writeSocialLink(social);
 			}
+
+			output += tex_EndBracketedType('center');
 			
 			return output;
 		}
@@ -322,12 +319,14 @@
 			
 			let output = writeCommentLine("SKILLS");
 			output += writeSectionHeading(skillDescriptor + "Skills");
-			output += tex_SetMisc('resumeSubHeadingListStart');
+
+			output += tex_StartCustomType('resumeSubHeadingList');
 
 			let skills = readInputComponentAndEscapeReservedCharacters('Skills');
 			output += writeTitledSection(skills);
 			
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += tex_EndCustomType('resumeSubHeadingList');
+
 			return output;
 		}
 		
@@ -336,7 +335,7 @@
 			let output = writeCommentLine("EXPERIENCE");
 			output += writeSectionHeading("Experience");
 			
-			output += tex_SetMisc('resumeSubHeadingListStart');
+			output += tex_StartCustomType('resumeSubHeadingList');
 			
 			for (const position of positions) {
 
@@ -347,7 +346,8 @@
 				}
 			}
 
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += tex_EndCustomType('resumeSubHeadingList');
+
 			output += tex_Line("");
 			return output;
 			
@@ -372,7 +372,8 @@
 				output += description;
 			}
 
-			output += tex_SetMisc('resumeItemListStart');
+			output += tex_StartCustomType('resumeItemList');
+
 			let bullets = readInputComponentAndEscapeReservedCharacters('Bullets'+id);
 			const bulletsAsArray = bullets.split(/[\r\n]+/);
 
@@ -382,7 +383,8 @@
 				output += tex_Line("");
 			}
 
-			output += tex_SetMisc('resumeItemListEnd');
+			output += tex_EndCustomType('resumeItemList');
+
 			output += tex_Line("");
 			return output;
 		}
@@ -391,12 +393,13 @@
 		{
 			let output = writeCommentLine("PROJECTS");
 			output += writeSectionHeading("Projects");
-			output += tex_SetMisc('resumeSubHeadingListStart');
-			
+
+			output += tex_StartCustomType('resumeSubHeadingList');
+
 			let projects = readInputComponentAndEscapeReservedCharacters('Projects');
 			output += writeTitledSection(projects);
 			
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += tex_EndCustomType('resumeSubHeadingList');
 
 			return output;
 		}
@@ -418,8 +421,7 @@
 					output += writeCommentLine("EDUCATION");
 					output += writeSectionHeading("Education");
 
-					output += tex_SetMisc('resumeSubHeadingListStart');
-
+					output += tex_StartCustomType('resumeSubHeadingList');
 
 					output += writeFourPartSubheading(institutionName, institutionLocation, accoladeType1, accoladeDates1);
 
@@ -432,7 +434,7 @@
 						output += tex_BracketedInput(accoladeDates2);
 					}
 
-					output += tex_SetMisc('resumeSubHeadingListEnd');
+					output += tex_EndCustomType('resumeSubHeadingList');
 				}
 			}
 			
@@ -532,16 +534,52 @@
 			return output;
 		}
 		
+		
 		<!-- TEX METHODS -->
-		function tex_Begin(type)
+
+		let indentLevel = 0;
+
+		function increaseIndent()
 		{
-			let value = `\\begin{` + type +  `}`;
+			indentLevel++;
+			console.log(indentLevel);
+		}
+
+		function decreaseIndent()
+		{
+			indentLevel--;
+			console.log(indentLevel);
+		}
+
+		function tex_BeginBracketedType(type)
+		{
+			increaseIndent();
+			let value = `\\begin${tex_BracketedInput(type)}`
 			return tex_Line(value)
 		}
 
-		function tex_End(type)
+		function tex_EndBracketedType(type)
 		{
-			let value = `\\end{` + type +  `}`;
+			decreaseIndent();
+			let value = `\\end${tex_BracketedInput(type)}`
+			return tex_Line(value)
+		}
+
+		function tex_StartCustomType(type)
+		{
+			increaseIndent();
+			return tex_PostpendOnCustomType(type, 'Start')
+		}
+
+		function tex_EndCustomType(type)
+		{
+			decreaseIndent();
+			return tex_PostpendOnCustomType(type, 'End')
+		}
+
+		function tex_PostpendOnCustomType(string, suffix)
+		{
+			let value = `\\` + string + suffix;
 			return tex_Line(value)
 		}
 
