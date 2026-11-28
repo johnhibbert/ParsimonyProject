@@ -126,22 +126,6 @@
 
 		window.onload = loadInfo;
 
-		//Why aren't we using string interpolation / template literals?
-		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-		//The Tex syntax uses the {} which is also used by this in JS.
-
-		//Wait see Tagged templates and escape sequences
-		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates_and_escape_sequences
-		// It also says Tex/Latex too.
-
-		//Cooked/Raw?  READ THIS
-
-		//Hmm this is working for now.
-		
-		//Always having to return the value is still probably better than a global scope var.
-		
-
-
 		<!-- CONTROL METHODS -->
 		
 		//We must escape the backslash first.
@@ -195,7 +179,6 @@
 				document.getElementById(`Bullets${id}`).style.background = "grey";
 			}
 		}
-		
 
 		let positions = [1, 2, 3, 4];
 		
@@ -355,7 +338,6 @@
 
 			output += tex_EndLine();
 			return output;
-			
 		}
 		
 		function generateSinglePosition(positionNum)
@@ -533,10 +515,8 @@
 				//Remove trailing spaces
 				let name = lineArray[0].replace(/\s+$/, '') + ':';
 				let content = lineArray[1];
-
 				output += tex_IndentedValue(tex_SetMisc("titledResumeItem"));
 				output += tex_BracketedInput(name)
-				//output += tex_EndLine();
 				output += tex_BracketedInput(content)
 				output += tex_EndLine();
 				}
