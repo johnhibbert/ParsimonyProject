@@ -118,7 +118,7 @@
 	<!-- OUTPUT -->
 	<input type="button" onclick='getTexOutput()' value="Get Tex Output"/><br>
 	<label for='output'>Output:</label><br>
-	<textarea id='output' rows=10 cols=80></textarea><br>
+	<textarea id='output' rows=30 cols=160></textarea><br>
 
 </body>
 
@@ -150,25 +150,18 @@
 		function readInputComponentAndEscapeReservedCharacters(elementId)
 		{
 			let output = document.getElementById(elementId).value;
-			
-			//console.log(output);
-			
+
 			for (const character of escapedCharacters)
 			{
 				output = output.replace(character, `\\${character}`);
 			}
 			
-			//console.log(output);
-			
 			return output;
 		}
-		//MAKE THIS THE DEFAULT WAY TO CONSUME STUFF
-
 
 		function includeTextAreaOnOrOff(name)
 		{
 			let isChecked = document.getElementById(`include${name}`).checked;
-			//console.log(`includeSummary checked:` + isChecked);
 			document.getElementById(name).disabled = !isChecked;
 
 			if(isChecked)
@@ -185,7 +178,6 @@
 		{
 			let switchId = `includePosition${id}`;
 			let isChecked = document.getElementById(switchId).checked;
-			//console.log(`${switchId} checked:` + isChecked);
 			
 			document.getElementById(`JobTitle${id}`).disabled = !isChecked;
 			document.getElementById(`Dates${id}`).disabled = !isChecked;
@@ -214,7 +206,8 @@
 			output += writeCommentLine("RESUME STARTS HERE");
 			output += writeCommentLine("----------");
 
-			output += tex_Begin('document');
+			output += tex_BeginBracketedType('document');
+			output += tex_EndLine();
 
 			output += generateHeader();
 
@@ -239,18 +232,21 @@
 			
 			output += generateEducation();
 			
-			output += tex_End('document');
+			output += tex_EndBracketedType('document');
 
 			writeOutputToElement(output);
 		}
+
+		const outputRows = 30;
+		const outputCols = 160;
 
 		function writeOutputToElement(output)
 		{
 			let newElement = document.createElement('textarea');
 			newElement.value= output;
 			newElement.id = 'output';
-			newElement.rows = 10;
-			newElement.cols = 80;
+			newElement.rows = outputRows;
+			newElement.cols = outputCols;
 			document.getElementById('output').replaceWith(newElement);
 		}
 		
@@ -259,11 +255,10 @@
 		{
 			let output = writeCommentLine("HEADER");
 			
-			output += tex_Begin('center');
+			output += tex_BeginBracketedType('center');
 
 			let name = readInputComponentAndEscapeReservedCharacters('Name');
 			
-			//let name = document.getElementById('Name').value;
 			output += writeJobSeekerName(name);
 
 			output += tex_SetMisc('small');
@@ -285,20 +280,23 @@
 			}
 			
 			if (email) {
-			output += writeEmailLink(email);
-			output += tex_VerticalBar();
+				output += writeEmailLink(email);
+				output += tex_VerticalBar();
 			}
 			
 			if (portfolio) {
-			output += writeSocialLink(portfolio);
-			output += tex_VerticalBar();
+				output += writeSocialLink(portfolio);
+				output += tex_VerticalBar();
 			}
 			
 			if (social) {
-			output += writeSocialLink(social);
-			output += tex_End('center');
+				output += writeSocialLink(social);
 			}
-			
+
+			output += tex_EndLine();
+			output += tex_EndBracketedType('center');
+			output += tex_EndLine();
+
 			return output;
 		}
 		
@@ -309,6 +307,8 @@
 
 			let summary = readInputComponentAndEscapeReservedCharacters('Summary');
 			output += tex_WriteFullLineAtSize(summary, 'small');
+			output += tex_EndLine();
+			
 			return output;
 		}
 
@@ -322,12 +322,15 @@
 			
 			let output = writeCommentLine("SKILLS");
 			output += writeSectionHeading(skillDescriptor + "Skills");
-			output += tex_SetMisc('resumeSubHeadingListStart');
+
+			output += tex_StartCustomType('resumeSubHeadingList');
 
 			let skills = readInputComponentAndEscapeReservedCharacters('Skills');
 			output += writeTitledSection(skills);
 			
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += tex_EndCustomType('resumeSubHeadingList');
+			output += tex_EndLine();
+
 			return output;
 		}
 		
@@ -336,7 +339,8 @@
 			let output = writeCommentLine("EXPERIENCE");
 			output += writeSectionHeading("Experience");
 			
-			output += tex_SetMisc('resumeSubHeadingListStart');
+			output += tex_StartCustomType('resumeSubHeadingList');
+			output += tex_EndLine();
 			
 			for (const position of positions) {
 
@@ -347,8 +351,9 @@
 				}
 			}
 
-			output += tex_SetMisc('resumeSubHeadingListEnd');
-			output += tex_Line("");
+			output += tex_EndCustomType('resumeSubHeadingList');
+
+			output += tex_EndLine();
 			return output;
 			
 		}
@@ -367,23 +372,26 @@
 			let description = readInputComponentAndEscapeReservedCharacters('Description'+id);
 			if(description !== "")
 			{
-				output += tex_SetMisc('positionDescription');
+				output += tex_IndentedValue(tex_SetMisc('positionDescription'));
 				output += " ";
 				output += description;
+				output += tex_EndLine();
 			}
 
-			output += tex_SetMisc('resumeItemListStart');
+			output += tex_StartCustomType('resumeItemList');
+
 			let bullets = readInputComponentAndEscapeReservedCharacters('Bullets'+id);
 			const bulletsAsArray = bullets.split(/[\r\n]+/);
 
 			for (const bullet of bulletsAsArray) {
-				output += tex_SetMisc("resumeItem");
+				output += tex_IndentedValue(tex_SetMisc("resumeItem"));
 				output += tex_BracketedInput(bullet)
-				output += tex_Line("");
+				output += tex_EndLine();
 			}
 
-			output += tex_SetMisc('resumeItemListEnd');
-			output += tex_Line("");
+			output += tex_EndCustomType('resumeItemList');
+
+			output += tex_EndLine();
 			return output;
 		}
 		
@@ -391,12 +399,14 @@
 		{
 			let output = writeCommentLine("PROJECTS");
 			output += writeSectionHeading("Projects");
-			output += tex_SetMisc('resumeSubHeadingListStart');
-			
+
+			output += tex_StartCustomType('resumeSubHeadingList');
+
 			let projects = readInputComponentAndEscapeReservedCharacters('Projects');
 			output += writeTitledSection(projects);
 			
-			output += tex_SetMisc('resumeSubHeadingListEnd');
+			output += tex_EndCustomType('resumeSubHeadingList');
+			output += tex_EndLine();
 
 			return output;
 		}
@@ -418,8 +428,7 @@
 					output += writeCommentLine("EDUCATION");
 					output += writeSectionHeading("Education");
 
-					output += tex_SetMisc('resumeSubHeadingListStart');
-
+					output += tex_StartCustomType('resumeSubHeadingList');
 
 					output += writeFourPartSubheading(institutionName, institutionLocation, accoladeType1, accoladeDates1);
 
@@ -427,15 +436,17 @@
 					let accoladeDates2 = readInputComponentAndEscapeReservedCharacters('AccoladeDates2').trim();
 
 					if (accoladeType2 !== "") {
-						output += tex_SetMisc('resumeSubSubheading');
-						output += tex_BracketedInput(accoladeType2);
+						output += tex_IndentedValue(tex_SetMisc('resumeSubSubheading'));
+						output += tex_EndLine();
+						output += tex_IndentedValue(tex_BracketedInput(accoladeType2));
 						output += tex_BracketedInput(accoladeDates2);
 					}
 
-					output += tex_SetMisc('resumeSubHeadingListEnd');
+					output += tex_EndCustomType('resumeSubHeadingList');
 				}
 			}
 			
+			output += tex_EndLine();
 			return output;
 		}
 		
@@ -479,7 +490,7 @@
 		
 		function writeSectionHeading(sectionName)
 		{
-			return tex_SetMisc(`section{`+ sectionName + `}`);
+			return tex_Line(tex_SetMisc(`section{`+ sectionName + `}`));
 		}
 		
 		function writeCommentLine(comment)
@@ -490,13 +501,14 @@
 		function writeFourPartSubheading(topLeft, topRight, bottomLeft, bottomRight)
 		{
 			let output = "";
-			output += tex_SetMisc('resumeSubheading');
-			output += tex_BracketedInput(topLeft);
+			output += tex_IndentedValue(tex_SetMisc('resumeSubheading'));
+			output += tex_EndLine();
+			output += tex_IndentedValue(tex_BracketedInput(topLeft));
 			output += tex_BracketedInput(topRight);
-			output += tex_Line("");
-			output += tex_BracketedInput(bottomLeft);
+			output += tex_EndLine();
+			output += tex_IndentedValue(tex_BracketedInput(bottomLeft));
 			output += tex_BracketedInput(bottomRight);
-			output += tex_Line("");
+			output += tex_EndLine();
 			return output;
 		}
 		
@@ -505,7 +517,7 @@
 			let output = "";
 			output += tex_BracketedInput(first);
 			output += tex_BracketedInput(second);
-			output += tex_Line("");
+			output += tex_EndLine();
 			return output;
 		}
 		
@@ -522,27 +534,76 @@
 				let name = lineArray[0].replace(/\s+$/, '') + ':';
 				let content = lineArray[1];
 
-				output += tex_SetMisc("titledResumeItem");
+				output += tex_IndentedValue(tex_SetMisc("titledResumeItem"));
 				output += tex_BracketedInput(name)
-				output += tex_Line("");
+				//output += tex_EndLine();
 				output += tex_BracketedInput(content)
-				output += tex_Line("");
-			}
+				output += tex_EndLine();
+				}
 			
 			return output;
 		}
 		
 		<!-- TEX METHODS -->
-		function tex_Begin(type)
+
+		let indentLevel = 0;
+		const indentSize = 2;
+
+		//Right now this is only used in two places
+		//  and I think it reads better without indentation.
+		const indentBracketedTypes = false;
+
+		function increaseIndent()
 		{
-			let value = `\\begin{` + type +  `}`;
-			return tex_Line(value)
+			indentLevel++;
 		}
 
-		function tex_End(type)
+		function decreaseIndent()
 		{
-			let value = `\\end{` + type +  `}`;
-			return tex_Line(value)
+			indentLevel--;
+		}
+
+		function tex_BeginBracketedType(type)
+		{
+			let value = tex_IndentedLine(`\\begin${tex_BracketedInput(type)}`);
+
+			if(indentBracketedTypes)
+			{
+				increaseIndent();
+			}
+
+			return value;
+		}
+
+		function tex_EndBracketedType(type)
+		{
+			if(indentBracketedTypes)
+			{
+				decreaseIndent();
+			}
+
+			let value = tex_IndentedLine(`\\end${tex_BracketedInput(type)}`);
+			return value;
+		}
+
+		function tex_StartCustomType(type)
+		{
+			let value = tex_PostpendOnCustomType(type, 'Start');
+			increaseIndent();
+			return value;
+		}
+
+		function tex_EndCustomType(type)
+		{
+			decreaseIndent();
+			let value = tex_PostpendOnCustomType(type, 'End');
+			return value;
+		}
+
+		function tex_PostpendOnCustomType(string, suffix)
+		{
+			let value = `\\` + string + suffix;
+			return tex_IndentedLine(value)
 		}
 
 		function tex_WriteFullLineAtSize(input, size)
@@ -550,11 +611,29 @@
 			return tex_Line(`\\textbf{\\`+ size + ` \\scshape ` + input +`} \\\\ \\vspace{1pt}`);
 		}
 		
+		function tex_IndentedValue(input)
+		{
+			let indentation = ' '.repeat(indentLevel * indentSize);
+			let value = `${indentation}${input}`;
+
+			return value;
+		}
+
+		function tex_IndentedLine(input)
+		{
+			return tex_Line(tex_IndentedValue(input));
+		}
+
 		function tex_Line(input)
 		{
-			return input + "\n";
+			return input + tex_EndLine();
 		}
 		
+		function tex_EndLine()
+		{
+			return "\n";
+		}
+
 		function tex_VerticalBar()
 		{
 			return " $|$ ";
@@ -679,6 +758,7 @@
 \\newcommand{\\resumeSubHeadingListEnd}{\\end{itemize}}
 \\newcommand{\\resumeItemListStart}{\\begin{itemize}}
 \\newcommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-5pt}}
+
 `;
 		}
 		
