@@ -95,16 +95,18 @@ The tools themselves should be fairly self-explanatory, considering the relative
 
 ## Technology Used
 
-To start, I used NotepadQQ to make this.  I tested it in Librewolf.  No other browsers yet though they should probably work fine.  To brush up on frontend tech, I mostly used w3schools.com and posts on stackoverflow.com found via DuckDuckGo.  Later on, I started using VSCodium for a few niceties of a proper IDE and git diffs.  VSCodium replaced the proprietary JetBrains Rider, which I'd used in the past for C# projects.
+To start, I used NotepadQQ to make this.  I tested it in Librewolf on Linux Mint.  I've tested no other browsers or operating systems yet, though for something this simple they should work fine.  To brush up on frontend tech, I mostly used w3schools.com and posts on stackoverflow.com found via DuckDuckGo.  Later on, I started using VSCodium for a few niceties of a proper IDE and git diffs.  In the past, I also used JetBrains Rider on occasion.
 
 No so-called 'generative AI' was used when creating this.  (Since people have decided to cram that technology into everything, it's hard to say for _certain_ but I'm as confident as I can be.)  That would defeat the point of the exercise.  The point of this project was never really to simply 'make the thing' though that's a nice side benefit.  The point was to take the opportunity to think about the making and to learn by doing.
 
-## Questions
+## Additional Questions
 There are some stylistic questions about how to approach this type of coding:
 
 * For repeated HTML elements, is it better to copy-paste code and violate DRY (Don't Repeat Yourself) or do we use vanilla JavaScript to build the HTML elements systematically, which will increase the opacity of the code?
 * Is it okay to hard-code some elements to embrace YAGNI (You Ain't Gonna Need It)?  Or should we focus on designing more reusable code snippets, even if they're being copied about manually?
 * What about things like arrow functions (what we would call Lambda expressions in C#)?  Do those inhibit clarity to a more casual observer?  Is it fine to write longer, less efficient but simpler code?
+* Are we losing some of the value of git and source control if we collect all this information into one single file?  The git changes themselves remain but we can't look at a commit to see which files were changed because there is only one.
+* Should we include unit tests?  I'm typically a proponent, but will they have value when not included in a test suite or other automation? 
 
 There are other non-code questions to ask as well: 
 #### Are we overestimating how many problems are simple enough that they can actually be handled in this way?
